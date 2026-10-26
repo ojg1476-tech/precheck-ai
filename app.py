@@ -1,7 +1,7 @@
 """문구레이더 — 상세페이지 광고 일괄 점검 (Streamlit 화면).
 
 실행: streamlit run app.py
-이미지 글자 읽기를 켜려면 .streamlit/secrets.toml 에 ANTHROPIC_API_KEY = "..." 를 넣는다.
+이미지 글자 읽기: tesseract(packages.txt)가 있으면 무료로, .streamlit/secrets.toml 에 ANTHROPIC_API_KEY 가 있으면 AI로 읽는다.
 """
 from html import escape
 from pathlib import Path
@@ -22,6 +22,12 @@ TIER_ICON = {"높음": "🔴", "중간": "🟠", "확인": "🔵", "양호": "�
 @st.cache_resource
 def get_checker():
     return Checker()
+
+
+@st.cache_resource
+def free_ocr_ready() -> bool:
+    from precheck import ocr
+    return ocr.free_available()
 
 
 def api_key() -> str:
@@ -66,30 +72,50 @@ with tab_batch:
 
     with st.expander("상세페이지가 이미지인가요?"):
         key = api_key()
-        if not key:
-            st.info("이미지 속 글자 읽기는 AI 사용료가 들어서 아직 켜 두지 않았어요. 지금은 상세페이지 글을 목록 파일의 "
-                    "‘상세문구’ 칸에 넣어 주세요.")
+        free = free_ocr_ready()
+        if not key and not free:
+            st.info("이미지 속 글자 읽기를 지금 쓸 수 없어요. 상세페이지 글을 목록 파일의 ‘상세문구’ 칸에 넣어 주세요.")
         else:
             from precheck import ocr
+            if key:
+                st.caption("AI로 이미지 속 글자를 읽어요 (사용료가 들어요).")
+            else:
+                st.caption("무료 글자 읽기 프로그램(Tesseract)으로 읽어요. 실험에서 깔끔한 페이지는 글자의 92%, "
+                           "꾸민 글씨·사진 위 글씨가 많은 페이지는 67%를 맞게 읽었어요. 잘못 읽은 문장은 검사에서 빠질 수 "
+                           "있으니, 중요한 상품은 글을 직접 넣어 검사하는 게 안전해요.")
             img_type = st.selectbox("제품 종류", list(ck.product_types), format_func=ck.product_types.get)
             imgs = st.file_uploader("상세페이지 이미지 (한 파일 = 한 상품, 파일 이름이 상품명이 돼요)",
                                     type=["png", "jpg", "jpeg", "webp"], accept_multiple_files=True)
             if imgs:
-                est = ocr.estimate([f.getvalue() for f in imgs])
-                st.caption(f"예상 AI 사용료: 약 ${est['usd']:.3f} (상품 {len(imgs)}개)")
+                if key:
+                    est = ocr.estimate([f.getvalue() for f in imgs])
+                    st.caption(f"예상 AI 사용료: 약 ${est['usd']:.3f} (상품 {len(imgs)}개)")
                 if st.button("이미지 글자 읽고 검사하기", type="primary"):
-                    items, cost = [], 0.0
+                    items, cost, texts = [], 0.0, {}
                     bar = st.progress(0.0, text="이미지를 읽는 중이에요")
                     for i, f in enumerate(imgs, 1):
+                        name = Path(f.name).stem
                         try:
-                            r = ocr.read_text([f.getvalue()], key)
-                            cost += r.usd
-                            items.append({"row": i, "name": Path(f.name).stem, "type": img_type, "text": r.text})
+                            if key:
+                                r = ocr.read_text([f.getvalue()], key)
+                                cost += r.usd
+                                text = r.text
+                            else:
+                                text = ocr.read_text_free([f.getvalue()])
+                            texts[name] = text
+                            items.append({"row": i, "name": name, "type": img_type, "text": text})
                         except Exception as e:  # 한 상품이 실패해도 나머지는 계속
-                            items.append({"row": i, "name": Path(f.name).stem, "type": img_type, "text": "", "_err": str(e)})
+                            items.append({"row": i, "name": name, "type": img_type, "text": "", "_err": str(e)})
                         bar.progress(i / len(imgs), text=f"{i}/{len(imgs)} 읽음")
                     st.session_state["results"] = check_products(items, ck)
-                    st.session_state["source"] = f"이미지 {len(imgs)}장 (AI 사용료 약 ${cost:.3f})"
+                    st.session_state["ocr_texts"] = texts
+                    st.session_state["source"] = (f"이미지 {len(imgs)}장 (AI 사용료 약 ${cost:.3f})" if key
+                                                  else f"이미지 {len(imgs)}장 (무료 글자 읽기)")
+            if st.session_state.get("ocr_texts"):
+                with st.popover("읽어 낸 글 확인하기"):
+                    for name, text in st.session_state["ocr_texts"].items():
+                        st.markdown(f"**{name}**")
+                        st.text(text or "(읽은 글 없음)")
 
     data_name = None
     if up is not None:
@@ -100,6 +126,7 @@ with tab_batch:
         try:
             st.session_state["results"] = check_products(read_table(data, data_name), ck)
             st.session_state["source"] = data_name
+            st.session_state.pop("ocr_texts", None)
         except ValueError as e:
             st.error(str(e))
 

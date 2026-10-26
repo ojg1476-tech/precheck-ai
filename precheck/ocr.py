@@ -1,4 +1,7 @@
-"""상세페이지 이미지 → 글자 (Claude API). API 키가 있을 때만 쓴다.
+"""상세페이지 이미지 → 글자.
+
+- 무료: Tesseract(설치돼 있을 때). Streamlit Cloud는 저장소의 packages.txt로 설치된다.
+- 유료: Claude API (API 키가 있을 때). 더 정확하지만 사용료가 든다.
 
 - 세로로 긴 이미지는 글자가 작아지지 않도록 조각으로 잘라 보낸다 (조각마다 겹치는 부분을 둬 줄이 잘리지 않게).
 - SDK 없이 표준 라이브러리(urllib)로 Messages API를 부른다.
@@ -10,6 +13,11 @@ import base64
 import io
 import json
 import math
+import os
+import re
+import shutil
+import subprocess
+import tempfile
 import urllib.request
 from dataclasses import dataclass
 
@@ -96,3 +104,71 @@ def read_text(images: list[bytes], api_key: str, model: str = DEFAULT_MODEL, tim
     usage = data.get("usage", {})
     return OcrResult(text=text, input_tokens=usage.get("input_tokens", 0),
                      output_tokens=usage.get("output_tokens", 0), model=model)
+
+
+# ── 무료: Tesseract ──────────────────────────────────────
+FREE_WIDTH = 1400       # 무료 OCR은 글자가 클수록 잘 읽어서 줄이지 않고 이 폭까지 키운다
+FREE_CHUNK = 2400
+_HANGUL_OR_WORD = re.compile(r"[가-힣A-Za-z0-9]")
+
+
+def free_available() -> bool:
+    """tesseract와 한국어 데이터가 있으면 True."""
+    exe = shutil.which("tesseract")
+    if not exe:
+        return False
+    try:
+        out = subprocess.run([exe, "--list-langs"], capture_output=True, text=True, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return "kor" in (out.stdout + out.stderr).split()
+
+
+def _clean(text: str) -> str:
+    """사진·장식에서 나온 부스러기 줄(한글 2자 미만이면서 글자 4개 미만)을 버린다."""
+    keep = []
+    for line in text.splitlines():
+        line = line.strip()
+        if len(re.findall(r"[가-힣]", line)) >= 2 or len(_HANGUL_OR_WORD.findall(line)) >= 4:
+            keep.append(line)
+    return "\n".join(keep)
+
+
+def _free_slices(data: bytes) -> list[Image.Image]:
+    im = Image.open(io.BytesIO(data)).convert("L")          # 흑백이 더 잘 읽힌다
+    if im.width < FREE_WIDTH:
+        im = im.resize((FREE_WIDTH, round(im.height * FREE_WIDTH / im.width)), Image.LANCZOS)
+    elif im.width > FREE_WIDTH * 1.5:
+        im = im.resize((FREE_WIDTH, round(im.height * FREE_WIDTH / im.width)), Image.LANCZOS)
+    out, top = [], 0
+    while top < im.height:
+        bottom = min(top + FREE_CHUNK, im.height)
+        out.append(im.crop((0, top, im.width, bottom)))
+        if bottom == im.height:
+            break
+        top = bottom - OVERLAP
+    return out
+
+
+def read_text_free(images: list[bytes], lang: str = "kor+eng", tessdata: str | None = None,
+                   timeout: int = 120) -> str:
+    """무료 OCR(Tesseract)로 한 상품의 이미지를 읽는다. 조각 겹침 때문에 같은 줄이 두 번 나오면 하나만 남긴다."""
+    exe = shutil.which("tesseract")
+    if not exe:
+        raise RuntimeError("무료 글자 읽기 프로그램(tesseract)이 설치돼 있지 않아요.")
+    lines: list[str] = []
+    with tempfile.TemporaryDirectory() as tmp:
+        for d in images:
+            for i, sl in enumerate(_free_slices(d)):
+                path = os.path.join(tmp, f"{i}.png")
+                sl.save(path)
+                cmd = [exe, path, "-", "-l", lang, "--psm", "4"]
+                if tessdata:
+                    cmd += ["--tessdata-dir", tessdata]
+                out = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+                if out.returncode != 0:
+                    raise RuntimeError(out.stderr.strip()[:200] or "글자 읽기에 실패했어요.")
+                for line in _clean(out.stdout).splitlines():
+                    if not lines or line != lines[-1]:
+                        lines.append(line)
+    return "\n".join(lines)

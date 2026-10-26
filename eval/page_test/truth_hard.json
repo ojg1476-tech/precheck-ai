@@ -1,0 +1,230 @@
+{
+ "hard_p1_cream": {
+  "type": "cos",
+  "title": "수분 크림 (일반 화장품)",
+  "blocks": [
+   {
+    "text": "피부과 전문의가 직접 개발한 수분 크림",
+    "label": "violation",
+    "key": "전문의가 직접 개발",
+    "cat": "C3"
+   },
+   {
+    "text": "건조한 피부에 수분을 채워 하루 종일 촉촉하게",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "피부 속 깊숙이 침투하는 마이크로 캡슐 공법",
+    "label": "violation",
+    "key": "피부 속 깊숙이 침투",
+    "cat": "C4"
+   },
+   {
+    "text": "끈적임 없이 산뜻하게 마무리되는 젤 크림 제형",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "염증과 트러블을 진정시켜 줘요",
+    "label": "violation",
+    "key": "염증",
+    "cat": "C1"
+   },
+   {
+    "text": "은은한 허브 향으로 기분까지 편안하게",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "아토피 피부도 안심하고 쓰세요",
+    "label": "violation",
+    "key": "아토피",
+    "cat": "C1"
+   },
+   {
+    "text": "주름 개선과 미백을 한 번에",
+    "label": "violation",
+    "key": "주름 개선",
+    "cat": "C2"
+   },
+   {
+    "text": "인체적용시험 완료 · 4주 사용 후 피부 수분량 32% 증가",
+    "label": "conditional",
+    "key": "32% 증가",
+    "cat": "CP"
+   },
+   {
+    "text": "피부 노폐물까지 깨끗하게 정돈해요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "스테로이드 성분 무첨가",
+    "label": "violation",
+    "key": "스테로이드",
+    "cat": "C4"
+   },
+   {
+    "text": "세안 후 적당량을 덜어 얼굴 전체에 부드럽게 펴 발라 주세요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "사용 중 이상이 있는 경우 사용을 중지하고 전문의와 상담하세요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   }
+  ]
+ },
+ "hard_p2_tea": {
+  "type": "food",
+  "title": "레몬 생강차 (일반 식품)",
+  "blocks": [
+   {
+    "text": "환절기 감기 예방에 좋은 생강차",
+    "label": "violation",
+    "key": "감기 예방",
+    "cat": "F1"
+   },
+   {
+    "text": "국내산 생강과 레몬을 그대로 담았어요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "면역력 강화로 겨울을 건강하게",
+    "label": "violation",
+    "key": "면역력 강화",
+    "cat": "F3"
+   },
+   {
+    "text": "따뜻한 물 200ml에 1포를 넣고 저어 드세요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "붓기 빠지는 아침 루틴",
+    "label": "violation",
+    "key": "붓기 빠지는",
+    "cat": "F4"
+   },
+   {
+    "text": "먹는 날마다 몸이 가벼워졌어요 — 구매자 김○○님",
+    "label": "violation",
+    "key": "몸이 가벼워졌어요",
+    "cat": "F5"
+   },
+   {
+    "text": "개별 스틱 포장으로 언제 어디서나 간편하게",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "목에 좋은 따뜻한 차 한 잔",
+    "label": "violation",
+    "key": "목에 좋은",
+    "cat": "F4"
+   },
+   {
+    "text": "천연 해독 디톡스 차",
+    "label": "violation",
+    "key": "디톡스",
+    "cat": "F3"
+   },
+   {
+    "text": "아이부터 어른까지 온 가족이 즐기는 맛",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "약사 추천 차",
+    "label": "violation",
+    "key": "약사 추천",
+    "cat": "F6"
+   },
+   {
+    "text": "직사광선을 피해 서늘한 곳에 보관하세요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   }
+  ]
+ },
+ "hard_p3_omega": {
+  "type": "hfood",
+  "title": "오메가3 (건강기능식품)",
+  "blocks": [
+   {
+    "text": "혈중 중성지질 개선·혈행 개선에 도움을 줄 수 있음",
+    "label": "conditional",
+    "key": "혈행 개선",
+    "cat": "HF"
+   },
+   {
+    "text": "심혈관 질환 예방",
+    "label": "violation",
+    "key": "심혈관 질환 예방",
+    "cat": "F1"
+   },
+   {
+    "text": "알약이 작아 삼키기 편해요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "콜레스테롤 약 대신 오메가3",
+    "label": "violation",
+    "key": "약 대신",
+    "cat": "F2"
+   },
+   {
+    "text": "1일 1회 1캡슐, 물과 함께 섭취하세요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "기억력 향상과 치매 예방까지",
+    "label": "violation",
+    "key": "치매 예방",
+    "cat": "F1"
+   },
+   {
+    "text": "먹고 나서 혈압 수치가 정상이 됐어요 — 후기",
+    "label": "violation",
+    "key": "혈압 수치가 정상",
+    "cat": "F5"
+   },
+   {
+    "text": "어류 원료의 비린 맛을 줄였어요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "임산부, 수유부는 섭취 전 전문가와 상담하세요",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   },
+   {
+    "text": "건강기능식품 표시·광고 심의필",
+    "label": "allowed",
+    "key": "",
+    "cat": ""
+   }
+  ]
+ }
+}

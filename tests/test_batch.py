@@ -85,6 +85,19 @@ def test_read_text_mocked():
     assert r.text == "감기 예방 차" and round(r.usd, 5) == round(12000 / 1e6 * 0.10 + 300 / 1e6 * 0.50, 5)
 
 
+def test_free_ocr_cleanup_and_dedupe():
+    raw = "피부과 전문의가 직접 개발\n은\n=\nJ\nofo\n끈적임 없이 산뜻하게"
+    assert ocr._clean(raw) == "피부과 전문의가 직접 개발\n끈적임 없이 산뜻하게"
+
+    class P:  # 조각 두 개가 겹치는 줄을 같이 읽은 상황
+        def __init__(self, out): self.returncode, self.stdout, self.stderr = 0, out, ""
+    outs = iter([P("첫 줄 문장입니다\n겹치는 줄입니다"), P("겹치는 줄입니다\n마지막 줄입니다")])
+    with mock.patch("shutil.which", return_value="/usr/bin/tesseract"), \
+         mock.patch("subprocess.run", side_effect=lambda *a, **k: next(outs)):
+        text = ocr.read_text_free([_png(1400, 4000)])     # 조각 2개
+    assert text.splitlines() == ["첫 줄 문장입니다", "겹치는 줄입니다", "마지막 줄입니다"]
+
+
 if __name__ == "__main__":
     fns = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for f in fns:
