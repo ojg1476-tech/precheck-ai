@@ -1,0 +1,177 @@
+id,split,product_type,label,category,text,source,source_url
+E001,test,cos,violation,기능성 오인,미백·주름 개선 기능성,식약처 적발(2026.2),https://www.cosinkorea.com/news/article.html?no=56807
+E002,dev,cos,violation,범위 일탈·사실 오인,피부 내 침투,식약처 적발(2026.2),https://www.cosinkorea.com/news/article.html?no=56807
+E003,dev,cos,violation,범위 일탈·사실 오인,줄기세포 함유,식약처 적발(2026.2),https://www.cosinkorea.com/news/article.html?no=56807
+E004,test,cos,violation,의약품 오인,염증완화,식약처 적발(2021~2025),https://medifonews.com/news/article.html?no=207910
+E005,dev,cos,violation,의약품 오인,피부재생,식약처 적발(2021~2025),https://medifonews.com/news/article.html?no=207910
+E006,test,cos,violation,의약품 오인,염증 억제,식약처 적발(2021~2025),https://medifonews.com/news/article.html?no=207910
+E007,dev,cos,violation,의약품 오인,여드름 개선,식약처 적발(2021~2025),https://medifonews.com/news/article.html?no=207910
+E008,dev,cos,violation,시술 오인(MTS),피부 깊숙이 침투,식약처 적발(2025),https://medifonews.com/news/article.html?no=207910
+E009,dev,cos,violation,시술 오인(MTS),흡수율 극대화,식약처 적발(2025),https://medifonews.com/news/article.html?no=207910
+E010,test,cos,violation,시술 오인(MTS),피부 속 주입,식약처 적발(2025),https://medifonews.com/news/article.html?no=207910
+E011,test,cos,violation,의약품 오인,지방 분해,식약처 적발(2024.12),https://kormedi.com/1746920/
+E012,test,cos,violation,의약품 오인,셀룰라이트 제거,식약처 적발(2024.12),https://kormedi.com/1746920/
+E013,dev,cos,violation,의약품 오인,체지방 감소,식약처 적발(2024.12),https://kormedi.com/1746920/
+E014,dev,cos,violation,의약품 오인,체중감량,식약처 적발(2024.12),https://kormedi.com/1746920/
+E015,test,cos,violation,배합금지 원료 미사용 강조,스테로이드 성분 없음,식약처 적발(2024.12),https://kormedi.com/1746920/
+E016,dev,cos,violation,의약품 오인,항염,식약처 적발(2025.8),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E017,dev,cos,violation,전문가 추천 오인,피부과전용화장품,식약처 적발(2025.8),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E018,test,cos,violation,의약품 오인,"항암효과가 있다, 피부암을 치료한다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E019,test,cos,violation,의약품 오인,항염효과·진통효과가 있다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E020,test,cos,violation,의약품 오인,질염을 치료·예방해준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E021,dev,cos,violation,의약품 오인,"아토피, 노인소양증에 효과가 있다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E022,dev,cos,violation,의약품 오인,모낭충을 없애준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E023,test,cos,violation,의약품 오인,통증 경감에 효과가 있다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E024,dev,cos,violation,의약품 오인,"찰과상, 화상을 치료·회복시켜준다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E025,test,cos,violation,의약품 오인,이뇨작용에 도움이 된다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E026,dev,cos,violation,의약품 오인,건선 피부에 효과가 있다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E027,dev,cos,violation,의약품 오인,"가려움, 가려움증을 완화한다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E028,test,cos,violation,의약품 오인,기저귀 발진의 증상을 없애준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E029,dev,cos,violation,의약품 오인,"갱년기 증상 및 홍조, 홍반을 개선, 제거한다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E030,dev,cos,violation,의약품 오인,"OOO의 흔적을 없애준다, 제거한다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E031,test,cos,violation,의약품 오인,뾰루지를 개선한다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E032,test,cos,violation,의약품 오인,심신의 피로를 회복시켜준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E033,dev,cos,violation,의약품 오인,근육을 이완시켜준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E034,test,cos,violation,의약품 오인,체내 림프순환을 촉진시킨다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E035,test,cos,violation,의약품 오인,세포를 재생시킨다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E036,dev,cos,violation,의약품 오인,세포 성장을 촉진한다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E037,dev,cos,violation,의약품 오인,"다이어트/체중감량에 효과(도움)있다, 피하지방을 분해시킨다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E038,test,cos,violation,의약품 오인,"얼굴 윤곽을 개선한다, 얼굴 크기가 작아진다, V라인으로 만들어준다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E039,test,cos,violation,의약품 오인,가슴을 확대시킨다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E040,test,cos,violation,의약품 오인,살균‧소독 효과가 있다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E041,dev,cos,violation,의약품 오인,해독작용을 해준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E042,dev,cos,violation,의약품 오인,면역을 강화시켜준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E043,test,cos,violation,의약품 오인,항진균·항바이러스 효과가 있다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E044,dev,cos,violation,의약품 오인,항알레르기 효과가 있다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E045,test,cos,violation,의약품 오인,상처로 인한 반흔을 제거 또는 완화한다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E046,dev,cos,violation,의약품 오인,피부를 재생시킨다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E047,dev,cos,violation,의약품 오인,질내 산도를 유지·조절한다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E048,test,cos,violation,의약품 오인,호르몬 분비 등 내분비 작용을 촉진시킨다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E049,dev,cos,violation,의약품 오인,땀 발생을 억제한다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E050,dev,cos,violation,의약품 오인,"속눈썹, 눈썹이 자란다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E051,test,cos,violation,의약품 오인,"몸매개선, 신체일부를 날씬하게 한다.",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E052,test,cos,violation,의약품 오인,체형을 변화시켜준다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E053,dev,cos,violation,의약품 오인,"피부 독소를 제거한다(디톡스, detox)",KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E054,test,cos,violation,의약품 오인,체내 노폐물을 제거한다.,KCIA 해설서 7~10쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E055,test,cos,violation,시술·범위 일탈,"필러(filler), 지방볼륨 형성·생성 효과가 있다.",KCIA 해설서 24쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E056,dev,cos,violation,시술·범위 일탈,보톡스 효과가 있다.,KCIA 해설서 24쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E057,dev,cos,violation,시술·범위 일탈,먹을 수 있다.,KCIA 해설서 24쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E058,test,cos,violation,전문가·기관 추천 오인,OO 병원에서 추천하는 안전한 화장품,KCIA 해설서 25쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E059,test,cos,violation,전문가·기관 추천 오인,OO 대학교 출신 의사가 공동개발한 화장품,KCIA 해설서 25쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E060,dev,cos,violation,전문가·기관 추천 오인,OO 아토피 협회가 인증한 화장품,KCIA 해설서 25쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E061,test,cos,violation,사실 오인,"無(무) 스테로이드, 無(무) 벤조피렌 등",KCIA 해설서 25~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E062,test,cos,violation,사실 오인,부작용이 전혀 없다.,KCIA 해설서 25~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E063,dev,cos,violation,사실 오인,"줄기세포화장품, stem cell, 0억 세포 등",KCIA 해설서 25~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E064,test,cos,violation,사실 오인,"즉시 주름이 사라진다, 즉각적인 화이트닝 효과를 볼 수 있다.",KCIA 해설서 25~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E065,test,cos,violation,사실 오인,"최고, 최상, 최대, 최소",KCIA 해설서 25~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E066,test,cos,violation,기능성 오인,피부에 멜라닌색소가 침착하는 것을 방지하여 기미·주근깨 등의 생성을 억제함으로써 피부의 미백에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E067,test,cos,violation,기능성 오인,"기미, 주근깨 완화에 도움을 준다.",KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E068,dev,cos,violation,기능성 오인,화이트닝에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E069,test,cos,violation,기능성 오인,피부에 탄력을 주어 피부의 주름을 완화 또는 개선하는 기능을 가진다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E070,dev,cos,violation,기능성 오인,안티링클(Anti-wrinkle),KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E071,test,cos,violation,기능성 오인,"UVA, UVB를 차단한다.",KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E072,test,cos,violation,기능성 오인,체모를 제거한다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E073,dev,cos,violation,기능성 오인,탈모 증상의 완화에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E074,dev,cos,violation,기능성 오인,여드름성 피부를 완화하는 데 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E075,dev,cos,violation,기능성 오인,피부장벽의 기능을 회복하여 가려움의 개선에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E076,dev,cos,violation,기능성 오인,튼살로 인한 붉은 선을 엷게 하는 데 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E077,dev,fcos,allowed,기능성 심사 문구,피부에 멜라닌색소가 침착하는 것을 방지하여 기미·주근깨 등의 생성을 억제함으로써 피부의 미백에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E078,test,fcos,allowed,기능성 심사 문구,"기미, 주근깨 완화에 도움을 준다.",KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E079,test,fcos,allowed,기능성 심사 문구,화이트닝에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E080,dev,fcos,allowed,기능성 심사 문구,피부에 탄력을 주어 피부의 주름을 완화 또는 개선하는 기능을 가진다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E081,test,fcos,allowed,기능성 심사 문구,안티링클(Anti-wrinkle),KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E082,test,fcos,allowed,기능성 심사 문구,"UVA, UVB를 차단한다.",KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E083,test,fcos,allowed,기능성 심사 문구,체모를 제거한다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E084,test,fcos,allowed,기능성 심사 문구,탈모 증상의 완화에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E085,test,fcos,allowed,기능성 심사 문구,여드름성 피부를 완화하는 데 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E086,dev,fcos,allowed,기능성 심사 문구,피부장벽의 기능을 회복하여 가려움의 개선에 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E087,test,fcos,allowed,기능성 심사 문구,튼살로 인한 붉은 선을 엷게 하는 데 도움을 준다.,KCIA 해설서 15~23쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E088,dev,cos,allowed,허용 표현,피부에 충분한 수분을 공급하여 수분 부족 현상을 완화한다,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E089,test,cos,allowed,허용 표현,수분을 보충해준다.,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E090,dev,cos,allowed,허용 표현,두피와 모발의 노폐물을 제거하여 과다한 피지 분비의 밸런스를 유지하는데 도움을 준다.,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E091,test,cos,allowed,허용 표현,기저귀가 닿는(접촉) 부위에 보습을 준다.,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E092,dev,cos,allowed,허용 표현,"메이크업을 통해 일시적으로 홍조, 홍반을 가려준다",KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E093,test,cos,allowed,허용 표현,메이크업을 통해 일시적으로 OOO의 흔적을 가려준다,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E094,test,cos,allowed,허용 표현,메이크업을 통해 일시적으로 뾰루지를 가려준다,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E095,dev,cos,allowed,허용 표현,향을 바르거나 뿌려서 몸에서 좋은 향기가 난다,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E096,test,cos,allowed,허용 표현,메이크업을 통해 일시적으로 날씬하게 보이게 하는 표현,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E097,test,cos,allowed,허용 표현,색조 효과를 주어 윤곽을 선명하게 연출하는 것,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E098,test,cos,allowed,허용 표현,가슴 보습,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E099,dev,cos,allowed,허용 표현,피부 노폐물 및 모공(속) 노폐물을 제거한다.,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E100,test,cos,allowed,허용 표현,"피부 턴오버주기 관리, 유지",KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E101,test,cos,allowed,허용 표현,체취를 방지한다.,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E102,dev,cos,allowed,허용 표현,"연출 효과를 통해 속눈썹, 눈썹을 일시적으로 길게 보이도록",KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E103,test,cos,allowed,허용 표현,"피부를 밝게(브라이트닝), 환하게, 화사하게, 맑게 케어 한다.",KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E104,dev,cos,allowed,허용 표현,기미와 주근깨 같은 다크 스팟을 케어한다.,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E105,dev,cos,allowed,허용 표현,일시적으로 모발의 색상을 변화시킨다.,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E106,dev,cos,allowed,허용 표현,OO 대학교와 공동개발한 화장품,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E107,dev,cos,allowed,허용 표현,식물줄기세포 함유,KCIA 해설서 7~18쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E108,dev,cos,conditional,실증 필요,일시적 셀룰라이트 감소,KCIA 해설서 10~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E109,test,cos,conditional,실증 필요,항균,KCIA 해설서 10~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E110,dev,cos,conditional,실증 필요,알레르기(반응) 테스트 완료,KCIA 해설서 10~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E111,test,cos,conditional,실증 필요,피부장벽의 손상 개선에 도움을 준다.,KCIA 해설서 10~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E112,dev,cos,conditional,실증 필요,2주 경과 후 피부톤 개선,KCIA 해설서 10~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E113,test,cos,conditional,실증 필요,대한민국 최초,KCIA 해설서 10~27쪽,https://kcia.or.kr/inc/down.php?dir=BOARD&file_name=202511_176274028203592_1.pdf
+E114,dev,food,violation,질병 예방·치료,감기예방,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E115,test,food,violation,질병 예방·치료,두드러기·건선·아토피 등 관리,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E116,dev,food,violation,건강기능식품 오인,면역력 피로 개선,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E117,test,food,violation,건강기능식품 오인,혈당관리,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E118,test,food,violation,거짓·과장,코막힘 감기,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E119,dev,food,violation,거짓·과장,목에 좋은 차,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E120,test,food,violation,질병 예방·치료,비염 완화,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E121,dev,food,violation,건강기능식품 오인,면역력 증진,식약처 적발(2026.6),https://biz.sbs.co.kr/amp/article/20000314622
+E122,dev,food,violation,의약품·건기식 오인,천연 위고비·마운자로 레시피,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E123,test,food,violation,의약품·건기식 오인,먹는 위고비,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E124,dev,food,violation,의약품·건기식 오인,디톡스,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E125,test,food,violation,의약품·건기식 오인,저속노화,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E126,test,food,violation,의약품·건기식 오인,항산화,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E127,test,food,violation,의약품·건기식 오인,항염,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E128,dev,food,violation,의약품·건기식 오인,식욕억제,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E129,dev,food,violation,의약품·건기식 오인,지방흡수 차단,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E130,test,food,violation,의약품·건기식 오인,체지방 배출,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E131,dev,food,violation,의약품·건기식 오인,단기간 급속 감량,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E132,dev,food,violation,의약품·건기식 오인,지방이 배출된다,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E133,test,food,violation,의약품·건기식 오인,먹어도 살이 찌지 않는 체질,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E134,dev,food,violation,의약품·건기식 오인,식욕억제제,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E135,dev,food,violation,의약품·건기식 오인,지방배출제,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E136,test,food,violation,의약품·건기식 오인,단기간 체중감량,식약처 적발(2026.7),https://dailypharm.com/user/news/340769
+E137,dev,food,violation,건강기능식품 오인,영양제,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E138,dev,food,violation,건강기능식품 오인,면역력 강화,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E139,dev,food,violation,질병 예방·치료,변비,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E140,dev,food,violation,질병 예방·치료,역류성식도염,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E141,dev,food,violation,의약품 오인,다이어트약,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E142,test,food,violation,의약품 오인,간장약,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E143,dev,food,violation,거짓·과장,피부탄력,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E144,dev,food,violation,거짓·과장,붓기 관리,식약처 적발(2026.5),https://www.medipharmhealth.co.kr/news/article.html?no=117055
+E145,test,food,violation,건강기능식품 오인,다이어트,식약처 적발(2025),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E146,test,food,violation,건강기능식품 오인,면역력강화,식약처 적발(2025),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E147,dev,food,violation,거짓·과장,붓기제거,식약처 적발(2025),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E148,test,food,violation,거짓·과장,먹는 자외선차단제,식약처 적발(2025),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E149,test,food,violation,체험기 기만,피부가 좋아졌습니다,식약처 적발(2025),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E150,test,food,violation,질병 예방·치료,암예방,식약처 적발(2025),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E151,dev,food,violation,질병 예방·치료,항염증에 도움,식약처 적발(2025),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+E152,test,food,violation,질병 예방·치료,아토피 관리,식약처 적발(2026.6),https://medicaldaily.co.kr/news/19591
+E153,test,food,violation,질병 예방·치료,혈당 관리,식약처 적발(2026.6),https://medicaldaily.co.kr/news/19591
+E154,test,food,violation,체험기 기만,코로나19로 기침·가래에 고생했는데 처방받은 약보다 더 많은 도움을 준 고마운 제품,식약처 적발(2024.6),https://kormedi.com/1694359/
+E155,dev,hfood,violation,질병 예방·치료,염증 제거,식약처 적발(2024.5),https://kormedi.com/1686264/
+E156,test,hfood,violation,질병 예방·치료,감기 예방,식약처 적발(2024.5),https://kormedi.com/1686264/
+E157,test,cos,allowed,평범한 문구,산뜻하게 발리고 끈적임 없이 마무리돼요,synthetic,
+E158,test,cos,allowed,평범한 문구,건조한 피부에 촉촉함을 채워줘요,synthetic,
+E159,dev,cos,allowed,평범한 문구,은은한 플로럴 향이 오래 남아요,synthetic,
+E160,dev,cos,allowed,평범한 문구,"용량 50ml, 펌프형 용기라 위생적이에요",synthetic,
+E161,dev,cos,allowed,평범한 문구,아침저녁 세안 후 적당량을 펴 발라 주세요,synthetic,
+E162,test,cos,allowed,평범한 문구,눈에 들어가지 않도록 주의하세요,synthetic,
+E163,dev,food,allowed,평범한 문구,국내산 현미를 100% 담았어요,synthetic,
+E164,dev,food,allowed,평범한 문구,고소한 맛이 일품인 아침 한 끼,synthetic,
+E165,test,food,allowed,평범한 문구,매일 아침 따뜻한 물 200ml에 타서 드세요,synthetic,
+E166,dev,food,allowed,평범한 문구,개별 포장이라 간편하게 들고 다녀요,synthetic,
+E167,dev,food,allowed,평범한 문구,HACCP 인증 시설에서 만들었어요,synthetic,
+E168,dev,food,allowed,평범한 문구,설탕을 넣지 않아 담백해요,synthetic,
+E169,test,food,allowed,평범한 문구,"피로한 오후, 달콤한 휴식이 필요할 때",synthetic,
+E170,dev,food,allowed,평범한 문구,냉장 보관하고 개봉 후에는 빨리 드세요,synthetic,
+E171,dev,food,allowed,평범한 문구,대용량이라 온 가족이 넉넉하게 먹어요,synthetic,
+E172,dev,hfood,conditional,인정 기능성 문구,혈행 개선에 도움을 줄 수 있음,synthetic(인정 문구 형식),
+E173,test,hfood,conditional,인정 기능성 문구,체지방 감소에 도움을 줄 수 있음,synthetic(인정 문구 형식),
+E174,dev,hfood,conditional,인정 기능성 문구,피로 개선에 도움을 줄 수 있음,synthetic(인정 문구 형식),
+E175,dev,hfood,allowed,평범한 문구,"1일 1회, 1회 2정을 물과 함께 섭취하세요",synthetic,
+E176,test,hfood,allowed,평범한 문구,어린이 손에 닿지 않는 곳에 보관하세요,synthetic,
