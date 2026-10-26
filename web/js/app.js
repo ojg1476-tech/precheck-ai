@@ -29,7 +29,7 @@
     let out = "", pos = 0;
     fs.forEach((f, i) => {
       const [c, b] = GRADE[f.grade];
-      out += esc(text.slice(pos, f.start)) + `<mark class="${cls}" data-i="${i}" style="--c:${c};--b:${b}">${esc(text.slice(f.start, f.end))}</mark>`;
+      out += esc(text.slice(pos, f.start)) + `<mark class="g-${f.grade} ${cls}" data-i="${i}" style="--c:${c};--b:${b}">${esc(text.slice(f.start, f.end))}</mark>`;
       pos = f.end;
     });
     return out + esc(text.slice(pos));
@@ -74,7 +74,7 @@
     const text = "피부 재생 크림, 7일 만에 주름 개선", fs = state.ck.check(text, "cos");
     let out = "", pos = 0, k = 0;
     for (const f of fs) {
-      const c = GRADE[f.grade][0], cls = f.grade === "red" ? "x" : "w";
+      const c = GRADE[f.grade][0], cls = f.grade === "red" ? "x" : "w g-" + f.grade;
       out += esc(text.slice(pos, f.start)) + `<span class="${cls}" style="--c:${c};--i:${f.grade === "red" ? k++ : 0}">${esc(text.slice(f.start, f.end))}</span>`;
       pos = f.end;
     }
