@@ -53,15 +53,18 @@ tab_batch, tab_one, tab_about = st.tabs(["📋 여러 상품 한 번에", "✏�
 
 # ── 여러 상품 한 번에 ─────────────────────────────────────
 with tab_batch:
-    c_up, c_try, c_dl, c_img = st.columns([2.4, 1, 1, 1], vertical_alignment="bottom")
+    c_up, c_img = st.columns([3.2, 1], vertical_alignment="bottom")
     with c_up:
         up = st.file_uploader("상품 목록 파일 (CSV · 엑셀) — 첫 줄: 상품명 · 제품종류 · 상세문구", type=["csv", "xlsx"],
                               help="제품종류: 일반 화장품 · 기능성 화장품 · 일반 식품 · 건강기능식품")
+    c_hint, c_try, c_dl, _ = st.columns([0.9, 0.9, 1.1, 4], vertical_alignment="center", gap="small")
+    with c_hint:
+        st.caption("처음이세요?")
     with c_try:
-        use_sample = st.button("예시로 해보기", type="primary", use_container_width=True)
+        use_sample = st.button("예시로 해보기", type="tertiary")
     with c_dl:
-        st.download_button("예시 목록 받기", SAMPLE.read_bytes(), file_name="문구레이더_예시목록.csv",
-                           mime="text/csv", use_container_width=True)
+        st.download_button("입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
+                           mime="text/csv", type="tertiary")
     with c_img:
         with st.popover("🖼️ 이미지로 검사", use_container_width=True):
             key = api_key()
@@ -119,7 +122,7 @@ with tab_batch:
 
     results = st.session_state.get("results")
     if not results:
-        html(ui.empty("📂", "상품 목록을 올리거나 ‘예시로 해보기’를 눌러 보세요."))
+        html(ui.empty("📂", "상품 목록 파일을 올리면 위험한 상품부터 보여드려요."))
     else:
         ov = overview(results, ck)
         top, dl = st.columns([3, 1], vertical_alignment="center")
