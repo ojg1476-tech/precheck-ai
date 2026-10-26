@@ -34,15 +34,17 @@ div[data-testid="stExpander"] { border: 1px solid #e6e8ef; border-radius: 14px; 
 div[data-testid="stFileUploader"] section { border-radius: 14px; }
 
 .mr-hero { background: linear-gradient(120deg, #eef2ff 0%, #f8f9ff 55%, #fff4e6 100%); border: 1px solid #e3e8fb;
-  border-radius: 18px; padding: 16px 22px; margin-bottom: 10px; display: flex; gap: 16px; align-items: center; }
-.mr-logo { width: 46px; height: 46px; border-radius: 14px; background: #3b5bdb; color: #fff; display: grid; place-items: center;
-  font-size: 23px; flex: none; box-shadow: 0 6px 16px rgba(59,91,219,.25); }
-.mr-title { margin: 0; padding: 0; line-height: 1.25; font-size: 25px; font-weight: 800; color: #1b2430; }
-.mr-hero p { margin: 2px 0 8px; color: #4a5160; font-size: 15.5px; }
-.mr-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.mr-chip { background: #fff; border: 1px solid #dfe3f0; color: #4a5160; border-radius: 999px; padding: 3px 11px; font-size: 12.5px; }
-.mr-chip b { color: #3b5bdb; }
-
+  border-radius: 18px; padding: 18px 22px; margin-bottom: 10px; display: grid; grid-template-columns: 1.25fr 1fr; gap: 18px; align-items: center; }
+@media (max-width: 860px) { .mr-hero { grid-template-columns: 1fr; } }
+.mr-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; color: #3b5bdb; font-size: 15px; }
+.mr-logo { width: 28px; height: 28px; border-radius: 8px; background: #3b5bdb; color: #fff; display: grid; place-items: center; font-size: 15px; }
+.mr-title { margin: 8px 0 0; padding: 0; line-height: 1.3; font-size: 25px; font-weight: 800; color: #1b2430; letter-spacing: -0.02em; }
+.mr-hero p { margin: 6px 0 0; color: #6b7280; font-size: 13px; }
+.mr-steps { display: grid; gap: 6px; }
+.mr-step { display: flex; gap: 10px; align-items: center; background: #fff; border: 1px solid #e3e8fb; border-radius: 12px; padding: 8px 12px; }
+.mr-step .no { flex: none; width: 24px; height: 24px; border-radius: 50%; background: #3b5bdb; color: #fff; font-weight: 800; font-size: 13px; display: grid; place-items: center; }
+.mr-step b { display: block; font-size: 14px; color: #1b2430; }
+.mr-step small { display: block; font-size: 12px; color: #6b7280; }
 .mr-section { font-size: 13px; font-weight: 700; color: #6b7280; letter-spacing: .04em; margin: 22px 0 8px; }
 .mr-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
 .mr-kpi { background: #fff; border: 1px solid #e6e8ef; border-radius: 16px; padding: 14px 16px; position: relative; overflow: hidden; }
@@ -94,13 +96,16 @@ div[data-testid="stFileUploader"] section { border-radius: 14px; }
 
 
 def hero(rule_count: int, version: str) -> str:
-    return f"""<div class="mr-hero"><div class="mr-logo">📡</div><div>
-<div class="mr-title">문구레이더</div>
-<p>상세페이지 광고 문구를 식약처 기준으로 한 번에 점검하고, 위험한 상품부터 알려드려요.</p>
-<div class="mr-chips"><span class="mr-chip">규칙 <b>{rule_count}개</b></span>
-<span class="mr-chip">기준일 <b>{escape(version)}</b></span>
-<span class="mr-chip">식약처 단속 데이터 반영</span><span class="mr-chip">화장품 · 식품 · 건강기능식품</span></div>
-</div></div>"""
+    steps = [("1", "상품 목록 올리기", "CSV·엑셀, 상세페이지 이미지도 돼요"),
+             ("2", "위험한 상품부터 확인", "처벌이 무거운 순서로 정렬해요"),
+             ("3", "고칠 문장 받기", "이유·처벌·대신 쓸 문장을 엑셀로")]
+    step_html = "".join(f'<div class="mr-step"><span class="no">{n}</span><div><b>{t}</b><small>{d}</small></div></div>'
+                        for n, t, d in steps)
+    return f"""<div class="mr-hero"><div class="mr-hero-l">
+<div class="mr-brand"><span class="mr-logo">📡</span>문구레이더</div>
+<div class="mr-title">상세페이지 광고 문구,<br>식약처에 걸리기 전에 찾아드려요</div>
+<p>화장품·식품·건강기능식품 상품을 한 번에 점검해요. 규칙 {rule_count}개 · 기준일 {escape(version)} · 식약처 단속 데이터 반영</p>
+</div><div class="mr-steps">{step_html}</div></div>"""
 
 
 def kpis(ov: dict) -> str:
