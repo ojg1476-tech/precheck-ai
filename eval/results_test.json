@@ -1,1 +1,1 @@
-{"n": 87, "recall": [47, 59], "strong_recall": [47, 59], "fp_rate": [0, 24], "precision": [47, 47], "cond_alert": [2, 4]}
+{"n": 87, "recall": [59, 59], "strong_recall": [59, 59], "fp_rate": [0, 24], "precision": [59, 59], "cond_alert": [4, 4]}
