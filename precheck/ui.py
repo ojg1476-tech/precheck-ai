@@ -24,7 +24,7 @@ CSS = """
 html, body, [class*="css"], .stMarkdown, .stTextArea textarea, button, input, select {
   font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
 }
-.block-container { padding-top: 2rem; max-width: 1180px; }
+.block-container { padding-top: 1.2rem; max-width: 1180px; }
 h1, h2, h3, h4 { letter-spacing: -0.02em; }
 .stTabs [data-baseweb="tab-list"] { gap: 6px; border-bottom: 1px solid #e6e8ef; }
 .stTabs [data-baseweb="tab"] { height: 44px; padding: 0 18px; border-radius: 10px 10px 0 0; font-weight: 600; }
@@ -34,11 +34,11 @@ div[data-testid="stExpander"] { border: 1px solid #e6e8ef; border-radius: 14px; 
 div[data-testid="stFileUploader"] section { border-radius: 14px; }
 
 .mr-hero { background: linear-gradient(120deg, #eef2ff 0%, #f8f9ff 55%, #fff4e6 100%); border: 1px solid #e3e8fb;
-  border-radius: 20px; padding: 28px 30px; margin-bottom: 18px; display: flex; gap: 20px; align-items: center; }
-.mr-logo { width: 56px; height: 56px; border-radius: 16px; background: #3b5bdb; color: #fff; display: grid; place-items: center;
-  font-size: 28px; flex: none; box-shadow: 0 6px 16px rgba(59,91,219,.25); }
-.mr-title { margin: 0; padding: 0; line-height: 1.25; font-size: 30px; font-weight: 800; color: #1b2430; }
-.mr-hero p { margin: 4px 0 10px; color: #4a5160; font-size: 15.5px; }
+  border-radius: 18px; padding: 16px 22px; margin-bottom: 10px; display: flex; gap: 16px; align-items: center; }
+.mr-logo { width: 46px; height: 46px; border-radius: 14px; background: #3b5bdb; color: #fff; display: grid; place-items: center;
+  font-size: 23px; flex: none; box-shadow: 0 6px 16px rgba(59,91,219,.25); }
+.mr-title { margin: 0; padding: 0; line-height: 1.25; font-size: 25px; font-weight: 800; color: #1b2430; }
+.mr-hero p { margin: 2px 0 8px; color: #4a5160; font-size: 15.5px; }
 .mr-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .mr-chip { background: #fff; border: 1px solid #dfe3f0; color: #4a5160; border-radius: 999px; padding: 3px 11px; font-size: 12.5px; }
 .mr-chip b { color: #3b5bdb; }
@@ -84,6 +84,10 @@ div[data-testid="stFileUploader"] section { border-radius: 14px; }
 .mr-text mark { padding: 1px 3px; border-radius: 4px; }
 .mr-empty { text-align: center; color: #6b7280; padding: 34px 10px; background: #fff; border: 1px dashed #d5d9e3; border-radius: 16px; }
 .mr-empty .big { font-size: 30px; }
+.mr-sub { font-size: 13px; font-weight: 700; color: #6b7280; margin: 0 0 8px; }
+.mr-phead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 2px 0 4px; }
+.mr-phead .n { font-size: 18px; font-weight: 800; color: #1b2430; }
+.mr-phead .m { font-size: 13px; color: #6b7280; }
 .mr-note { font-size: 12.5px; color: #868e96; line-height: 1.6; }
 </style>
 """
@@ -179,6 +183,13 @@ def one_summary(counts: dict) -> str:
 
 def empty(icon: str, text: str) -> str:
     return f'<div class="mr-empty"><div class="big">{icon}</div>{escape(text)}</div>'
+
+
+def product_head(i: int, r) -> str:
+    c = r.counts
+    pen = f" · 최대 {penalty_text(r.max_penalty)}" if r.max_penalty else ""
+    return (f'<div class="mr-phead"><span class="n">{i}. {escape(r.name)}</span>{tier_pill(r.tier)}'
+            f'<span class="m">꼭 고치기 {c["red"]} · 확인 필요 {c["amber"]} · 자료 챙기기 {c["blue"]}{pen}</span></div>')
 
 
 def product_title(i: int, r) -> str:

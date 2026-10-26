@@ -16,6 +16,7 @@ st.set_page_config(page_title="문구레이더 — 상세페이지 광고 일괄
 SAMPLE = Path(__file__).parent / "examples" / "sample_products.csv"
 TIER_ICON = {"높음": "🔴", "중간": "🟠", "확인": "🔵", "양호": "🟢", "오류": "⚪"}
 REPO = "https://github.com/ojg1476-tech/precheck-ai"
+PANEL = 430  # 표·카드 목록 상자 높이(px). 넘치면 상자 안에서 스크롤
 
 
 @st.cache_resource
@@ -52,62 +53,56 @@ tab_batch, tab_one, tab_about = st.tabs(["📋 여러 상품 한 번에", "✏�
 
 # ── 여러 상품 한 번에 ─────────────────────────────────────
 with tab_batch:
-    a, b = st.columns([2, 1], gap="large")
-    with a:
-        up = st.file_uploader("상품 목록 파일 (CSV · 엑셀)", type=["csv", "xlsx"],
-                              help="첫 줄에 상품명 · 제품종류 · 상세문구 칸이 있으면 돼요.")
-    with b:
-        st.markdown("**처음이라면**")
-        use_sample = st.button("예시 목록으로 해보기", type="primary", use_container_width=True)
-        st.download_button("예시 목록 받기 (CSV)", SAMPLE.read_bytes(), file_name="문구레이더_예시목록.csv",
+    c_up, c_try, c_dl, c_img = st.columns([2.4, 1, 1, 1], vertical_alignment="bottom")
+    with c_up:
+        up = st.file_uploader("상품 목록 파일 (CSV · 엑셀) — 첫 줄: 상품명 · 제품종류 · 상세문구", type=["csv", "xlsx"],
+                              help="제품종류: 일반 화장품 · 기능성 화장품 · 일반 식품 · 건강기능식품")
+    with c_try:
+        use_sample = st.button("예시로 해보기", type="primary", use_container_width=True)
+    with c_dl:
+        st.download_button("예시 목록 받기", SAMPLE.read_bytes(), file_name="문구레이더_예시목록.csv",
                            mime="text/csv", use_container_width=True)
-        st.caption("제품종류: 일반 화장품 · 기능성 화장품 · 일반 식품 · 건강기능식품")
-
-    with st.expander("🖼️ 상세페이지가 이미지인가요?"):
-        key = api_key()
-        free = free_ocr_ready()
-        if not key and not free:
-            st.info("이미지 속 글자 읽기를 지금 쓸 수 없어요. 상세페이지 글을 목록 파일의 ‘상세문구’ 칸에 넣어 주세요.")
-        else:
-            from precheck import ocr
-            if key:
-                st.caption("AI로 이미지 속 글자를 읽어요 (사용료가 들어요).")
+    with c_img:
+        with st.popover("🖼️ 이미지로 검사", use_container_width=True):
+            key = api_key()
+            free = free_ocr_ready()
+            if not key and not free:
+                st.info("이미지 속 글자 읽기를 지금 쓸 수 없어요. 상세페이지 글을 목록 파일의 ‘상세문구’ 칸에 넣어 주세요.")
             else:
-                st.caption("무료 글자 읽기 프로그램(Tesseract)으로 읽어요. 시험용 상세페이지에서 글자의 89%를 맞게 읽었어요. "
-                           "사진 위에 얹힌 글씨는 놓칠 수 있으니, 중요한 상품은 ‘읽어 낸 글 확인하기’로 꼭 확인하세요.")
-            img_type = st.selectbox("제품 종류", list(ck.product_types), format_func=ck.product_types.get)
-            imgs = st.file_uploader("상세페이지 이미지 (한 파일 = 한 상품, 파일 이름이 상품명이 돼요)",
-                                    type=["png", "jpg", "jpeg", "webp"], accept_multiple_files=True)
-            if imgs:
+                from precheck import ocr
                 if key:
-                    est = ocr.estimate([f.getvalue() for f in imgs])
-                    st.caption(f"예상 AI 사용료: 약 ${est['usd']:.3f} (상품 {len(imgs)}개)")
-                if st.button("이미지 글자 읽고 검사하기", type="primary"):
-                    items, cost, texts = [], 0.0, {}
-                    bar = st.progress(0.0, text="이미지를 읽는 중이에요")
-                    for i, f in enumerate(imgs, 1):
-                        name = Path(f.name).stem
-                        try:
-                            if key:
-                                r = ocr.read_text([f.getvalue()], key)
-                                cost += r.usd
-                                text = r.text
-                            else:
-                                text = ocr.read_text_free([f.getvalue()])
-                            texts[name] = text
-                            items.append({"row": i, "name": name, "type": img_type, "text": text})
-                        except Exception as e:  # 한 상품이 실패해도 나머지는 계속
-                            items.append({"row": i, "name": name, "type": img_type, "text": "", "_err": str(e)})
-                        bar.progress(i / len(imgs), text=f"{i}/{len(imgs)} 읽음")
-                    st.session_state["results"] = check_products(items, ck)
-                    st.session_state["ocr_texts"] = texts
-                    st.session_state["source"] = (f"이미지 {len(imgs)}장 · AI 사용료 약 ${cost:.3f}" if key
-                                                  else f"이미지 {len(imgs)}장 · 무료 글자 읽기")
-            if st.session_state.get("ocr_texts"):
-                with st.popover("읽어 낸 글 확인하기"):
-                    for name, text in st.session_state["ocr_texts"].items():
-                        st.markdown(f"**{name}**")
-                        st.text(text or "(읽은 글 없음)")
+                    st.caption("AI로 이미지 속 글자를 읽어요 (사용료가 들어요).")
+                else:
+                    st.caption("무료 글자 읽기 프로그램(Tesseract)으로 읽어요. 시험용 상세페이지에서 글자의 89%를 맞게 읽었어요. "
+                               "사진 위에 얹힌 글씨는 놓칠 수 있으니, 결과의 ‘읽어 낸 글’ 탭에서 꼭 확인하세요.")
+                img_type = st.selectbox("제품 종류", list(ck.product_types), format_func=ck.product_types.get)
+                imgs = st.file_uploader("상세페이지 이미지 (한 파일 = 한 상품, 파일 이름이 상품명이 돼요)",
+                                        type=["png", "jpg", "jpeg", "webp"], accept_multiple_files=True)
+                if imgs:
+                    if key:
+                        est = ocr.estimate([f.getvalue() for f in imgs])
+                        st.caption(f"예상 AI 사용료: 약 ${est['usd']:.3f} (상품 {len(imgs)}개)")
+                    if st.button("이미지 글자 읽고 검사하기", type="primary"):
+                        items, cost, texts = [], 0.0, {}
+                        bar = st.progress(0.0, text="이미지를 읽는 중이에요")
+                        for i, f in enumerate(imgs, 1):
+                            name = Path(f.name).stem
+                            try:
+                                if key:
+                                    r = ocr.read_text([f.getvalue()], key)
+                                    cost += r.usd
+                                    text = r.text
+                                else:
+                                    text = ocr.read_text_free([f.getvalue()])
+                                texts[name] = text
+                                items.append({"row": i, "name": name, "type": img_type, "text": text})
+                            except Exception as e:  # 한 상품이 실패해도 나머지는 계속
+                                items.append({"row": i, "name": name, "type": img_type, "text": "", "_err": str(e)})
+                            bar.progress(i / len(imgs), text=f"{i}/{len(imgs)} 읽음")
+                        st.session_state["results"] = check_products(items, ck)
+                        st.session_state["ocr_texts"] = texts
+                        st.session_state["source"] = (f"이미지 {len(imgs)}장 · AI 사용료 약 ${cost:.3f}" if key
+                                                      else f"이미지 {len(imgs)}장 · 무료 글자 읽기")
 
     data_name = None
     if up is not None:
@@ -124,59 +119,86 @@ with tab_batch:
 
     results = st.session_state.get("results")
     if not results:
-        html(ui.empty("📂", "상품 목록을 올리거나 ‘예시 목록으로 해보기’를 눌러 보세요."))
+        html(ui.empty("📂", "상품 목록을 올리거나 ‘예시로 해보기’를 눌러 보세요."))
     else:
         ov = overview(results, ck)
-        top, dl = st.columns([3, 1])
+        top, dl = st.columns([3, 1], vertical_alignment="center")
         with top:
-            section(f"점검 결과 · {st.session_state.get('source', '')}")
+            section(f"점검 결과 · {st.session_state.get('source', '')} · 상품 {ov['total']}개")
         with dl:
             st.download_button("⬇️ 엑셀 리포트 받기", build_report(results, ck), type="primary", use_container_width=True,
                                file_name="문구레이더_점검리포트.xlsx",
                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        html(ui.kpis(ov))
-        if ov["common"]:
-            section("여러 상품에서 반복된 문제")
-            html(ui.common_bars(ov))
+        ocr_texts = st.session_state.get("ocr_texts")
+        names = ["요약", "위험 순서", "상품별 자세히"] + (["읽어 낸 글"] if ocr_texts else [])
+        t_sum, t_rank, t_detail, *t_ocr = st.tabs(names)
+        if t_ocr:
+            with t_ocr[0]:
+                st.caption("이미지에서 읽어 낸 글이에요. 잘못 읽은 곳이 있으면 글을 고쳐 목록 파일로 다시 검사하세요.")
+                with st.container(height=PANEL - 40):
+                    for name, text in ocr_texts.items():
+                        st.markdown(f"**{name}**")
+                        st.text(text or "(읽은 글 없음)")
 
-        section("위험한 순서")
-        table = pd.DataFrame([{
-            "순위": i, "상품명": r.name, "제품 종류": TYPE_NAME.get(r.product_type, "-"),
-            "위험도": f"{TIER_ICON[r.tier]} {r.tier}", "꼭 고치기": r.counts["red"], "확인 필요": r.counts["amber"],
-            "자료 챙기기": r.counts["blue"], "최대 처벌": ui.penalty_short(r.max_penalty), "메모": r.error,
-        } for i, r in enumerate(results, 1)])
-        st.dataframe(table, hide_index=True, use_container_width=True, height=min(36 * (len(table) + 1) + 4, 560),
-                     column_config={
-            "순위": st.column_config.NumberColumn(width="small"),
-            "꼭 고치기": st.column_config.NumberColumn(width="small"),
-            "확인 필요": st.column_config.NumberColumn(width="small"),
-            "자료 챙기기": st.column_config.NumberColumn(width="small"),
-            "최대 처벌": st.column_config.TextColumn(help="걸린 표현 중 가장 무거운 형사처벌의 상한 (징역 또는 벌금)"),
-        })
+        with t_sum:
+            c1, c2 = st.columns([1.1, 1], gap="large")
+            with c1:
+                html(ui.kpis(ov))
+            with c2:
+                if ov["common"]:
+                    html('<div class="mr-sub">여러 상품에서 반복된 문제</div>' + ui.common_bars(ov))
+                else:
+                    html(ui.empty("✅", "여러 상품에서 반복된 문제는 없어요."))
 
-        section("상품별 자세히")
-        for i, r in enumerate(results, 1):
-            if not r.findings:
-                continue
-            with st.expander(f"{TIER_ICON[r.tier]} {ui.product_title(i, r)}", expanded=(i == 1)):
-                html(ui.finding_cards(r.findings))
+        with t_rank:
+            table = pd.DataFrame([{
+                "순위": i, "상품명": r.name, "제품 종류": TYPE_NAME.get(r.product_type, "-"),
+                "위험도": f"{TIER_ICON[r.tier]} {r.tier}", "꼭 고치기": r.counts["red"], "확인 필요": r.counts["amber"],
+                "자료 챙기기": r.counts["blue"], "최대 처벌": ui.penalty_short(r.max_penalty), "메모": r.error,
+            } for i, r in enumerate(results, 1)])
+            st.dataframe(table, hide_index=True, use_container_width=True, height=PANEL, column_config={
+                "순위": st.column_config.NumberColumn(width="small"),
+                "꼭 고치기": st.column_config.NumberColumn(width="small"),
+                "확인 필요": st.column_config.NumberColumn(width="small"),
+                "자료 챙기기": st.column_config.NumberColumn(width="small"),
+                "최대 처벌": st.column_config.TextColumn(help="걸린 표현 중 가장 무거운 형사처벌의 상한 (징역 또는 벌금)"),
+            })
+
+        with t_detail:
+            flagged = [(i, r) for i, r in enumerate(results, 1) if r.findings]
+            if not flagged:
+                html(ui.empty("✅", "걸린 표현이 있는 상품이 없어요."))
+            else:
+                left, right = st.columns([1, 2.2], gap="medium")
+                with left:
+                    with st.container(height=PANEL, border=True):
+                        pick = st.radio("상품", [i for i, _ in flagged], label_visibility="collapsed",
+                                        format_func=lambda i: f"{TIER_ICON[results[i - 1].tier]} {i}. {results[i - 1].name}")
+                r = results[pick - 1]
+                with right:
+                    with st.container(height=PANEL, border=False):
+                        html(ui.product_head(pick, r) + ui.finding_cards(r.findings))
 
 # ── 한 개 검사 ───────────────────────────────────────────
 with tab_one:
     left, right = st.columns([1, 1.25], gap="large")
     with left:
         ptype = st.radio("제품 종류", list(ck.product_types), format_func=ck.product_types.get, horizontal=True)
-        text = st.text_area("상세페이지 문구", height=320, placeholder="예: 피부 재생 크림! 7일 만에 주름 개선, 피부과 추천 1위")
+        text = st.text_area("상세페이지 문구", height=PANEL - 90,
+                            placeholder="예: 피부 재생 크림! 7일 만에 주름 개선, 피부과 추천 1위")
         go = st.button("검사하기", type="primary", use_container_width=True)
     with right:
         if go and text.strip():
             fs = ck.check(text, ptype)
             html(ui.one_summary(summarize(fs)))
-            section("문구에서 찾은 곳")
-            html(ui.highlighted(text, fs))
             if fs:
-                section("고칠 곳")
-                html(ui.finding_cards(fs))
+                o1, o2 = st.tabs(["고칠 곳", "문구에서 찾은 곳"])
+                with o1:
+                    with st.container(height=PANEL - 120, border=False):
+                        html(ui.finding_cards(fs))
+                with o2:
+                    with st.container(height=PANEL - 120, border=False):
+                        html(ui.highlighted(text, fs))
             else:
                 html(ui.empty("✅", "기본 검사에서 걸린 표현은 없어요."))
         else:
