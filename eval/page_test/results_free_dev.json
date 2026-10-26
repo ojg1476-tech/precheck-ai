@@ -2,31 +2,27 @@
  "summary": {
   "쉬운 페이지": {
    "문장": 35,
-   "평균 글자 정확도": 0.92,
+   "평균 글자 정확도": 0.912,
    "거의 그대로 읽은 문장(95% 이상)": 26,
    "원문이면 규칙이 잡는 문장": 19,
-   "OCR 글로도 잡은 문장": 15,
+   "OCR 글로도 잡은 문장": 16,
    "OCR 때문에 놓친 문장": [
-    "피부 속 깊숙이 침투하는 마이크로 캡슐 공법 → 피부 + 깊숙이 침투하는 마이크로 Wa 공법",
-    "붓기 빠지는 아침 루틴 → SET | 빠지는 아침 루틴",
-    "먹는 날마다 몸이 가벼워졌어요 — 구매자 김○○님 → 먹는 SO SO] 가써워졌어요 — 구애사 AOOR",
-    "먹고 나서 혈압 수치가 정상이 됐어요 — 후기 → 먹고 LHAY 렬압 수지가 Ato] 왔어요 — 루기"
+    "붓기 빠지는 아침 루틴 → SE7| 빠지는 아침 루틴",
+    "먹는 날마다 몸이 가벼워졌어요 — 구매자 김○○님 → SE7| 빠지는 아침 루틴|   Of HOI} SO] Thy 251012 ㅡ구매자 ZIOOK",
+    "먹고 나서 혈압 수치가 정상이 됐어요 — 후기 → |   먹고 LEA 혈압 수지가 Bato] 왔어요 — 루기"
    ],
    "OCR 때문에 새로 걸린 평범한 문장": []
   },
   "어려운 페이지": {
    "문장": 35,
-   "평균 글자 정확도": 0.673,
-   "거의 그대로 읽은 문장(95% 이상)": 15,
+   "평균 글자 정확도": 0.819,
+   "거의 그대로 읽은 문장(95% 이상)": 19,
    "원문이면 규칙이 잡는 문장": 19,
-   "OCR 글로도 잡은 문장": 13,
+   "OCR 글로도 잡은 문장": 16,
    "OCR 때문에 놓친 문장": [
-    "피부 속 깊숙이 침투하는 마이크로 캡슐 공법 → [5    깊숙이 침투하는 마이크로 We 공법",
-    "염증과 트러블을 진정시켜 줘요 → 주름 개선과 미백을 한 Hol",
+    "염증과 트러블을 진정시켜 줘요 → 피부 +S 32% 증가피부 노폐물까지 깨끗하게 정돈해요",
     "붓기 빠지는 아침 루틴 → 아이부터 어른까지 온 가족이 즐기는 맛",
-    "먹는 날마다 몸이 가벼워졌어요 — 구매자 김○○님 → 를 넣고 저어 드세요",
-    "목에 좋은 따뜻한 차 한 잔 → Ho] 좋은 까뜻한 차 한 잔",
-    "기억력 향상과 치매 예방까지 → 심혈관 질환 예방"
+    "목에 좋은 따뜻한 차 한 잔 → Ho] 좋은 ups 차 한 잔"
    ],
    "OCR 때문에 새로 걸린 평범한 문장": []
   }
@@ -57,10 +53,10 @@
    "group": "쉬운 페이지",
    "text": "피부 속 깊숙이 침투하는 마이크로 캡슐 공법",
    "label": "violation",
-   "ocr": "피부 + 깊숙이 침투하는 마이크로 Wa 공법",
-   "acc": 0.833,
+   "ocr": "피부 속 깊숙이 침투하는 마이크로 We 공법",
+   "acc": 0.889,
    "flag_truth": true,
-   "flag_ocr": false
+   "flag_ocr": true
   },
   {
    "page": "p1_cream",
@@ -157,8 +153,8 @@
    "group": "쉬운 페이지",
    "text": "사용 중 이상이 있는 경우 사용을 중지하고 전문의와 상담하세요",
    "label": "allowed",
-   "ocr": "사용 중 이상이 있는 경우 사용을 중지하고 전문의와 상담하세요",
-   "acc": 1.0,
+   "ocr": "사용 중 이상이 있는 경우 ASS 중지하고 전문의와 상담하세요",
+   "acc": 0.885,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -197,8 +193,8 @@
    "group": "쉬운 페이지",
    "text": "따뜻한 물 200ml에 1포를 넣고 저어 드세요",
    "label": "allowed",
-   "ocr": "따뜻한 물 200111에 1포를 넣고 저어 드세요",
-   "acc": 0.85,
+   "ocr": "따뜻한 S 200ml] 1포를 넣고 저어 드세요",
+   "acc": 0.9,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -207,7 +203,7 @@
    "group": "쉬운 페이지",
    "text": "붓기 빠지는 아침 루틴",
    "label": "violation",
-   "ocr": "SET | 빠지는 아침 루틴",
+   "ocr": "SE7| 빠지는 아침 루틴",
    "acc": 0.556,
    "flag_truth": true,
    "flag_ocr": false
@@ -217,8 +213,8 @@
    "group": "쉬운 페이지",
    "text": "먹는 날마다 몸이 가벼워졌어요 — 구매자 김○○님",
    "label": "violation",
-   "ocr": "먹는 SO SO] 가써워졌어요 — 구애사 AOOR",
-   "acc": 0.4,
+   "ocr": "SE7| 빠지는 아침 루틴|   Of HOI} SO] Thy 251012 ㅡ구매자 ZIOOK",
+   "acc": 0.0,
    "flag_truth": true,
    "flag_ocr": false
   },
@@ -327,8 +323,8 @@
    "group": "쉬운 페이지",
    "text": "1일 1회 1캡슐, 물과 함께 섭취하세요",
    "label": "allowed",
-   "ocr": "1일 1회 124s, 물과 함께 섭취하세요",
-   "acc": 0.812,
+   "ocr": "1일 1회 14s, 물과 함께 섭취하세요",
+   "acc": 0.875,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -347,7 +343,7 @@
    "group": "쉬운 페이지",
    "text": "먹고 나서 혈압 수치가 정상이 됐어요 — 후기",
    "label": "violation",
-   "ocr": "먹고 LHAY 렬압 수지가 Ato] 왔어요 — 루기",
+   "ocr": "|   먹고 LEA 혈압 수지가 Bato] 왔어요 — 루기",
    "acc": 0.294,
    "flag_truth": true,
    "flag_ocr": false
@@ -357,8 +353,8 @@
    "group": "쉬운 페이지",
    "text": "어류 원료의 비린 맛을 줄였어요",
    "label": "allowed",
-   "ocr": "류 원료의 비린 맛을 줄였어요",
-   "acc": 0.923,
+   "ocr": "어류 원료의 비린 맛을 줄였어요",
+   "acc": 1.0,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -387,8 +383,8 @@
    "group": "어려운 페이지",
    "text": "피부과 전문의가 직접 개발한 수분 크림",
    "label": "violation",
-   "ocr": "피부과 전문의가 직접 개발한 수부 크림",
-   "acc": 0.938,
+   "ocr": "피부과 전문의가 직접 개발한 수분 크림",
+   "acc": 1.0,
    "flag_truth": true,
    "flag_ocr": true
   },
@@ -397,8 +393,8 @@
    "group": "어려운 페이지",
    "text": "건조한 피부에 수분을 채워 하루 종일 촉촉하게",
    "label": "allowed",
-   "ocr": "부 크림Ol) 수분을 채워 하루 종일 촉족하",
-   "acc": 0.579,
+   "ocr": "한 피부에 수분을 채워 하루 종일 촉촉",
+   "acc": 0.789,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -407,18 +403,18 @@
    "group": "어려운 페이지",
    "text": "피부 속 깊숙이 침투하는 마이크로 캡슐 공법",
    "label": "violation",
-   "ocr": "[5    깊숙이 침투하는 마이크로 We 공법",
-   "acc": 0.722,
+   "ocr": "피부 속 깊숙이 침투하는 마이크로 wa 공법",
+   "acc": 0.889,
    "flag_truth": true,
-   "flag_ocr": false
+   "flag_ocr": true
   },
   {
    "page": "hard_p1_cream",
    "group": "어려운 페이지",
    "text": "끈적임 없이 산뜻하게 마무리되는 젤 크림 제형",
    "label": "allowed",
-   "ocr": "하게 마무리되는 젤 크림 제",
-   "acc": 0.579,
+   "ocr": "끈적임 없이 산뜻하게 마무리되는 젤 크림 제",
+   "acc": 0.947,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -427,7 +423,7 @@
    "group": "어려운 페이지",
    "text": "염증과 트러블을 진정시켜 줘요",
    "label": "violation",
-   "ocr": "주름 개선과 미백을 한 Hol",
+   "ocr": "피부 +S 32% 증가피부 노폐물까지 깨끗하게 정돈해요",
    "acc": 0.0,
    "flag_truth": true,
    "flag_ocr": false
@@ -437,8 +433,8 @@
    "group": "어려운 페이지",
    "text": "은은한 허브 향으로 기분까지 편안하게",
    "label": "allowed",
-   "ocr": "피부 노폐물까지 깨끗하게 정돈해요",
-   "acc": 0.0,
+   "ocr": "은은한 허브 향으로 기분까지 편안하게",
+   "acc": 1.0,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -447,8 +443,8 @@
    "group": "어려운 페이지",
    "text": "아토피 피부도 안심하고 쓰세요",
    "label": "violation",
-   "ocr": "아토피 DS 안심하고 쓰세요",
-   "acc": 0.769,
+   "ocr": "아토피 피부도 안심하고 쓰세요",
+   "acc": 1.0,
    "flag_truth": true,
    "flag_ocr": true
   },
@@ -467,8 +463,8 @@
    "group": "어려운 페이지",
    "text": "인체적용시험 완료 · 4주 사용 후 피부 수분량 32% 증가",
    "label": "conditional",
-   "ocr": "인체적용시험 완료 ㆍ4주 사용 후피부 수분량 32% 증가",
-   "acc": 1.0,
+   "ocr": "인제적용시험 완료 ㆍ4주 사용 후피부 +S 32% 증가",
+   "acc": 0.826,
    "flag_truth": true,
    "flag_ocr": true
   },
@@ -507,8 +503,8 @@
    "group": "어려운 페이지",
    "text": "사용 중 이상이 있는 경우 사용을 중지하고 전문의와 상담하세요",
    "label": "allowed",
-   "ocr": "근적임 없이 산뜻아토피 DS 안심하고 쓰세요",
-   "acc": 0.192,
+   "ocr": "전문으상담ㅎ",
+   "acc": 0.154,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -517,7 +513,7 @@
    "group": "어려운 페이지",
    "text": "환절기 감기 예방에 좋은 생강차",
    "label": "violation",
-   "ocr": "완절기 감기 예방에 좋은 생강자",
+   "ocr": "완설기 감기 예방에 좋은 생강차",
    "acc": 0.846,
    "flag_truth": true,
    "flag_ocr": true
@@ -547,8 +543,8 @@
    "group": "어려운 페이지",
    "text": "따뜻한 물 200ml에 1포를 넣고 저어 드세요",
    "label": "allowed",
-   "ocr": "따뜻한 물 200011에 1포",
-   "acc": 0.45,
+   "ocr": "따뜻한 물 20017!에 1포를 넣고 저어 드세요",
+   "acc": 0.85,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -567,10 +563,10 @@
    "group": "어려운 페이지",
    "text": "먹는 날마다 몸이 가벼워졌어요 — 구매자 김○○님",
    "label": "violation",
-   "ocr": "를 넣고 저어 드세요",
-   "acc": 0.05,
+   "ocr": "먹는 날마다 몸이 가벼워졌어요 — 구매자 BOOS",
+   "acc": 0.8,
    "flag_truth": true,
-   "flag_ocr": false
+   "flag_ocr": true
   },
   {
    "page": "hard_p2_tea",
@@ -587,8 +583,8 @@
    "group": "어려운 페이지",
    "text": "목에 좋은 따뜻한 차 한 잔",
    "label": "violation",
-   "ocr": "Ho] 좋은 까뜻한 차 한 잔",
-   "acc": 0.6,
+   "ocr": "Ho] 좋은 ups 차 한 잔",
+   "acc": 0.4,
    "flag_truth": true,
    "flag_ocr": false
   },
@@ -597,8 +593,8 @@
    "group": "어려운 페이지",
    "text": "천연 해독 디톡스 차",
    "label": "violation",
-   "ocr": "선연 해녹 디톡스 차",
-   "acc": 0.75,
+   "ocr": "선연 해독 디톡스 차",
+   "acc": 0.875,
    "flag_truth": true,
    "flag_ocr": true
   },
@@ -627,8 +623,8 @@
    "group": "어려운 페이지",
    "text": "직사광선을 피해 서늘한 곳에 보관하세요",
    "label": "allowed",
-   "ocr": "직사광선을 피해 서늘한 촛에",
-   "acc": 0.647,
+   "ocr": "직사광선을 피해 서늘한 곳에 보관하세요",
+   "acc": 1.0,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -637,8 +633,8 @@
    "group": "어려운 페이지",
    "text": "혈중 중성지질 개선·혈행 개선에 도움을 줄 수 있음",
    "label": "conditional",
-   "ocr": "열중 중성지실 개선ㆍ혈행 개선에",
-   "acc": 0.55,
+   "ocr": "열중 중성지질 개선ㆍ혈행 개선에",
+   "acc": 0.6,
    "flag_truth": true,
    "flag_ocr": true
   },
@@ -677,7 +673,7 @@
    "group": "어려운 페이지",
    "text": "1일 1회 1캡슐, 물과 함께 섭취하세요",
    "label": "allowed",
-   "ocr": "임산부, 수유부는 섭취 전 전문가와 상담하세요",
+   "ocr": "리산부, 수유부는 섭취 전 전문가와 상담하세요",
    "acc": 0.0,
    "flag_truth": false,
    "flag_ocr": false
@@ -687,17 +683,17 @@
    "group": "어려운 페이지",
    "text": "기억력 향상과 치매 예방까지",
    "label": "violation",
-   "ocr": "심혈관 질환 예방",
-   "acc": 0.167,
+   "ocr": "기억력 향상과 치매 예방까지",
+   "acc": 1.0,
    "flag_truth": true,
-   "flag_ocr": false
+   "flag_ocr": true
   },
   {
    "page": "hard_p3_omega",
    "group": "어려운 페이지",
    "text": "먹고 나서 혈압 수치가 정상이 됐어요 — 후기",
    "label": "violation",
-   "ocr": "먹고 나서 혈압 수치가 정상이 됐어요 — 후기",
+   "ocr": "먹고 나서 혈압 수치가 정상이 됐어요 - 후기",
    "acc": 1.0,
    "flag_truth": true,
    "flag_ocr": true
@@ -717,8 +713,8 @@
    "group": "어려운 페이지",
    "text": "임산부, 수유부는 섭취 전 전문가와 상담하세요",
    "label": "allowed",
-   "ocr": "임산부, 수유부는 섭취 전 전문가와 상담하세요",
-   "acc": 1.0,
+   "ocr": "리산부, 수유부는 섭취 전 전문가와 상담하세요",
+   "acc": 0.947,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -727,8 +723,8 @@
    "group": "어려운 페이지",
    "text": "건강기능식품 표시·광고 심의필",
    "label": "allowed",
-   "ocr": "심혈관 질환 예방",
-   "acc": 0.0,
+   "ocr": "건강기능식품 표시ㆍ광고 심의필",
+   "acc": 1.0,
    "flag_truth": false,
    "flag_ocr": false
   }

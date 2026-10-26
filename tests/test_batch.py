@@ -85,16 +85,32 @@ def test_read_text_mocked():
     assert r.text == "감기 예방 차" and round(r.usd, 5) == round(12000 / 1e6 * 0.10 + 300 / 1e6 * 0.50, 5)
 
 
+def test_free_ocr_dark_block_inverted():
+    im = Image.new("L", (1400, 300), 255)
+    im.paste(20, (0, 100, 1400, 200))          # 어두운 배경 띠
+    for x in range(100, 1300, 30):
+        im.paste(240, (x, 130, x + 12, 170))   # 그 위 흰 글씨
+    blk = ocr.text_blocks(im)
+    import numpy as np
+    assert len(blk) == 1 and np.median(np.asarray(blk[0])) > 127   # 뒤집혀 밝은 바탕
+
+
 def test_free_ocr_cleanup_and_dedupe():
     raw = "피부과 전문의가 직접 개발\n은\n=\nJ\nofo\n끈적임 없이 산뜻하게"
     assert ocr._clean(raw) == "피부과 전문의가 직접 개발\n끈적임 없이 산뜻하게"
 
-    class P:  # 조각 두 개가 겹치는 줄을 같이 읽은 상황
+    class P:  # 글 덩어리 두 개를 차례로 읽은 상황 (같은 줄이 이어지면 하나만 남긴다)
         def __init__(self, out): self.returncode, self.stdout, self.stderr = 0, out, ""
     outs = iter([P("첫 줄 문장입니다\n겹치는 줄입니다"), P("겹치는 줄입니다\n마지막 줄입니다")])
+    im = Image.new("L", (1400, 600), 255)
+    for y0 in (100, 400):                      # 무늬 있는 띠 두 개 = 글 덩어리 두 개
+        for x in range(0, 1400, 20):
+            im.paste(0, (x, y0, x + 10, y0 + 60))
+    b = io.BytesIO(); im.save(b, format="PNG")
+    assert len(ocr.text_blocks(im)) == 2
     with mock.patch("shutil.which", return_value="/usr/bin/tesseract"), \
          mock.patch("subprocess.run", side_effect=lambda *a, **k: next(outs)):
-        text = ocr.read_text_free([_png(1400, 4000)])     # 조각 2개
+        text = ocr.read_text_free([b.getvalue()])
     assert text.splitlines() == ["첫 줄 문장입니다", "겹치는 줄입니다", "마지막 줄입니다"]
 
 

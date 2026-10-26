@@ -2,13 +2,12 @@
  "summary": {
   "시험 페이지": {
    "문장": 24,
-   "평균 글자 정확도": 0.78,
-   "거의 그대로 읽은 문장(95% 이상)": 14,
+   "평균 글자 정확도": 0.886,
+   "거의 그대로 읽은 문장(95% 이상)": 15,
    "원문이면 규칙이 잡는 문장": 11,
-   "OCR 글로도 잡은 문장": 9,
+   "OCR 글로도 잡은 문장": 10,
    "OCR 때문에 놓친 문장": [
-    "보톡스 화장품으로 불리는 앰플 → 염증개선 완화 효과눈에 SARS 때에는 즉시 Nol 내세요",
-    "당뇨에 좋은 아침 그래놀라 → 좋은 아침 그래놀라"
+    "보톡스 화장품으로 불리는 앰플 → 7HSA| 스며드는 워터 제형"
    ],
    "OCR 때문에 새로 걸린 평범한 문장": []
   }
@@ -29,8 +28,8 @@
    "group": "시험 페이지",
    "text": "가볍게 스며드는 워터 제형",
    "label": "allowed",
-   "ocr": "아침마다 손이 가는 순한 향이에요",
-   "acc": 0.0,
+   "ocr": "7HSA| 스며드는 워터 제형",
+   "acc": 0.545,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -39,7 +38,7 @@
    "group": "시험 페이지",
    "text": "보톡스 화장품으로 불리는 앰플",
    "label": "violation",
-   "ocr": "염증개선 완화 효과눈에 SARS 때에는 즉시 Nol 내세요",
+   "ocr": "7HSA| 스며드는 워터 제형",
    "acc": 0.0,
    "flag_truth": true,
    "flag_ocr": false
@@ -49,8 +48,8 @@
    "group": "시험 페이지",
    "text": "아침마다 손이 가는 순한 향이에요",
    "label": "allowed",
-   "ocr": "아침마다 손이 가는 순한 향이에요",
-   "acc": 1.0,
+   "ocr": "ㅣ 아침마다 손이 가는 순한 향이에요 ㅣ",
+   "acc": 0.857,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -59,7 +58,7 @@
    "group": "시험 페이지",
    "text": "모발굵기 개선까지 한 번에",
    "label": "violation",
-   "ocr": "BE 7] 개선까지 한 번에",
+   "ocr": "BE 7 | 개선까지 한 번에",
    "acc": 0.636,
    "flag_truth": false,
    "flag_ocr": false
@@ -89,8 +88,8 @@
    "group": "시험 페이지",
    "text": "눈에 들어갔을 때에는 즉시 씻어 내세요",
    "label": "allowed",
-   "ocr": "눈에 SARS 때에는 즉시 Nol 내세요",
-   "acc": 0.562,
+   "ocr": "눈에 들어갔을 때에는 즉시 Woj 내세요",
+   "acc": 0.812,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -99,10 +98,10 @@
    "group": "시험 페이지",
    "text": "당뇨에 좋은 아침 그래놀라",
    "label": "violation",
-   "ocr": "좋은 아침 그래놀라",
-   "acc": 0.727,
+   "ocr": "당뇨에 좋은 아침 그래놀라",
+   "acc": 1.0,
    "flag_truth": true,
-   "flag_ocr": false
+   "flag_ocr": true
   },
   {
    "page": "test_t2_granola",
@@ -169,8 +168,8 @@
    "group": "시험 페이지",
    "text": "개봉 후 밀봉하여 서늘한 곳에 보관하세요",
    "label": "allowed",
-   "ocr": "갱년기 영양제 대신 매일 한 그릇아이 간식으로도 잘 먹어요",
-   "acc": 0.0,
+   "ocr": "개봉 후 밀봉하여 서늘한 곳에 보관하세요",
+   "acc": 1.0,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -189,8 +188,8 @@
    "group": "시험 페이지",
    "text": "볶은 보리의 고소한 향",
    "label": "allowed",
-   "ocr": "볶은 보리의 고소한 향",
-   "acc": 1.0,
+   "ocr": "_ ㅣ 볶은 보리의 고소한 향",
+   "acc": 0.778,
    "flag_truth": false,
    "flag_ocr": false
   },
@@ -249,8 +248,8 @@
    "group": "시험 페이지",
    "text": "뜨거운 물에 3분간 우려 드세요",
    "label": "allowed",
-   "ocr": "물 대신 마시기 좋아요",
-   "acc": 0.154,
+   "ocr": "뜨거운 물에 3분간 우려 드세요",
+   "acc": 1.0,
    "flag_truth": false,
    "flag_ocr": false
   }

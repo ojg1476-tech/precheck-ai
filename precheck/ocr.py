@@ -107,8 +107,11 @@ def read_text(images: list[bytes], api_key: str, model: str = DEFAULT_MODEL, tim
 
 
 # ── 무료: Tesseract ──────────────────────────────────────
-FREE_WIDTH = 1400       # 무료 OCR은 글자가 클수록 잘 읽어서 줄이지 않고 이 폭까지 키운다
-FREE_CHUNK = 2400
+# 상세페이지를 글 덩어리(가로줄 단위로 무늬가 있는 구간)로 나눠 하나씩 읽는다.
+# 어두운 배경 덩어리는 색을 뒤집어 검은 글씨로 만든다. (실험: eval/page_test, 개발용 6장에서 글자 정확도 79.7% → 86.5%)
+FREE_WIDTH = 1400       # 이 폭으로 맞춰 읽는다
+BUSY_STD = 6            # 가로줄의 밝기 표준편차가 이보다 크면 글·그림이 있는 줄
+BLOCK_GAP = 10          # 빈 줄이 이만큼 이어지면 덩어리를 나눈다
 _HANGUL_OR_WORD = re.compile(r"[가-힣A-Za-z0-9]")
 
 
@@ -134,35 +137,56 @@ def _clean(text: str) -> str:
     return "\n".join(keep)
 
 
-def _free_slices(data: bytes) -> list[Image.Image]:
-    im = Image.open(io.BytesIO(data)).convert("L")          # 흑백이 더 잘 읽힌다
-    if im.width < FREE_WIDTH:
-        im = im.resize((FREE_WIDTH, round(im.height * FREE_WIDTH / im.width)), Image.LANCZOS)
-    elif im.width > FREE_WIDTH * 1.5:
-        im = im.resize((FREE_WIDTH, round(im.height * FREE_WIDTH / im.width)), Image.LANCZOS)
-    out, top = [], 0
-    while top < im.height:
-        bottom = min(top + FREE_CHUNK, im.height)
-        out.append(im.crop((0, top, im.width, bottom)))
-        if bottom == im.height:
-            break
-        top = bottom - OVERLAP
+def text_blocks(im: Image.Image) -> list[Image.Image]:
+    """흑백 이미지를 글 덩어리로 나누고, 어두운 배경은 뒤집어 돌려준다."""
+    import numpy as np
+    from PIL import ImageOps
+
+    a = np.asarray(im, dtype=np.float32)
+    busy = a.std(axis=1) > BUSY_STD
+    spans, start, quiet = [], None, 0
+    for y, b in enumerate(busy):
+        if b:
+            start = y if start is None else start
+            quiet = 0
+        elif start is not None:
+            quiet += 1
+            if quiet >= BLOCK_GAP:
+                spans.append((start, y - quiet + 1))
+                start, quiet = None, 0
+    if start is not None:
+        spans.append((start, len(busy)))
+    out = []
+    for s, e in spans:
+        if e - s < 8:
+            continue
+        b = im.crop((0, max(0, s - 8), im.width, min(im.height, e + 8)))
+        arr = np.asarray(b)
+        border = np.concatenate([arr[0], arr[-1], arr[:, 0], arr[:, -1]])
+        if np.median(border) < 128:
+            b = ImageOps.invert(b)
+        bg = 255 if np.median(np.asarray(b)) > 127 else 0
+        out.append(ImageOps.expand(b, 20, fill=bg))
     return out
 
 
 def read_text_free(images: list[bytes], lang: str = "kor+eng", tessdata: str | None = None,
                    timeout: int = 120) -> str:
-    """무료 OCR(Tesseract)로 한 상품의 이미지를 읽는다. 조각 겹침 때문에 같은 줄이 두 번 나오면 하나만 남긴다."""
+    """무료 OCR(Tesseract)로 한 상품의 이미지를 읽는다."""
     exe = shutil.which("tesseract")
     if not exe:
         raise RuntimeError("무료 글자 읽기 프로그램(tesseract)이 설치돼 있지 않아요.")
     lines: list[str] = []
     with tempfile.TemporaryDirectory() as tmp:
+        n = 0
         for d in images:
-            for i, sl in enumerate(_free_slices(d)):
-                path = os.path.join(tmp, f"{i}.png")
-                sl.save(path)
-                cmd = [exe, path, "-", "-l", lang, "--psm", "4"]
+            im = Image.open(io.BytesIO(d)).convert("L")
+            im = im.resize((FREE_WIDTH, max(1, round(im.height * FREE_WIDTH / im.width))), Image.LANCZOS)
+            for blk in text_blocks(im):
+                n += 1
+                path = os.path.join(tmp, f"{n}.png")
+                blk.save(path)
+                cmd = [exe, path, "-", "-l", lang, "--psm", "6"]
                 if tessdata:
                     cmd += ["--tessdata-dir", tessdata]
                 out = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
