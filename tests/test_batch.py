@@ -114,6 +114,18 @@ def test_free_ocr_cleanup_and_dedupe():
     assert text.splitlines() == ["첫 줄 문장입니다", "겹치는 줄입니다", "마지막 줄입니다"]
 
 
+def test_ui_cards_group_and_escape():
+    from precheck import Checker, overview, ui
+    ck = Checker()
+    res = check_products(read_table(SAMPLE.read_bytes(), "s.csv"), ck)
+    ov = overview(res, ck)
+    assert "mr-kpi" in ui.kpis(ov) and "mr-bar" in ui.common_bars(ov)
+    fs = ck.check("먹는 위고비, 식욕억제, 지방 배출 <b>", "food")
+    html = ui.finding_cards(fs)
+    assert html.count('class="mr-card"') < len(fs)           # 같은 규칙은 카드 하나로 묶임
+    assert "<b>" not in ui.highlighted("<b>위고비</b>", ck.check("<b>위고비</b>", "food"))   # 사용자 글은 escape
+
+
 if __name__ == "__main__":
     fns = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for f in fns:
