@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from pathlib import Path
 
 RULES_PATH = Path(__file__).resolve().parent.parent / "rules" / "rules.json"
@@ -30,6 +30,8 @@ class Finding:
     law: str            # 관련 기준
     penalty: str        # 이대로 두면
     source: str
+    category: str = ""   # 분류 코드 (C1, F3, HF 등)
+    checks: list = field(default_factory=list)  # 쓰기 전에 확인할 것
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -43,6 +45,7 @@ class Checker:
         self.grades = data["grades"]
         self.penalties = data["penalties"]
         self.rules = data["rules"]
+        self.categories = data.get("categories", {})
         for r in self.rules:
             r["_re"] = re.compile(r["pattern"], re.IGNORECASE if r["ignore_case"] else 0)
 
@@ -67,6 +70,8 @@ class Checker:
                     law=(r["law_cos"] if is_cos else r["law_food"]) or "-",
                     penalty=self.penalties.get(pen_key, "") if pen_key else "",
                     source=r["source"],
+                    category=(cat := (r.get("category_cos") if is_cos else r.get("category_food")) or ""),
+                    checks=list(self.categories.get(cat, {}).get("checks", [])),
                 ))
         return dedupe(found)
 

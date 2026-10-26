@@ -32,6 +32,235 @@
   "fb1": "식품표시광고법 시행령 별표1",
   "mf": "식약처 단속 보도자료"
  },
+ "categories": {
+  "C1": {
+   "name": "약처럼 보이는 표현",
+   "why": "병을 고치거나 몸의 기능을 바꾼다는 말은 약의 효과로 받아들여져요.",
+   "alt": "(이 말을 빼고 보습·사용감 위주로)",
+   "term": "의약품 오인 표시·광고",
+   "law": "화장품법 제13조 제1항 제1호, 별표5 제2호 가목",
+   "pen": "cA",
+   "checks": [
+    "시험 자료가 있어도 화장품에는 쓸 수 없는 표현이에요. 지우거나 보습·사용감 위주로 바꾸세요.",
+    "의약품·의약외품으로 허가받은 제품이라면 화장품이 아니라 그 허가 내용대로 광고해야 해요."
+   ]
+  },
+  "C2": {
+   "name": "따로 심사받아야 쓰는 표현",
+   "why": "미백·주름·자외선 차단·탈모·여드름성 피부 완화 같은 말은 식약처 심사를 받은 기능성 화장품만 쓸 수 있어요.",
+   "alt": "(심사받은 기능성이 없으면 이 말을 빼기)",
+   "term": "기능성화장품 오인 표시·광고",
+   "law": "화장품법 제13조 제1항 제2호, 별표5 제2호 나목",
+   "pen": "cA",
+   "checks": [
+    "이 제품이 식약처 기능성화장품 심사를 받았거나 보고했는지 확인하세요.",
+    "받았다면 제품 종류를 ‘기능성 화장품’으로 바꾸고, 심사받은 효능 문구 그대로만 쓰세요.",
+    "받지 않았다면 이 표현을 지우세요."
+   ]
+  },
+  "C6": {
+   "name": "심사받은 효능과 다른 표현",
+   "why": "기능성 화장품도 심사받은 효능 문구를 그대로 써야 해요. ‘예방’처럼 범위를 넓히면 안 돼요.",
+   "alt": "(심사받은 효능 문구 그대로)",
+   "term": "기능성화장품 심사 결과와 다른 표시·광고",
+   "law": "화장품법 제13조 제1항 제2호, 별표5 제2호 나목",
+   "pen": "cA",
+   "checks": [
+    "심사(보고)서에 적힌 효능 문구와 글자 그대로 같은지 확인하세요.",
+    "‘예방’, ‘치료’, ‘즉시’처럼 심사 문구에 없는 말을 붙이지 마세요."
+   ]
+  },
+  "C3": {
+   "name": "의사·약사가 보증하는 것처럼 보임",
+   "why": "의사·약사·병원·기관이 추천하거나 만든 것처럼 보이면 안 돼요.",
+   "alt": "(전문가 언급을 빼고 제품 특징만 설명)",
+   "term": "의·약 전문가 추천·보증 표시·광고",
+   "law": "화장품법 제13조, 별표5 제2호 다목",
+   "pen": "cB",
+   "checks": [
+    "사실이어도 쓸 수 없는 표현이에요. 지우세요.",
+    "의사·약사처럼 보이는 인물이 추천하는 사진이나 영상도 같은 문제가 될 수 있어요. 함께 확인하세요."
+   ]
+  },
+  "C4": {
+   "name": "화장품 범위를 넘는 표현",
+   "why": "시술 효과, 피부 속 침투, 몸매 변화처럼 화장품이 할 수 없는 일을 말하거나 소비자가 오해할 수 있는 표현이에요.",
+   "alt": "(피부 표면의 보습·사용감 위주로)",
+   "term": "사실 오인·화장품 범위 일탈 표시·광고",
+   "law": "화장품법 제13조, 별표5 제2호 사목·아목",
+   "pen": "cB",
+   "checks": [
+    "화장품 범위를 넘는 효과 표현은 지우세요.",
+    "사실인 내용이라도 소비자가 오해할 수 있으면 문제가 돼요. 근거 자료와 함께 표현을 다시 검토하세요."
+   ]
+  },
+  "C5": {
+   "name": "근거 없는 ‘최고·1위’",
+   "why": "‘최고’, ‘최상’ 같은 절대적 표현은 쓸 수 없고, ‘1위·최초’는 근거를 함께 밝혀야 해요.",
+   "alt": "(출처를 함께 적기: ○○ 조사, 기간, 기준 / 아니면 빼기)",
+   "term": "절대적 표현·부당 비교 표시·광고",
+   "law": "화장품법 제13조, 별표5 제2호 바목",
+   "pen": "cB",
+   "checks": [
+    "‘최고·최상’ 같은 절대적 표현은 지우세요.",
+    "‘1위·최초’를 쓰려면 누가, 언제, 어떤 기준으로 조사했는지 근거를 갖추고 함께 적으세요."
+   ]
+  },
+  "C7": {
+   "name": "효과를 장담함",
+   "why": "효과가 있다고 장담하려면 객관적인 증명 자료가 있어야 해요.",
+   "alt": "(자료가 있는 효과만, 시험 조건과 함께)",
+   "term": "객관적으로 확인되지 않은 효능 표시·광고",
+   "law": "화장품법 제13조, 별표5 제2호 아목",
+   "pen": "cB",
+   "checks": [
+    "효과를 뒷받침하는 시험 자료(인체적용시험 등)가 있는지 확인하세요.",
+    "자료가 없으면 효과를 장담하는 말을 지우세요."
+   ]
+  },
+  "CP": {
+   "name": "증명 자료가 필요한 표현",
+   "why": "숫자·기간·시험 결과를 말하려면 증명 자료가 있어야 해요.",
+   "alt": "(시험기관·대상·기간을 함께 표기)",
+   "term": "표시·광고 실증 대상",
+   "law": "화장품법 제14조",
+   "pen": "cP",
+   "checks": [
+    "식약처가 요청하면 15일 안에 증명 자료를 내야 해요. 미리 준비해 두세요.",
+    "시험 결과를 쓸 때는 시험기관, 대상, 기간, 결과를 함께 적으세요.",
+    "자료가 없으면 이 표현을 지우세요."
+   ]
+  },
+  "CB": {
+   "name": "씻어내는 제품에만 쓸 수 있는 표현",
+   "why": "‘항균’은 손·몸을 씻는 세정 제품이 시험으로 증명한 경우에만 쓸 수 있어요.",
+   "alt": "(세정 제품이 아니면 빼기)",
+   "term": "실증이 필요한 표시·광고 (인체세정용 제품 한정)",
+   "law": "화장품법 제14조, 별표5 제2호 가목",
+   "pen": "cP",
+   "checks": [
+    "손·몸을 씻어내는 세정 제품인지 확인하세요. 바르는 제품이면 지우세요.",
+    "세정 제품이라면 항균 효과를 증명하는 시험 자료를 준비하세요."
+   ]
+  },
+  "CX": {
+   "name": "정해진 기준이 있는 표현",
+   "why": "‘천연’, ‘유기농’은 식약처 기준을 충족해야 쓸 수 있어요.",
+   "alt": "(기준 충족을 확인한 뒤 사용)",
+   "term": "천연·유기농화장품 오인 표시·광고",
+   "law": "화장품법 제13조 제1항 제3호",
+   "pen": "cX",
+   "checks": [
+    "‘천연·유기농’은 식약처 천연·유기농화장품 기준에 맞는지 확인하고, 인증을 받았다면 인증서를 준비하세요.",
+    "‘비건’ 등 다른 인증 표현은 인증을 받은 경우에만, 인증 근거를 준비해서 쓰세요."
+   ]
+  },
+  "F1": {
+   "name": "병을 예방하거나 고친다는 표현",
+   "why": "식품에 병 이름을 넣거나 병이 나아진다고 말하면 안 돼요. 가장 무겁게 처벌받는 유형이에요.",
+   "alt": "(병 이야기를 빼고 맛·재료·먹는 방법 위주로)",
+   "term": "질병 예방·치료 효능 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제1호",
+   "pen": "f1",
+   "checks": [
+    "식품은 어떤 자료가 있어도 병을 예방하거나 고친다고 말할 수 없어요. 병 이름과 효능 표현을 지우세요."
+   ]
+  },
+  "F2": {
+   "name": "약처럼 보이는 표현",
+   "why": "식품을 약 이름으로 부르거나 약 대신 먹으라고 하면 안 돼요.",
+   "alt": "매일 챙기는 ○○ (식품 이름 그대로)",
+   "term": "의약품 오인 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제2호",
+   "pen": "f2",
+   "checks": [
+    "‘○○약’, ‘○○제’처럼 약 이름으로 부르는 표현과 ‘약 대신’ 같은 말을 지우세요."
+   ]
+  },
+  "F3": {
+   "name": "건강기능식품처럼 보이는 표현",
+   "why": "일반 식품이 건강기능식품처럼 몸의 기능에 효과가 있다고 말하면 안 돼요. 단속에서 가장 많이 걸리는 유형이에요.",
+   "alt": "(재료 소개만: 국내산 ○○을 담았어요)",
+   "term": "건강기능식품 오인·혼동 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제3호",
+   "pen": "f3",
+   "checks": [
+    "일반 식품이라면 몸의 기능에 대한 효과 표현을 지우세요.",
+    "건강기능식품의 기능성 원료를 넣었다면 ‘기능성 표시 일반식품’으로 표시할 수 있는지 식약처 고시를 확인하세요. 이때도 정해진 조건과 표시 방법을 따라야 해요."
+   ]
+  },
+  "F4": {
+   "name": "몸에 효과가 있다는 과장 표현",
+   "why": "객관적 근거 없이 몸에 효과가 있다고 하면 거짓·과장 광고예요.",
+   "alt": "(맛·재료·먹는 방법 위주로)",
+   "term": "신체 기능에 관한 거짓·과장 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제4호",
+   "pen": "f4",
+   "checks": [
+    "객관적 근거가 없으면 효과 표현을 지우거나 맛·재료·먹는 방법 위주로 바꾸세요."
+   ]
+  },
+  "F5": {
+   "name": "후기로 효과를 보여줌",
+   "why": "후기나 체험기로 효과를 보여주면 소비자를 속이는 광고예요.",
+   "alt": "(효과 이야기는 빼고 맛·포장·배송 이야기만 남기기)",
+   "term": "체험기 이용 소비자 기만 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제5호",
+   "pen": "f5",
+   "checks": [
+    "효과를 보여주는 후기·체험기는 지우세요.",
+    "맛·포장·배송에 대한 후기는 써도 돼요."
+   ]
+  },
+  "F6": {
+   "name": "의사·약사가 보증하는 것처럼 보임",
+   "why": "의사·약사 등이 추천하는 것처럼 보이면 소비자를 속이는 광고예요.",
+   "alt": "(전문가 언급을 빼고 제품 특징만 설명)",
+   "term": "의·약 전문가 추천·보증 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제5호",
+   "pen": "f4",
+   "checks": [
+    "추천·보증하는 것처럼 보이는 표현은 지우세요.",
+    "제품 연구·개발에 참여한 사실만 밝히는 것은 예외로 허용돼요."
+   ]
+  },
+  "F7": {
+   "name": "근거 없는 ‘최고·1위’",
+   "why": "‘최고·1위’는 근거가 없으면 거짓·과장, 다른 제품과 비교하면 부당 비교가 될 수 있어요.",
+   "alt": "(출처를 함께 적기 / 아니면 빼기)",
+   "term": "절대적 표현·부당 비교 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제4호 또는 제7호",
+   "pen": "f4",
+   "checks": [
+    "쓰려면 조사 기관, 기간, 기준을 함께 적으세요.",
+    "근거가 없으면 지우세요."
+   ]
+  },
+  "HF": {
+   "name": "인정받은 문구인지 확인",
+   "why": "건강기능식품은 식약처가 인정한 기능성만, 인정 문구 그대로 써야 해요.",
+   "alt": "○○에 도움을 줄 수 있음 (인정 문구 그대로)",
+   "term": "인정되지 않은 기능성 표시 / 심의 결과와 다른 광고",
+   "law": "식품표시광고법 제8조 제1항 제4호·제10호, 제10조",
+   "pen": "f4",
+   "checks": [
+    "이 제품의 원료가 이 기능성을 식약처에서 인정받았는지 확인하세요. 식품안전나라에서 원료별 인정 내용을 볼 수 있어요.",
+    "인정 문구를 바꾸지 말고 그대로 쓰세요. (예: ‘~에 도움을 줄 수 있음’)",
+    "광고 전에 한국건강기능식품협회 표시·광고 심의를 받았는지, 심의받은 내용과 같은지 확인하세요."
+   ]
+  },
+  "FP": {
+   "name": "증명 자료가 필요한 표현",
+   "why": "숫자·기간으로 효과를 말하려면 객관적 근거가 있어야 해요.",
+   "alt": "(근거 자료가 있을 때만, 조건과 함께)",
+   "term": "객관적으로 확인되지 않은 효능 표시·광고",
+   "law": "식품표시광고법 제8조 제1항 제4호",
+   "pen": "fP",
+   "checks": [
+    "숫자·기간으로 말하는 효과에 객관적 근거 자료가 있는지 확인하세요. 없으면 지우세요."
+   ]
+  }
+ },
  "rules": [
   {
    "id": "R01",
@@ -46,6 +275,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C1",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -65,6 +296,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제1호",
    "penalty_cos": "cA",
    "penalty_food": "f1",
+   "category_cos": "C1",
+   "category_food": "F1",
    "applies_to": [
     "cos",
     "fcos",
@@ -86,6 +319,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C1",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -105,6 +340,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제1호",
    "penalty_cos": "cA",
    "penalty_food": "f1",
+   "category_cos": "C1",
+   "category_food": "F1",
    "applies_to": [
     "cos",
     "fcos",
@@ -126,6 +363,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제1호",
    "penalty_cos": "cA",
    "penalty_food": "f1",
+   "category_cos": "C1",
+   "category_food": "F1",
    "applies_to": [
     "cos",
     "fcos",
@@ -147,6 +386,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C1",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -166,6 +407,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C1",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -185,6 +428,8 @@
    "law_food": null,
    "penalty_cos": "cAB",
    "penalty_food": null,
+   "category_cos": "C4",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -204,6 +449,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C1",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -223,6 +470,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제3호 또는 제4호",
    "penalty_cos": "cAB",
    "penalty_food": "f34",
+   "category_cos": "C4",
+   "category_food": "F3",
    "applies_to": [
     "cos",
     "fcos",
@@ -244,6 +493,8 @@
    "law_food": null,
    "penalty_cos": "cB",
    "penalty_food": null,
+   "category_cos": "C4",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -263,6 +514,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C2",
+   "category_food": null,
    "applies_to": [
     "cos"
    ],
@@ -281,6 +534,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호",
    "penalty_cos": "cB",
    "penalty_food": "f4",
+   "category_cos": "C4",
+   "category_food": "F4",
    "applies_to": [
     "cos",
     "fcos",
@@ -302,6 +557,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제5호 (연구·개발 참여 사실만 밝히는 것은 예외)",
    "penalty_cos": "cB",
    "penalty_food": "f4",
+   "category_cos": "C3",
+   "category_food": "F6",
    "applies_to": [
     "cos",
     "fcos",
@@ -323,6 +580,8 @@
    "law_food": null,
    "penalty_cos": "cB",
    "penalty_food": null,
+   "category_cos": "C4",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -342,6 +601,8 @@
    "law_food": null,
    "penalty_cos": "cB",
    "penalty_food": null,
+   "category_cos": "C4",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -361,6 +622,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호",
    "penalty_cos": "cB",
    "penalty_food": "f4",
+   "category_cos": "C4",
+   "category_food": "F4",
    "applies_to": [
     "cos",
     "fcos",
@@ -382,6 +645,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호 또는 제7호",
    "penalty_cos": "cB",
    "penalty_food": "f4",
+   "category_cos": "C5",
+   "category_food": "F7",
    "applies_to": [
     "cos",
     "fcos",
@@ -403,6 +668,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호",
    "penalty_cos": "cB",
    "penalty_food": "f4",
+   "category_cos": "C7",
+   "category_food": "F4",
    "applies_to": [
     "cos",
     "fcos",
@@ -424,6 +691,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호",
    "penalty_cos": "cP",
    "penalty_food": "fP",
+   "category_cos": "CP",
+   "category_food": "FP",
    "applies_to": [
     "cos",
     "fcos",
@@ -445,6 +714,8 @@
    "law_food": null,
    "penalty_cos": "cP",
    "penalty_food": null,
+   "category_cos": "CP",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -464,6 +735,8 @@
    "law_food": null,
    "penalty_cos": "cP",
    "penalty_food": null,
+   "category_cos": "CP",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -483,6 +756,8 @@
    "law_food": null,
    "penalty_cos": "cX",
    "penalty_food": null,
+   "category_cos": "CX",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -502,6 +777,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C1",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -521,6 +798,8 @@
    "law_food": null,
    "penalty_cos": "cB",
    "penalty_food": null,
+   "category_cos": "C4",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -540,6 +819,8 @@
    "law_food": null,
    "penalty_cos": "cA",
    "penalty_food": null,
+   "category_cos": "C2",
+   "category_food": null,
    "applies_to": [
     "cos"
    ],
@@ -558,6 +839,8 @@
    "law_food": null,
    "penalty_cos": "cP",
    "penalty_food": null,
+   "category_cos": "CB",
+   "category_food": null,
    "applies_to": [
     "cos",
     "fcos"
@@ -577,6 +860,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제1호",
    "penalty_cos": null,
    "penalty_food": "f1",
+   "category_cos": null,
+   "category_food": "F1",
    "applies_to": [
     "food",
     "hfood"
@@ -596,6 +881,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제1호 또는 제3호",
    "penalty_cos": null,
    "penalty_food": "f1",
+   "category_cos": null,
+   "category_food": "F1",
    "applies_to": [
     "food"
    ],
@@ -614,6 +901,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제2호",
    "penalty_cos": null,
    "penalty_food": "f2",
+   "category_cos": null,
+   "category_food": "F2",
    "applies_to": [
     "food",
     "hfood"
@@ -633,6 +922,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제3호",
    "penalty_cos": null,
    "penalty_food": "f3",
+   "category_cos": null,
+   "category_food": "F3",
    "applies_to": [
     "food"
    ],
@@ -651,6 +942,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호·제10호",
    "penalty_cos": null,
    "penalty_food": "f4",
+   "category_cos": null,
+   "category_food": "HF",
    "applies_to": [
     "hfood"
    ],
@@ -663,12 +956,14 @@
    "grade": "amber",
    "label": "후기로 효과를 보여줌",
    "why": "후기나 체험기로 효과를 보여주면 소비자를 속이는 광고예요. 맛·포장·배송 후기는 괜찮아요.",
-   "alt": "(맛·포장·배송 후기만 사용)",
+   "alt": "(효과 이야기는 빼고 맛·포장·배송 이야기만 남기기)",
    "term": "체험기 이용 소비자 기만 표시·광고",
    "law_cos": null,
    "law_food": "식품표시광고법 제8조 제1항 제5호",
    "penalty_cos": null,
    "penalty_food": "f5",
+   "category_cos": null,
+   "category_food": "F5",
    "applies_to": [
     "food",
     "hfood"
@@ -688,6 +983,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제5호",
    "penalty_cos": null,
    "penalty_food": "f4",
+   "category_cos": null,
+   "category_food": "F4",
    "applies_to": [
     "food",
     "hfood"
@@ -707,6 +1004,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제2호 또는 제3호",
    "penalty_cos": null,
    "penalty_food": "f3",
+   "category_cos": null,
+   "category_food": "F3",
    "applies_to": [
     "food",
     "hfood"
@@ -726,6 +1025,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호",
    "penalty_cos": null,
    "penalty_food": "f4",
+   "category_cos": null,
+   "category_food": "F4",
    "applies_to": [
     "food"
    ],
@@ -744,6 +1045,8 @@
    "law_food": "식품표시광고법 제8조 제1항 제4호",
    "penalty_cos": null,
    "penalty_food": "f4",
+   "category_cos": null,
+   "category_food": "F4",
    "applies_to": [
     "food",
     "hfood"
