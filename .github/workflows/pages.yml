@@ -1,10 +1,11 @@
 name: pages
 
-# web/ 폴더(브라우저용 문구레이더)를 GitHub Pages로 배포한다.
+# 서비스 주소는 https://moonguradar.vercel.app (Vercel이 web/ 폴더를 배포).
+# GitHub Pages(옛 주소)는 새 주소로 넘겨주는 안내 페이지만 배포한다.
 on:
   push:
     branches: [main]
-    paths: ["web/**", "rules/**", ".github/workflows/pages.yml"]
+    paths: [".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -32,8 +33,19 @@ jobs:
           node tools/export_rules.js
           git diff --exit-code web/rules.json rules/rules.json
       - uses: actions/configure-pages@v5
+      - name: 새 주소로 넘기는 페이지 만들기
+        run: |
+          mkdir -p _site
+          cat > _site/index.html <<'HTML'
+          <!doctype html><meta charset="utf-8"><title>문구레이더</title>
+          <meta http-equiv="refresh" content="0; url=https://moonguradar.vercel.app/">
+          <link rel="canonical" href="https://moonguradar.vercel.app/">
+          <script>location.replace("https://moonguradar.vercel.app/" + location.hash)</script>
+          <p>문구레이더가 <a href="https://moonguradar.vercel.app/">moonguradar.vercel.app</a>으로 옮겼어요.</p>
+          HTML
+          cp _site/index.html _site/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: web
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
