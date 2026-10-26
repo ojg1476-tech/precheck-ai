@@ -1,0 +1,26 @@
+id,date,domain,theme,media,source_type,checked,total,질병예방치료,의약품오인,건기식오인,거짓과장,체험기기만,심의위반,기능성오인,소비자오인,기타,note,source_url
+I01,2021-10-23,식품,누리소통망 체험기 이용 부당광고,SNS,언론(보도자료 인용),890,389,262,1,87,19,,,,,20,기타=원재료 효능 오인 20,https://medicalworldnews.co.kr/m/view.php?idx=1510945664
+I02,2023-04-21,화장품,인플루언서 SNS 특별단속,SNS,언론,,54,,41,,,,,,13,,소비자오인=시술 관련 표현 13. 인플루언서 40명 중 17명 계정,https://www.pharmnews.com/news/articleView.html?idxno=222306
+I03,2023-04-21,식품,인플루언서 SNS 특별단속,SNS,언론,,178,67,,64,,,,,,,나머지 47건은 기사에 유형 미기재. 인플루언서 44명 중 37명 계정,https://www.pharmnews.com/news/articleView.html?idxno=222306
+I04,2023-05-30,식품,침출차 등 온라인 점검,온라인,언론,,185,49,20,103,9,4,,,,,,https://www.sedaily.com/article/13684717
+I05,2023-07-26,식품,여름철 허위·과대광고,온라인 쇼핑몰·SNS,정책뉴스,,177,57,5,85,20,4,6,,,,,https://www.korea.kr/news/policyNewsView.do?newsId=148918165
+I06,2023-07-26,화장품,여름철 허위·과대광고,온라인 쇼핑몰·SNS,정책뉴스,,55,,46,,,,,1,8,,,https://www.korea.kr/news/policyNewsView.do?newsId=148918165
+I07,2023-10-19,식품,키 성장 등 집중 점검,온라인 쇼핑몰·SNS,정책뉴스,,300,17,5,227,42,7,2,,,,,https://www.korea.kr/news/policyNewsView.do?newsId=148921580
+I08,2023-11-09,식품,수능 수험생 대상,온라인,정책뉴스,,182,,,,,,,,,,유형별 건수 미기재,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+I09,2024-05-03,건강기능식품,건강기능식품 온라인,온라인 쇼핑몰,언론,,89,83,,,2,2,2,,,,거짓과장=인정되지 않은 기능성 표방,https://kormedi.com/1686264/
+I10,2024-06-03,식품,온라인 쇼핑몰 점검,온라인 쇼핑몰,언론,,232,67,12,134,9,10,,,,,,https://kormedi.com/1694359/
+I11,2024-12-24,화장품,온라인 판매 게시물,온라인,언론,200,124,,,,,,,,,,유형별 건수 미기재 (지방 분해·셀룰라이트·스테로이드 성분 없음 등),https://kormedi.com/1746920/
+I12,2025-04-21,화장품,숏폼 광고,숏폼(쇼츠·릴스),언론,100,73,,44,,,,,3,26,,,https://www.cncnews.co.kr/mobile/article.html?no=10034
+I13,2025-05-02,건강기능식품,건강기능식품 온라인,온라인 쇼핑몰,언론,,104,78,2,19,3,2,,,,,거짓과장=인정되지 않은 기능성,https://www.newspim.com/news/view/20250502000739
+I14,2025-05-26,화장품,병원·의사 추천 등,온라인,언론,,237,,114,,,,,32,91,,,https://www.sisaweek.com/news/articleView.html?idxno=225665
+I15,2025-06-09,식품,상습 위반업체 합동점검,온라인 쇼핑몰·SNS,언론,,236,74,8,97,33,23,1,,,,식품·건강기능식품 합산,https://www.kpanews.co.kr/news/articleView.html?idxno=260179
+I16,2025-06-20,화장품,염모제·탈색제(눈썹),온라인,정책뉴스,,66,,,,,,,66,,,기능성화장품 심사 내용과 다른 광고(눈썹 사용),https://www.korea.kr/news/policyNewsView.do?newsId=148944742
+I17,2025-08-02,식품,휴가철,온라인,언론,,175,20,,71,60,24,,,,,,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+I18,2025-08-02,화장품,휴가철,온라인,언론,,74,,58,,,,,15,1,,소비자오인=피부과전용(전문가 추천),https://www.medipharmhealth.co.kr/news/article.html?no=109618
+I19,2025-10-03,화장품,의료기기·의약외품·화장품,온라인,언론,,52,,32,,,,,15,5,,,https://medicalworldnews.co.kr/m/view.php?idx=1510970424
+I20,2025-12-19,식품,소비자와 함께 점검,온라인,보도자료,,280,,,,,,,,,,유형별 건수 미기재,https://www.korea.kr/briefing/pressReleaseView.do?newsId=156735878
+I21,2025-12-22,화장품,탈모 치료 효과 표방,온라인,언론,,77,,77,,,,,,,,탈모 예방·발모 등 의약품 효능 표방,https://www.newsis.com/view/NISX20251222_0003449963
+I22,2026-02-10,화장품,설 명절 선물용,온라인,언론,,35,,,,,,,,,,"유형 비율만 공개: 의약품 오인 71%, 기능성 오인 26%, 소비자 오인 3%",https://www.cosinkorea.com/news/article.html?no=56807
+I23,2026-06-05,식품,환절기,온라인,언론,,165,123,,38,3,1,,,,,,https://biz.sbs.co.kr/amp/article/20000314622
+I24,2026-06-15,식품,상습 위반업체 합동점검,온라인 쇼핑몰,언론,,225,84,10,104,8,19,,,,,식품·건강기능식품 합산,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+I25,2026-07-24,화장품,협회 합동점검 3주,온라인,언론,,178,,142,,,,,15,21,,,https://www.etoday.co.kr/news/view/2606966

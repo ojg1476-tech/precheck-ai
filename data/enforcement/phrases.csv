@@ -1,0 +1,109 @@
+text,product_type,category,year,month,set,source_url
+미백·주름 개선 기능성,cos,기능성 오인,2026,2,eval_set,https://www.cosinkorea.com/news/article.html?no=56807
+피부 내 침투,cos,범위 일탈·사실 오인,2026,2,eval_set,https://www.cosinkorea.com/news/article.html?no=56807
+줄기세포 함유,cos,범위 일탈·사실 오인,2026,2,eval_set,https://www.cosinkorea.com/news/article.html?no=56807
+염증완화,cos,의약품 오인,,,eval_set,https://medifonews.com/news/article.html?no=207910
+피부재생,cos,의약품 오인,,,eval_set,https://medifonews.com/news/article.html?no=207910
+염증 억제,cos,의약품 오인,,,eval_set,https://medifonews.com/news/article.html?no=207910
+여드름 개선,cos,의약품 오인,,,eval_set,https://medifonews.com/news/article.html?no=207910
+피부 깊숙이 침투,cos,시술 오인(MTS),,,eval_set,https://medifonews.com/news/article.html?no=207910
+흡수율 극대화,cos,시술 오인(MTS),,,eval_set,https://medifonews.com/news/article.html?no=207910
+피부 속 주입,cos,시술 오인(MTS),,,eval_set,https://medifonews.com/news/article.html?no=207910
+지방 분해,cos,의약품 오인,2024,12,eval_set,https://kormedi.com/1746920/
+셀룰라이트 제거,cos,의약품 오인,2024,12,eval_set,https://kormedi.com/1746920/
+체지방 감소,cos,의약품 오인,2024,12,eval_set,https://kormedi.com/1746920/
+체중감량,cos,의약품 오인,2024,12,eval_set,https://kormedi.com/1746920/
+스테로이드 성분 없음,cos,배합금지 원료 미사용 강조,2024,12,eval_set,https://kormedi.com/1746920/
+항염,cos,의약품 오인,2025,8,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+피부과전용화장품,cos,전문가 추천 오인,2025,8,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+감기예방,food,질병 예방·치료,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+두드러기·건선·아토피 등 관리,food,질병 예방·치료,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+면역력 피로 개선,food,건강기능식품 오인,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+혈당관리,food,건강기능식품 오인,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+코막힘 감기,food,거짓·과장,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+목에 좋은 차,food,거짓·과장,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+비염 완화,food,질병 예방·치료,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+면역력 증진,food,건강기능식품 오인,2026,6,eval_set,https://biz.sbs.co.kr/amp/article/20000314622
+천연 위고비·마운자로 레시피,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+먹는 위고비,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+디톡스,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+저속노화,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+항산화,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+항염,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+식욕억제,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+지방흡수 차단,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+체지방 배출,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+단기간 급속 감량,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+지방이 배출된다,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+먹어도 살이 찌지 않는 체질,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+식욕억제제,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+지방배출제,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+단기간 체중감량,food,의약품·건기식 오인,2026,7,eval_set,https://dailypharm.com/user/news/340769
+영양제,food,건강기능식품 오인,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+면역력 강화,food,건강기능식품 오인,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+변비,food,질병 예방·치료,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+역류성식도염,food,질병 예방·치료,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+다이어트약,food,의약품 오인,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+간장약,food,의약품 오인,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+피부탄력,food,거짓·과장,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+붓기 관리,food,거짓·과장,2026,5,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=117055
+다이어트,food,건강기능식품 오인,,,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+붓기제거,food,거짓·과장,,,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+먹는 자외선차단제,food,거짓·과장,,,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+피부가 좋아졌습니다,food,체험기 기만,,,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+암예방,food,질병 예방·치료,,,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+항염증에 도움,food,질병 예방·치료,,,eval_set,https://www.medipharmhealth.co.kr/news/article.html?no=109618
+아토피 관리,food,질병 예방·치료,2026,6,eval_set,https://medicaldaily.co.kr/news/19591
+코로나19로 기침·가래에 고생했는데 처방받은 약보다 더 많은 도움을 준 고마운 제품,food,체험기 기만,2024,6,eval_set,https://kormedi.com/1694359/
+염증 제거,hfood,질병 예방·치료,2024,5,eval_set,https://kormedi.com/1686264/
+감기 예방,hfood,질병 예방·치료,2024,5,eval_set,https://kormedi.com/1686264/
+질염 예방,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+가려움 완화,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+질건조증 개선,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+관절염 치료,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+염증·근육 이완,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+피로 회복,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+통증 완화,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+여드름 치료,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+소염 효과,cos,의약품 오인,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+산부인과 전문의 개발,cos,전문가 추천 오인,2026,7,test2,https://www.k-health.com/news/articleView.html?idxno=100282
+바르는 질 유산균,cos,범위 일탈,2026,7,test2,https://www.k-health.com/news/articleView.html?idxno=100282
+여드름 예방,fcos,심사 효능과 다른 광고,2026,7,test2,https://www.etoday.co.kr/news/view/2606966
+체지방 감소,food,건강기능식품 오인,2025,6,test2,https://www.sedaily.com/article/14077089
+변비개선도움,food,질병 예방·치료,2025,6,test2,https://www.sedaily.com/article/14077089
+긴장완화,food,거짓·과장,2025,6,test2,https://www.sedaily.com/article/14077089
+붓기차,food,거짓·과장,2025,6,test2,https://www.sedaily.com/article/14077089
+알부민 효능·효과,food,원재료 효능 오인,2025,6,test2,https://www.sedaily.com/article/14077089
+비염한약비염,food,의약품 오인,2025,6,test2,https://www.sedaily.com/article/14077089
+한약,food,의약품 오인,2025,6,test2,https://www.sedaily.com/article/14077089
+제품을 먹고 키가 컸다,food,체험기 기만,2025,6,test2,https://www.sedaily.com/article/14077089
+감기차,food,질병 예방·치료,2023,5,test2,https://www.sedaily.com/article/13684717
+피로회복제,food,의약품 오인,2023,5,test2,https://www.sedaily.com/article/13684717
+철분약,food,의약품 오인,2023,5,test2,https://www.sedaily.com/article/13684717
+눈에 좋은,food,거짓·과장,2023,5,test2,https://www.sedaily.com/article/13684717
+마신 날은 좀 덜 피로한 것 같아요,food,체험기 기만,2023,5,test2,https://www.sedaily.com/article/13684717
+골다공증 예방,hfood,질병 예방·치료,2025,5,test2,https://www.newspim.com/news/view/20250502000739
+기관지 보호,hfood,인정되지 않은 기능성,2025,5,test2,https://www.newspim.com/news/view/20250502000739
+수험생 영양제,food,의약품 오인,2023,11,new,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+기억력 개선,food,건강기능식품 오인,2023,11,new,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+집중력 강화,food,건강기능식품 오인,2023,11,new,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+뇌 영양제,food,의약품 오인,2023,11,new,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+집중력 영양제,food,의약품 오인,2023,11,new,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+기억력 개선 영양제,food,건강기능식품 오인,2023,11,new,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+두뇌 건강,food,건강기능식품 오인,2023,11,new,https://www.korea.kr/news/policyNewsView.do?newsId=148922430
+키 성장,food,건강기능식품 오인,2023,10,new,https://www.korea.kr/news/policyNewsView.do?newsId=148921580
+전 피로에 더 좋았어요,food,체험기 기만,2023,10,new,https://www.korea.kr/news/policyNewsView.do?newsId=148921580
+관절약,hfood,의약품 오인,2023,10,new,https://www.korea.kr/news/policyNewsView.do?newsId=148921580
+00의사 추천,cos,소비자 오인,2025,5,new,https://www.sisaweek.com/news/articleView.html?idxno=225665
+병원 전용 화장품,cos,소비자 오인,2025,5,new,https://www.sisaweek.com/news/articleView.html?idxno=225665
+병원추천,cos,소비자 오인,2025,5,new,https://www.sisaweek.com/news/articleView.html?idxno=225665
+피부 염증 감소,cos,의약품 오인,2025,5,new,https://www.sisaweek.com/news/articleView.html?idxno=225665
+주름개선,cos,기능성 오인,2025,5,new,https://www.sisaweek.com/news/articleView.html?idxno=225665
+세포재생,cos,의약품 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034
+지방세포 증식,cos,의약품 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034
+모발성장촉진,cos,의약품 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034
+인체줄기세포화장품,cos,소비자 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034
+바르는 필러크림,cos,소비자 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034
+11살은 어려집니다,cos,소비자 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034
+탈모방지,cos,의약품 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034
+보톡스 시술 효과,cos,소비자 오인,2025,4,new,https://www.cncnews.co.kr/mobile/article.html?no=10034

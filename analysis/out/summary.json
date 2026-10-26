@@ -1,0 +1,749 @@
+{
+ "trend": {
+  "식품": [
+   {
+    "year": 2021,
+    "months": 12,
+    "violations": 11265,
+    "annualized": 11265,
+    "partial": false
+   },
+   {
+    "year": 2022,
+    "months": 12,
+    "violations": 8813,
+    "annualized": 8813,
+    "partial": false,
+    "yoy_pct": -21.8
+   },
+   {
+    "year": 2023,
+    "months": 12,
+    "violations": 8981,
+    "annualized": 8981,
+    "partial": false,
+    "yoy_pct": 1.9
+   },
+   {
+    "year": 2024,
+    "months": 12,
+    "violations": 10033,
+    "annualized": 10033,
+    "partial": false,
+    "yoy_pct": 11.7
+   },
+   {
+    "year": 2025,
+    "months": 12,
+    "violations": 14254,
+    "annualized": 14254,
+    "partial": false,
+    "yoy_pct": 42.1
+   },
+   {
+    "year": 2026,
+    "months": 8,
+    "violations": 8792,
+    "annualized": 13188,
+    "partial": true,
+    "yoy_pct": -7.5
+   }
+  ],
+  "화장품": [
+   {
+    "year": 2021,
+    "months": 12,
+    "violations": 1913,
+    "annualized": 1913,
+    "partial": false
+   },
+   {
+    "year": 2022,
+    "months": 12,
+    "violations": 2453,
+    "annualized": 2453,
+    "partial": false,
+    "yoy_pct": 28.2
+   },
+   {
+    "year": 2023,
+    "months": 12,
+    "violations": 3090,
+    "annualized": 3090,
+    "partial": false,
+    "yoy_pct": 26.0
+   },
+   {
+    "year": 2024,
+    "months": 12,
+    "violations": 2680,
+    "annualized": 2680,
+    "partial": false,
+    "yoy_pct": -13.3
+   },
+   {
+    "year": 2025,
+    "months": 9,
+    "violations": 2481,
+    "annualized": 3308,
+    "partial": true,
+    "yoy_pct": 23.4
+   }
+  ],
+  "건강기능식품": [
+   {
+    "year": 2023,
+    "months": 12,
+    "violations": 4902,
+    "annualized": 4902,
+    "partial": false
+   },
+   {
+    "year": 2025,
+    "months": 12,
+    "violations": 2045,
+    "annualized": 2045,
+    "partial": false,
+    "yoy_pct": -58.3
+   },
+   {
+    "year": 2026,
+    "months": 8,
+    "violations": 1203,
+    "annualized": 1804,
+    "partial": true,
+    "yoy_pct": -11.8
+   }
+  ]
+ },
+ "food_types": {
+  "2025": {
+   "건기식오인": {
+    "n": 7244,
+    "pct": 50.8
+   },
+   "질병예방치료": {
+    "n": 3609,
+    "pct": 25.3
+   },
+   "소비자기만": {
+    "n": 2197,
+    "pct": 15.4
+   },
+   "거짓과장": {
+    "n": 735,
+    "pct": 5.2
+   },
+   "의약품오인": {
+    "n": 462,
+    "pct": 3.2
+   }
+  },
+  "2026.1-8": {
+   "건기식오인": {
+    "n": 4249,
+    "pct": 48.3
+   },
+   "질병예방치료": {
+    "n": 2268,
+    "pct": 25.8
+   },
+   "소비자기만": {
+    "n": 1462,
+    "pct": 16.6
+   }
+  }
+ },
+ "type_mix": [
+  {
+   "group": "식품·건기식",
+   "year": "2021",
+   "total": 389,
+   "share": {
+    "질병예방치료": 67.4,
+    "의약품오인": 0.3,
+    "건기식오인": 22.4,
+    "거짓과장": 4.9,
+    "기타": 5.1
+   }
+  },
+  {
+   "group": "식품·건기식",
+   "year": "2023",
+   "total": 662,
+   "share": {
+    "질병예방치료": 18.6,
+    "의약품오인": 4.5,
+    "건기식오인": 62.7,
+    "거짓과장": 10.7,
+    "체험기기만": 2.3,
+    "심의위반": 1.2
+   }
+  },
+  {
+   "group": "식품·건기식",
+   "year": "2024",
+   "total": 321,
+   "share": {
+    "질병예방치료": 46.7,
+    "의약품오인": 3.7,
+    "건기식오인": 41.7,
+    "거짓과장": 3.4,
+    "체험기기만": 3.7,
+    "심의위반": 0.6
+   }
+  },
+  {
+   "group": "식품·건기식",
+   "year": "2025",
+   "total": 515,
+   "share": {
+    "질병예방치료": 33.4,
+    "의약품오인": 1.9,
+    "건기식오인": 36.3,
+    "거짓과장": 18.6,
+    "체험기기만": 9.5,
+    "심의위반": 0.2
+   }
+  },
+  {
+   "group": "식품·건기식",
+   "year": "2026",
+   "total": 390,
+   "share": {
+    "질병예방치료": 53.1,
+    "의약품오인": 2.6,
+    "건기식오인": 36.4,
+    "거짓과장": 2.8,
+    "체험기기만": 5.1
+   }
+  },
+  {
+   "group": "화장품",
+   "year": "2023",
+   "total": 109,
+   "share": {
+    "의약품오인": 79.8,
+    "기능성오인": 0.9,
+    "소비자오인": 19.3
+   }
+  },
+  {
+   "group": "화장품",
+   "year": "2025",
+   "total": 579,
+   "share": {
+    "의약품오인": 56.1,
+    "기능성오인": 22.6,
+    "소비자오인": 21.2
+   }
+  },
+  {
+   "group": "화장품",
+   "year": "2026",
+   "total": 178,
+   "share": {
+    "의약품오인": 79.8,
+    "기능성오인": 8.4,
+    "소비자오인": 11.8
+   }
+  }
+ ],
+ "type_mix_used": [
+  "I01",
+  "I02",
+  "I04",
+  "I05",
+  "I06",
+  "I07",
+  "I09",
+  "I10",
+  "I12",
+  "I13",
+  "I14",
+  "I15",
+  "I16",
+  "I17",
+  "I18",
+  "I19",
+  "I21",
+  "I23",
+  "I24",
+  "I25"
+ ],
+ "inspections": [
+  {
+   "id": "I01",
+   "date": "2021-10-23",
+   "season": "가을",
+   "domain": "식품",
+   "theme": "누리소통망 체험기 이용 부당광고",
+   "media": "SNS",
+   "total": 389,
+   "checked": 890,
+   "hit_rate": 43.7
+  },
+  {
+   "id": "I02",
+   "date": "2023-04-21",
+   "season": "봄",
+   "domain": "화장품",
+   "theme": "인플루언서 SNS 특별단속",
+   "media": "SNS",
+   "total": 54,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I03",
+   "date": "2023-04-21",
+   "season": "봄",
+   "domain": "식품",
+   "theme": "인플루언서 SNS 특별단속",
+   "media": "SNS",
+   "total": 178,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I04",
+   "date": "2023-05-30",
+   "season": "봄",
+   "domain": "식품",
+   "theme": "침출차 등 온라인 점검",
+   "media": "온라인",
+   "total": 185,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I05",
+   "date": "2023-07-26",
+   "season": "여름",
+   "domain": "식품",
+   "theme": "여름철 허위·과대광고",
+   "media": "온라인 쇼핑몰·SNS",
+   "total": 177,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I06",
+   "date": "2023-07-26",
+   "season": "여름",
+   "domain": "화장품",
+   "theme": "여름철 허위·과대광고",
+   "media": "온라인 쇼핑몰·SNS",
+   "total": 55,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I07",
+   "date": "2023-10-19",
+   "season": "가을",
+   "domain": "식품",
+   "theme": "키 성장 등 집중 점검",
+   "media": "온라인 쇼핑몰·SNS",
+   "total": 300,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I08",
+   "date": "2023-11-09",
+   "season": "가을",
+   "domain": "식품",
+   "theme": "수능 수험생 대상",
+   "media": "온라인",
+   "total": 182,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I09",
+   "date": "2024-05-03",
+   "season": "봄",
+   "domain": "건강기능식품",
+   "theme": "건강기능식품 온라인",
+   "media": "온라인 쇼핑몰",
+   "total": 89,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I10",
+   "date": "2024-06-03",
+   "season": "여름",
+   "domain": "식품",
+   "theme": "온라인 쇼핑몰 점검",
+   "media": "온라인 쇼핑몰",
+   "total": 232,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I11",
+   "date": "2024-12-24",
+   "season": "겨울",
+   "domain": "화장품",
+   "theme": "온라인 판매 게시물",
+   "media": "온라인",
+   "total": 124,
+   "checked": 200,
+   "hit_rate": 62.0
+  },
+  {
+   "id": "I12",
+   "date": "2025-04-21",
+   "season": "봄",
+   "domain": "화장품",
+   "theme": "숏폼 광고",
+   "media": "숏폼(쇼츠·릴스)",
+   "total": 73,
+   "checked": 100,
+   "hit_rate": 73.0
+  },
+  {
+   "id": "I13",
+   "date": "2025-05-02",
+   "season": "봄",
+   "domain": "건강기능식품",
+   "theme": "건강기능식품 온라인",
+   "media": "온라인 쇼핑몰",
+   "total": 104,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I14",
+   "date": "2025-05-26",
+   "season": "봄",
+   "domain": "화장품",
+   "theme": "병원·의사 추천 등",
+   "media": "온라인",
+   "total": 237,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I15",
+   "date": "2025-06-09",
+   "season": "여름",
+   "domain": "식품",
+   "theme": "상습 위반업체 합동점검",
+   "media": "온라인 쇼핑몰·SNS",
+   "total": 236,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I16",
+   "date": "2025-06-20",
+   "season": "여름",
+   "domain": "화장품",
+   "theme": "염모제·탈색제(눈썹)",
+   "media": "온라인",
+   "total": 66,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I17",
+   "date": "2025-08-02",
+   "season": "여름",
+   "domain": "식품",
+   "theme": "휴가철",
+   "media": "온라인",
+   "total": 175,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I18",
+   "date": "2025-08-02",
+   "season": "여름",
+   "domain": "화장품",
+   "theme": "휴가철",
+   "media": "온라인",
+   "total": 74,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I19",
+   "date": "2025-10-03",
+   "season": "가을",
+   "domain": "화장품",
+   "theme": "의료기기·의약외품·화장품",
+   "media": "온라인",
+   "total": 52,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I20",
+   "date": "2025-12-19",
+   "season": "겨울",
+   "domain": "식품",
+   "theme": "소비자와 함께 점검",
+   "media": "온라인",
+   "total": 280,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I21",
+   "date": "2025-12-22",
+   "season": "겨울",
+   "domain": "화장품",
+   "theme": "탈모 치료 효과 표방",
+   "media": "온라인",
+   "total": 77,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I22",
+   "date": "2026-02-10",
+   "season": "겨울",
+   "domain": "화장품",
+   "theme": "설 명절 선물용",
+   "media": "온라인",
+   "total": 35,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I23",
+   "date": "2026-06-05",
+   "season": "여름",
+   "domain": "식품",
+   "theme": "환절기",
+   "media": "온라인",
+   "total": 165,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I24",
+   "date": "2026-06-15",
+   "season": "여름",
+   "domain": "식품",
+   "theme": "상습 위반업체 합동점검",
+   "media": "온라인 쇼핑몰",
+   "total": 225,
+   "checked": null,
+   "hit_rate": null
+  },
+  {
+   "id": "I25",
+   "date": "2026-07-24",
+   "season": "여름",
+   "domain": "화장품",
+   "theme": "협회 합동점검 3주",
+   "media": "온라인",
+   "total": 178,
+   "checked": null,
+   "hit_rate": null
+  }
+ ],
+ "coverage": {
+  "hit": 97,
+  "n": 108,
+  "pct": 89.8,
+  "by_category": {
+   "거짓·과장": {
+    "hit": 7,
+    "n": 9,
+    "pct": 77.8
+   },
+   "건강기능식품 오인": {
+    "hit": 12,
+    "n": 12,
+    "pct": 100.0
+   },
+   "기능성 오인": {
+    "hit": 2,
+    "n": 2,
+    "pct": 100.0
+   },
+   "배합금지 원료 미사용 강조": {
+    "hit": 1,
+    "n": 1,
+    "pct": 100.0
+   },
+   "범위 일탈": {
+    "hit": 0,
+    "n": 1,
+    "pct": 0.0
+   },
+   "범위 일탈·사실 오인": {
+    "hit": 2,
+    "n": 2,
+    "pct": 100.0
+   },
+   "소비자 오인": {
+    "hit": 7,
+    "n": 7,
+    "pct": 100.0
+   },
+   "시술 오인(MTS)": {
+    "hit": 3,
+    "n": 3,
+    "pct": 100.0
+   },
+   "심사 효능과 다른 광고": {
+    "hit": 1,
+    "n": 1,
+    "pct": 100.0
+   },
+   "원재료 효능 오인": {
+    "hit": 0,
+    "n": 1,
+    "pct": 0.0
+   },
+   "의약품 오인": {
+    "hit": 30,
+    "n": 33,
+    "pct": 90.9
+   },
+   "의약품·건기식 오인": {
+    "hit": 15,
+    "n": 15,
+    "pct": 100.0
+   },
+   "인정되지 않은 기능성": {
+    "hit": 0,
+    "n": 1,
+    "pct": 0.0
+   },
+   "전문가 추천 오인": {
+    "hit": 2,
+    "n": 2,
+    "pct": 100.0
+   },
+   "질병 예방·치료": {
+    "hit": 12,
+    "n": 13,
+    "pct": 92.3
+   },
+   "체험기 기만": {
+    "hit": 3,
+    "n": 5,
+    "pct": 60.0
+   }
+  },
+  "by_year": {
+   "2023": {
+    "hit": 13,
+    "n": 15,
+    "pct": 86.7
+   },
+   "2024": {
+    "hit": 8,
+    "n": 8,
+    "pct": 100.0
+   },
+   "2025": {
+    "hit": 18,
+    "n": 25,
+    "pct": 72.0
+   },
+   "2026": {
+    "hit": 45,
+    "n": 47,
+    "pct": 95.7
+   },
+   "연도 미상": {
+    "hit": 13,
+    "n": 13,
+    "pct": 100.0
+   }
+  },
+  "new_phrases": {
+   "hit": 23,
+   "hit_before": 16,
+   "n": 23
+  },
+  "misses": [
+   {
+    "text": "질건조증 개선",
+    "product_type": "cos",
+    "category": "의약품 오인",
+    "year": "2026",
+    "set": "test2"
+   },
+   {
+    "text": "바르는 질 유산균",
+    "product_type": "cos",
+    "category": "범위 일탈",
+    "year": "2026",
+    "set": "test2"
+   },
+   {
+    "text": "긴장완화",
+    "product_type": "food",
+    "category": "거짓·과장",
+    "year": "2025",
+    "set": "test2"
+   },
+   {
+    "text": "붓기차",
+    "product_type": "food",
+    "category": "거짓·과장",
+    "year": "2025",
+    "set": "test2"
+   },
+   {
+    "text": "알부민 효능·효과",
+    "product_type": "food",
+    "category": "원재료 효능 오인",
+    "year": "2025",
+    "set": "test2"
+   },
+   {
+    "text": "한약",
+    "product_type": "food",
+    "category": "의약품 오인",
+    "year": "2025",
+    "set": "test2"
+   },
+   {
+    "text": "제품을 먹고 키가 컸다",
+    "product_type": "food",
+    "category": "체험기 기만",
+    "year": "2025",
+    "set": "test2"
+   },
+   {
+    "text": "철분약",
+    "product_type": "food",
+    "category": "의약품 오인",
+    "year": "2023",
+    "set": "test2"
+   },
+   {
+    "text": "마신 날은 좀 덜 피로한 것 같아요",
+    "product_type": "food",
+    "category": "체험기 기만",
+    "year": "2023",
+    "set": "test2"
+   },
+   {
+    "text": "골다공증 예방",
+    "product_type": "hfood",
+    "category": "질병 예방·치료",
+    "year": "2025",
+    "set": "test2"
+   },
+   {
+    "text": "기관지 보호",
+    "product_type": "hfood",
+    "category": "인정되지 않은 기능성",
+    "year": "2025",
+    "set": "test2"
+   }
+  ]
+ }
+}
