@@ -258,7 +258,6 @@
   async function init() {
     const data = await (await fetch("rules.json")).json();
     state.ck = new M.Checker(data);
-    $("#fact-rules").textContent = state.ck.rules.length;
     $("#foot-v").textContent = `기준 ${state.ck.version} · 규칙 ${state.ck.rules.length}개 · 검사와 이미지 읽기는 모두 이 브라우저 안에서만 이뤄지고, 올린 파일은 어디에도 보내지 않아요.`;
     proof();
 
