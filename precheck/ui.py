@@ -101,6 +101,15 @@ div[data-testid="stFileUploader"] section { border-radius: 14px; }
 .mr-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .mr-table .z { color: #c1c7d0; }
 .mr-table .memo { color: #868e96; font-size: 13px; min-width: 160px; }
+.mr-guide { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 2px; }
+@media (max-width: 860px) { .mr-guide { grid-template-columns: 1fr; } }
+.mr-col { background: #fff; border: 1px solid #e3e8fb; border-radius: 12px; padding: 9px 12px; }
+.mr-col .h { display: flex; align-items: center; gap: 6px; font-weight: 800; color: #1b2430; font-size: 14px; }
+.mr-col .h .req { font-size: 11px; font-weight: 700; color: #c92a2a; background: #fff5f5; border-radius: 6px; padding: 1px 6px; }
+.mr-col .s { font-size: 12.5px; color: #6b7280; margin-top: 3px; line-height: 1.5; }
+.mr-col code { background: #f1f3f9; color: #3b5bdb; border-radius: 5px; padding: 0 5px; font-size: 12px; }
+.mr-rules { font-size: 12.5px; color: #4a5160; margin: 6px 2px 0; }
+.mr-rules b { color: #2b8a3e; } .mr-rules em { font-style: normal; color: #c92a2a; font-weight: 700; }
 .mr-note { font-size: 12.5px; color: #868e96; line-height: 1.6; }
 </style>
 """
@@ -241,3 +250,15 @@ def rank_table(results, type_names: dict, height: int = 430) -> str:
             "<th class='num'>확인 필요</th><th class='num'>자료 챙기기</th><th>최대 처벌</th><th>메모</th></tr>")
     return (f'<div class="mr-table-wrap" style="--h:{height}px"><table class="mr-table"><thead>{head}</thead>'
             f'<tbody>{"".join(rows)}</tbody></table></div>')
+
+
+def upload_guide() -> str:
+    """파일을 어떻게 만들어야 하는지: 꼭 필요한 칸 3개와 지켜야 할 것."""
+    cols = [("상품명", "다른 이름도 돼요: <code>제품명</code> <code>상품</code>"),
+            ("제품종류", "<code>일반 화장품</code> <code>기능성 화장품</code> <code>일반 식품</code> <code>건강기능식품</code> 중 하나"),
+            ("상세문구", "상세페이지 글. 다른 이름도 돼요: <code>상세페이지</code> <code>내용</code> <code>본문</code>")]
+    boxes = "".join(f'<div class="mr-col"><div class="h">{n}<span class="req">필수</span></div><div class="s">{d}</div></div>'
+                    for n, d in cols)
+    return (f'<div class="mr-guide">{boxes}</div>'
+            '<div class="mr-rules"><em>칸 이름은 첫 줄에</em> 적어 주세요 · <b>다른 칸이 더 있어도, 순서가 달라도 괜찮아요</b> · '
+            '한 줄에 상품 하나</div>')

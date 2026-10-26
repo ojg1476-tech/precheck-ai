@@ -55,16 +55,15 @@ tab_batch, tab_one, tab_about = st.tabs(["📋 여러 상품 한 번에", "✏�
 with tab_batch:
     c_up, c_img = st.columns([3.2, 1], vertical_alignment="bottom")
     with c_up:
-        up = st.file_uploader("상품 목록 파일 (CSV · 엑셀) — 첫 줄: 상품명 · 제품종류 · 상세문구", type=["csv", "xlsx"],
+        up = st.file_uploader("상품 목록 파일 (CSV · 엑셀)", type=["csv", "xlsx"],
                               help="제품종류: 일반 화장품 · 기능성 화장품 · 일반 식품 · 건강기능식품")
-    c_hint, c_try, c_dl, _ = st.columns([0.9, 0.9, 1.1, 4], vertical_alignment="center", gap="small")
-    with c_hint:
-        st.caption("처음이세요?")
-    with c_try:
-        use_sample = st.button("예시로 해보기", type="tertiary")
+    html('<div class="mr-sub" style="margin-top:6px">이렇게 만든 파일이면 돼요</div>' + ui.upload_guide())
+    c_dl, c_try, _ = st.columns([1.1, 1.3, 5], vertical_alignment="center", gap="small")
     with c_dl:
-        st.download_button("입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
+        st.download_button("⬇️ 입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
                            mime="text/csv", type="tertiary")
+    with c_try:
+        use_sample = st.button("파일 없이 예시로 해보기", type="tertiary")
     with c_img:
         with st.popover("🖼️ 이미지로 검사", use_container_width=True):
             key = api_key()
@@ -118,7 +117,7 @@ with tab_batch:
             st.session_state["source"] = data_name
             st.session_state.pop("ocr_texts", None)
         except ValueError as e:
-            st.error(str(e))
+            st.error(f"파일을 읽지 못했어요. {e}")
 
     results = st.session_state.get("results")
     if not results:
