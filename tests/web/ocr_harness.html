@@ -1,0 +1,5 @@
+<!doctype html><meta charset="utf-8"><base href="../../web/"><script src="js/ocr.js"></script>
+<script>
+window.runOCR = async (url) => { const b = await (await fetch(url)).blob(); const t0 = performance.now();
+  const text = await MoonguOCR.readImages([b]); return { text, ms: performance.now() - t0 }; };
+</script>

@@ -11,4 +11,7 @@ const out={version:"2026-10-26",note:"모든 처분·근거는 법령 원문과 
   product_types:{cos:"일반 화장품",fcos:"기능성 화장품",food:"일반 식품",hfood:"건강기능식품"},
   grades:{red:"꼭 고치기",amber:"확인 필요",blue:"자료 챙기기"},penalties:PEN,sources:S,categories:CAT,rules};
 fs.writeFileSync(path.join(__dirname,"..","rules","rules.json"),JSON.stringify(out,null,1));
+// 웹 화면(web/)도 같은 규칙 파일과 예시 목록을 쓴다
+fs.writeFileSync(path.join(__dirname,"..","web","rules.json"),JSON.stringify(out));
+fs.copyFileSync(path.join(__dirname,"..","examples","sample_products.csv"),path.join(__dirname,"..","web","sample_products.csv"));
 console.log(rules.length+" rules, "+Object.keys(PEN).length+" penalty texts");

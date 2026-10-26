@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>문구레이더 | 상세페이지 광고 문구 점검</title>
+<meta name="description" content="화장품·식품·건강기능식품 상세페이지 광고 문구를 식약처 기준으로 점검해 위험한 상품부터 알려드려요.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F5B48'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-opacity='.45' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M16 16 L24 9' stroke='%23FF5A67' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preload" href="vendor/suit/SUIT-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="logo" href="#/" aria-label="문구레이더 처음으로">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--pine)"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 16 L24 9" stroke="#ff5a67" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>문구레이더</span>
+    </a>
+    <nav class="nav" aria-label="주 메뉴">
+      <a href="#/" data-route="batch">상품 점검</a>
+      <a href="#/text" data-route="text">문구 하나 검사</a>
+      <a href="#/about" data-route="about">기준과 성능</a>
+    </nav>
+    <a class="gh" href="https://github.com/ojg1476-tech/precheck-ai" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 상품 점검: 시작 화면 -->
+<section class="view" id="view-start" data-view="batch-start">
+  <div class="hero">
+    <div class="hero-copy">
+      <h1>상세페이지 광고 문구,<br>식약처에 걸리기 전에 찾아드려요</h1>
+      <p class="lead">화장품, 식품, 건강기능식품 상품 목록을 올리면 위반 소지가 있는 표현을 찾아 위험한 상품부터 보여주고, 고칠 문장과 처벌 수위를 엑셀로 정리해 드려요.</p>
+
+      <label class="drop" id="drop" tabindex="0">
+        <input type="file" id="file" accept=".csv,.xlsx,.png,.jpg,.jpeg,.webp" multiple hidden>
+        <svg class="drop-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M11 5h13l9 9v19a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M24 5v9h9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14 21h12M14 25h12M14 29h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".5"/></svg>
+        <span class="drop-t"><b>상품 목록 파일을 끌어다 놓거나 <u>선택</u>하세요</b>
+          <small>CSV · 엑셀 · 상세페이지 이미지(PNG, JPG)</small></span>
+      </label>
+      <p class="need">필수 칸: <b>상품명</b>, <b>제품종류</b>, <b>상세문구</b> <span>(칸 이름은 첫 줄에)</span></p>
+      <div class="start-links">
+        <a href="sample_products.csv" download="moonguradar_template.csv" class="link">입력 양식 받기</a>
+        <button type="button" class="link" id="try-sample">파일 없이 예시로 해보기</button>
+      </div>
+      <p class="err" id="start-err" role="alert" hidden></p>
+    </div>
+
+    <figure class="proof" aria-label="검수 예시">
+      <figcaption>일반 화장품 상세페이지를 검사하면</figcaption>
+      <p class="proof-copy" id="proof-copy"></p>
+      <ol class="proof-notes" id="proof-notes"></ol>
+      <div class="proof-foot">이 예시는 페이지가 열릴 때 실제 규칙으로 검사한 결과예요.</div>
+    </figure>
+  </div>
+
+  <ul class="facts">
+    <li><b id="fact-rules">37</b><span>개 규칙, 법령 원문과 대한화장품협회 해설서 기준</span></li>
+    <li><b>25</b><span>건 식약처 단속 발표를 분석해 자주 걸리는 표현 반영</span></li>
+    <li><b>0%</b><span>멀쩡한 문장을 잘못 잡은 비율 (시험 문장 48개)</span></li>
+  </ul>
+</section>
+
+<!-- 상품 점검: 이미지 종류 고르기 -->
+<section class="view" id="view-images" data-view="batch-images" hidden>
+  <div class="panel narrow">
+    <h2>상세페이지 이미지 <span id="img-count"></span></h2>
+    <p class="sub">이미지 속 글자를 이 브라우저 안에서 읽어요. 이미지는 어디에도 보내지 않아요. 한 파일이 한 상품이고, 파일 이름이 상품명이 돼요.</p>
+    <p class="seg-l" id="img-type-l">제품 종류</p>
+    <fieldset class="seg" id="img-type" aria-labelledby="img-type-l"></fieldset>
+    <ul class="img-list" id="img-list"></ul>
+    <div class="row-end">
+      <button type="button" class="btn ghost" id="img-cancel">취소</button>
+      <button type="button" class="btn" id="img-go">글자 읽고 검사하기</button>
+    </div>
+  </div>
+</section>
+
+<!-- 상품 점검: 결과 -->
+<section class="view" id="view-result" data-view="batch-result" hidden>
+  <div class="res-head">
+    <div>
+      <h2>점검 결과</h2>
+      <p class="sub" id="res-source"></p>
+    </div>
+    <div class="res-actions">
+      <button type="button" class="btn ghost" id="res-new">다른 파일 점검</button>
+      <button type="button" class="btn" id="res-xlsx">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>엑셀 리포트 받기</button>
+    </div>
+  </div>
+  <div class="tabs" role="tablist" id="res-tabs">
+    <button role="tab" aria-selected="true" data-tab="sum">요약</button>
+    <button role="tab" data-tab="rank">위험 순서</button>
+    <button role="tab" data-tab="detail">상품별 자세히</button>
+    <button role="tab" data-tab="ocr" hidden>읽어 낸 글</button>
+  </div>
+  <div class="tabpanels">
+    <div class="tp" data-panel="sum" id="tp-sum"></div>
+    <div class="tp" data-panel="rank" id="tp-rank" hidden></div>
+    <div class="tp split" data-panel="detail" id="tp-detail" hidden>
+      <ul class="plist" id="plist" role="listbox" aria-label="상품 목록"></ul>
+      <div class="pdetail" id="pdetail"></div>
+    </div>
+    <div class="tp" data-panel="ocr" id="tp-ocr" hidden></div>
+  </div>
+</section>
+
+<!-- 문구 하나 검사 -->
+<section class="view" id="view-text" data-view="text" hidden>
+  <div class="ed-head">
+    <div>
+      <h2>문구 하나 검사</h2>
+      <p class="sub">쓰는 동안 바로 표시해요. 빨간 물결은 꼭 고칠 표현, 주황은 확인할 표현, 파랑은 자료가 필요한 표현이에요.</p>
+    </div>
+    <fieldset class="seg" id="txt-type" aria-label="제품 종류"></fieldset>
+  </div>
+  <div class="editor-wrap">
+    <div class="editor">
+      <div class="ed-backdrop" aria-hidden="true"><div class="ed-hl" id="ed-hl"></div></div>
+      <textarea id="ed" spellcheck="false" aria-label="상세페이지 문구" placeholder="상세페이지 문구를 붙여 넣으세요.&#10;예: 피부 재생 크림! 7일 만에 주름 개선, 피부과 추천 1위"></textarea>
+      <div class="ed-count" id="ed-count"></div>
+    </div>
+    <aside class="ed-side" aria-live="polite">
+      <div class="ed-sum" id="ed-sum"></div>
+      <div class="ed-cards" id="ed-cards"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- 기준과 성능 -->
+<section class="view" id="view-about" data-view="about" hidden>
+  <div class="about">
+    <h2>어떻게 만들었고, 얼마나 정확한가요</h2>
+    <p class="lead">감으로 규칙을 늘리지 않았어요. 식약처가 실제로 무엇을 단속하는지 데이터로 보고, 규칙을 만들 때 보지 않은 실제 적발 문구로만 성능을 쟀어요.</p>
+
+    <div class="about-grid">
+      <article>
+        <h3>단속 데이터에서 출발</h3>
+        <p>2021~2026년 식약처 점검 발표 25건과 연도별 집계를 분석했어요. 식품은 2025년 적발의 51%가 ‘건강기능식품처럼’ 광고한 경우였고, 화장품은 69%가 ‘약처럼’ 광고한 경우였어요.</p>
+      </article>
+      <article>
+        <h3>처벌 정보는 원문에서만</h3>
+        <p>화장품법, 식품표시광고법과 시행규칙 별표를 직접 확인해 표로 만들었어요. 검사 결과의 처분·근거 조문은 모두 이 표에서 나와요.</p>
+      </article>
+      <article>
+        <h3>보지 않은 문구로 채점</h3>
+        <p>규칙을 고치기 전에 시험 문구를 먼저 고정해 깃허브에 올렸어요. 그 뒤에 고친 규칙으로만 점수를 쟀어요.</p>
+      </article>
+    </div>
+
+    <h3 class="tbl-t">시험 결과</h3>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>시험</th><th>내용</th><th class="num">위반을 찾은 비율</th><th class="num">멀쩡한 문장을 잘못 잡음</th></tr></thead>
+        <tbody>
+          <tr><td>시험 세트 3</td><td>2024~2026 새 적발 발표 6건, 규칙 v4 작업 전 고정</td><td class="num">67.9% <small>(19/28)</small></td><td class="num">0% <small>(0/17)</small></td></tr>
+          <tr><td>시험 세트 2</td><td>새로 모은 적발 문구, 규칙 v3 작업 전 고정</td><td class="num">59.3% <small>(16/27)</small></td><td class="num">0% <small>(0/14)</small></td></tr>
+          <tr><td>이미지 읽기</td><td>시험용 상세페이지 3장, 이 브라우저 안에서 읽기</td><td class="num">11/11 <small>(글자 93.1%)</small></td><td class="num">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">찾지 못한 문구는 대부분 말 모양이 바뀐 경우(‘모발을 자라게 하는’)나 단어를 붙여 만든 이름이에요. 자세한 기록은 <a href="https://github.com/ojg1476-tech/precheck-ai/blob/main/eval/history.md" target="_blank" rel="noopener">평가 기록</a>에 있어요.</p>
+
+    <h3 class="tbl-t">AI 챗봇에 물어보는 것과 다른 점</h3>
+    <ul class="diff">
+      <li><b>상품 전체를 한 번에, 위험한 순서로</b> 보여줘요. 한 개씩 묻지 않아도 돼요.</li>
+      <li><b>써도 된다는 말로 끝내지 않아요.</b> 건강기능식품 인정 문구처럼 조건이 붙는 표현은 쓰기 전에 확인할 서류와 절차를 알려드려요.</li>
+      <li><b>처벌 정보를 지어내지 않아요.</b> 법령 원문에서 확인한 표로 안내하고, 근거 조문과 출처를 같이 보여드려요.</li>
+      <li><b>같은 문구에는 늘 같은 결과</b>가 나와요. ‘대신 이렇게’ 문구도 같은 기준으로 다시 검사해 통과한 표현이에요.</li>
+    </ul>
+    <p class="note">비교 실험(실제 적발 문구 등 46개)에서 기준 없이 AI에 물었을 때는 확인이 필요한 건강기능식품 문구 5개를 모두 ‘허용’으로만 답했고, 처벌 정보는 25개 중 3개가 원문과 달랐어요. 위반 문구를 찾아낸 비율은 AI가 더 높았어요(100% 대 59%).</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <p>이 도구는 광고 문구 점검을 돕는 참고 자료이며 법률 판단이 아니에요. 실제 광고 전에는 대한화장품협회 광고자문이나 한국건강기능식품협회 표시·광고 심의를 받는 것이 가장 확실해요.</p>
+  <p class="v" id="foot-v"></p>
+</footer>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="js/engine.js"></script>
+<script src="js/xlsx.js"></script>
+<script src="js/report.js"></script>
+<script src="js/ocr.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+name: pages
+
+# web/ 폴더(브라우저용 문구레이더)를 GitHub Pages로 배포한다.
+on:
+  push:
+    branches: [main]
+    paths: ["web/**", "rules/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 웹 규칙 파일이 기준 규칙과 같은지 확인
+        run: |
+          node tools/export_rules.js
+          git diff --exit-code web/rules.json rules/rules.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - id: deployment
+        uses: actions/deploy-pages@v4
