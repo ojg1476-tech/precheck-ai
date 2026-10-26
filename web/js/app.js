@@ -57,6 +57,37 @@
     }).join("");
   }
 
+  /* ── 익명 사용 집계 (GoatCounter: 방문·버튼 횟수만, 문구·파일 내용은 보내지 않음) ── */
+  function count(path, event = true) {
+    const send = () => { try { window.goatcounter.count({ path, title: path, event }); } catch (e) { /* 집계 실패는 무시 */ } };
+    if (window.goatcounter && window.goatcounter.count) send(); else window.addEventListener("load", send, { once: true });
+  }
+  const once = new Set();
+  function countOnce(path) { if (!once.has(path)) { once.add(path); count(path); } }
+
+  /* 결과 아래: 도움 여부 + 준비 중 기능(수요 확인용) */
+  function pulse() {
+    document.querySelectorAll(".pulse").forEach(el => {
+      const w = el.dataset.where;
+      el.innerHTML = `<div class="pulse-in glass">
+        <div class="fb"><b>점검 결과가 도움이 됐나요?</b>
+          <span class="fb-btns"><button type="button" data-fb="up">👍 도움됐어요</button><button type="button" data-fb="down">👎 아쉬워요</button></span></div>
+        <div class="door"><div><span class="soon">준비 중</span><b>매주 자동 점검</b>
+          <p>스마트스토어·쿠팡 상품을 한 번 연결해 두면, 새로 올린 상품과 바뀐 식약처 기준을 매주 자동으로 점검해 알려드려요.</p></div>
+          <button type="button" class="btn ghost" data-door>나오면 쓰고 싶어요</button></div></div>`;
+      el.addEventListener("click", e => {
+        const fb = e.target.closest("[data-fb]"), door = e.target.closest("[data-door]");
+        if (fb) {
+          countOnce(`fb-${fb.dataset.fb}-${w}`);
+          fb.closest(".fb").innerHTML = `<b>${fb.dataset.fb === "up" ? "알려 주셔서 고마워요!" : "알려 주셔서 고마워요. 더 다듬을게요."}</b>`;
+        } else if (door) {
+          countOnce(`door-auto-${w}`);
+          door.outerHTML = `<span class="door-ok">고마워요! 원하는 분이 많으면 먼저 만들게요.</span>`;
+        }
+      });
+    });
+  }
+
   /* ── 라우팅 ─────────────────────────── */
   function route() {
     const h = location.hash.replace(/^#\/?/, "");
@@ -65,6 +96,7 @@
     let v = r;
     if (r === "batch") v = state.results ? "batch-result" : state.imgFiles.length ? "batch-images" : "batch-start";
     document.querySelectorAll(".view").forEach(s => (s.hidden = s.dataset.view !== v));
+    if (route.last !== r) { route.last = r; count(r === "batch" ? "/" : "/" + r, false); }
     if (r === "text") setTimeout(() => $("#ed").focus(), 0);
     window.scrollTo(0, 0);
   }
@@ -120,7 +152,7 @@
     if (imgs.length === files.length) { state.imgFiles = imgs; renderImages(); location.hash = "#/"; route(); return; }
     const table = files.find(f => /\.(csv|txt|xlsx|xlsm)$/i.test(f.name));
     if (!table) { showError("CSV, 엑셀, 또는 상세페이지 이미지(PNG, JPG) 파일을 올려 주세요."); return; }
-    try { run(await readTable(table), table.name); }
+    try { run(await readTable(table), table.name); count("check-file"); }
     catch (e) { showError("파일을 읽지 못했어요. " + e.message); }
   }
 
@@ -155,6 +187,7 @@
     }
     go.textContent = "글자 읽고 검사하기";
     run(items, `이미지 ${items.length}장, 이 브라우저에서 읽음`, texts);
+    count("check-image");
   }
 
   /* ── 결과 ───────────────────────────── */
@@ -234,6 +267,7 @@
     a.href = URL.createObjectURL(blob); a.download = `moonguradar_report_${new Date().toLocaleDateString("sv-SE")}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
     toast("엑셀 리포트를 받았어요");
+    count("report-download");
   }
 
   /* ── 문구 하나 검사 ──────────────────── */
@@ -241,6 +275,7 @@
   function checkText() {
     const ed = $("#ed"), text = ed.value;
     lastFs = text.trim() ? state.ck.check(text, txtType) : [];
+    if (text.trim()) countOnce("check-text");
     $("#ed-hl").innerHTML = marked(text, lastFs) + "\n";
     $("#ed-count").textContent = `${text.length.toLocaleString("ko-KR")}자`;
     const c = M.summarize(lastFs);
@@ -260,6 +295,7 @@
     state.ck = new M.Checker(data);
     $("#foot-v").textContent = `기준 ${state.ck.version} · 규칙 ${state.ck.rules.length}개 · 검사와 이미지 읽기는 모두 이 브라우저 안에서만 이뤄지고, 올린 파일은 어디에도 보내지 않아요.`;
     proof();
+    pulse();
 
     const file = $("#file"), ask = $("#ask"), start = $("#view-start");
     file.addEventListener("change", () => { onFiles(file.files); file.value = ""; });
@@ -278,6 +314,7 @@
     $("#try-sample").addEventListener("click", async () => {
       const t = await (await fetch("sample_products.csv")).text();
       run(M.readRows(M.parseCSV(t.replace(/^﻿/, ""))), "예시 목록");
+      count("check-sample");
     });
 
     seg($("#img-type"), "img-type", imgType, v => (imgType = v));

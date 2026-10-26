@@ -13,6 +13,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F5B48'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-opacity='.45' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M16 16 L24 9' stroke='%23FF5A67' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preload" href="vendor/suit/SUIT-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/app.css">
+<!-- 방문·버튼 클릭 수만 쿠키 없이 익명으로 센다 (GoatCounter). 문구·파일 내용은 보내지 않는다. -->
+<script data-goatcounter="https://moonguradar.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true, "no_events": true}' async src="vendor/goatcounter/count.js"></script>
 </head>
 <body>
 <div class="mesh" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -126,6 +128,7 @@
     </div>
     <div class="tp" data-panel="ocr" id="tp-ocr" hidden></div>
   </div>
+  <div class="pulse" data-where="batch"></div>
 </section>
 
 <!-- 문구 하나 검사 -->
@@ -148,6 +151,7 @@
       <div class="ed-cards" id="ed-cards"></div>
     </aside>
   </div>
+  <div class="pulse" data-where="text"></div>
 </section>
 
 <!-- 기준과 성능 -->
@@ -192,6 +196,9 @@
       <li><b>같은 문구에는 늘 같은 결과</b>가 나와요. ‘대신 이렇게’ 문구도 같은 기준으로 다시 검사해 통과한 표현이에요.</li>
     </ul>
     <p class="note">비교 실험(실제 적발 문구 등 46개)에서 기준 없이 AI에 물었을 때는 확인이 필요한 건강기능식품 문구 5개를 모두 ‘허용’으로만 답했고, 처벌 정보는 25개 중 3개가 원문과 달랐어요. 위반 문구를 찾아낸 비율은 AI가 더 높았어요(100% 대 59%).</p>
+
+    <h3 class="tbl-t">이 사이트가 세는 것</h3>
+    <p class="note">더 나은 기능을 만들기 위해 방문 수와 버튼을 누른 횟수만 쿠키 없이 익명으로 세요(GoatCounter). 붙여 넣은 문구와 올린 파일의 내용은 세지도, 보내지도 않아요.</p>
   </div>
 </section>
 
