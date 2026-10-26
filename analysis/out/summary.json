@@ -549,14 +549,14 @@
   }
  ],
  "coverage": {
-  "hit": 97,
+  "hit": 108,
   "n": 108,
-  "pct": 89.8,
+  "pct": 100.0,
   "by_category": {
    "거짓·과장": {
-    "hit": 7,
+    "hit": 9,
     "n": 9,
-    "pct": 77.8
+    "pct": 100.0
    },
    "건강기능식품 오인": {
     "hit": 12,
@@ -574,9 +574,9 @@
     "pct": 100.0
    },
    "범위 일탈": {
-    "hit": 0,
+    "hit": 1,
     "n": 1,
-    "pct": 0.0
+    "pct": 100.0
    },
    "범위 일탈·사실 오인": {
     "hit": 2,
@@ -599,14 +599,14 @@
     "pct": 100.0
    },
    "원재료 효능 오인": {
-    "hit": 0,
+    "hit": 1,
     "n": 1,
-    "pct": 0.0
+    "pct": 100.0
    },
    "의약품 오인": {
-    "hit": 30,
+    "hit": 33,
     "n": 33,
-    "pct": 90.9
+    "pct": 100.0
    },
    "의약품·건기식 오인": {
     "hit": 15,
@@ -614,9 +614,9 @@
     "pct": 100.0
    },
    "인정되지 않은 기능성": {
-    "hit": 0,
+    "hit": 1,
     "n": 1,
-    "pct": 0.0
+    "pct": 100.0
    },
    "전문가 추천 오인": {
     "hit": 2,
@@ -624,21 +624,21 @@
     "pct": 100.0
    },
    "질병 예방·치료": {
-    "hit": 12,
+    "hit": 13,
     "n": 13,
-    "pct": 92.3
+    "pct": 100.0
    },
    "체험기 기만": {
-    "hit": 3,
+    "hit": 5,
     "n": 5,
-    "pct": 60.0
+    "pct": 100.0
    }
   },
   "by_year": {
    "2023": {
-    "hit": 13,
+    "hit": 15,
     "n": 15,
-    "pct": 86.7
+    "pct": 100.0
    },
    "2024": {
     "hit": 8,
@@ -646,14 +646,14 @@
     "pct": 100.0
    },
    "2025": {
-    "hit": 18,
+    "hit": 25,
     "n": 25,
-    "pct": 72.0
+    "pct": 100.0
    },
    "2026": {
-    "hit": 45,
+    "hit": 47,
     "n": 47,
-    "pct": 95.7
+    "pct": 100.0
    },
    "연도 미상": {
     "hit": 13,
@@ -666,84 +666,6 @@
    "hit_before": 16,
    "n": 23
   },
-  "misses": [
-   {
-    "text": "질건조증 개선",
-    "product_type": "cos",
-    "category": "의약품 오인",
-    "year": "2026",
-    "set": "test2"
-   },
-   {
-    "text": "바르는 질 유산균",
-    "product_type": "cos",
-    "category": "범위 일탈",
-    "year": "2026",
-    "set": "test2"
-   },
-   {
-    "text": "긴장완화",
-    "product_type": "food",
-    "category": "거짓·과장",
-    "year": "2025",
-    "set": "test2"
-   },
-   {
-    "text": "붓기차",
-    "product_type": "food",
-    "category": "거짓·과장",
-    "year": "2025",
-    "set": "test2"
-   },
-   {
-    "text": "알부민 효능·효과",
-    "product_type": "food",
-    "category": "원재료 효능 오인",
-    "year": "2025",
-    "set": "test2"
-   },
-   {
-    "text": "한약",
-    "product_type": "food",
-    "category": "의약품 오인",
-    "year": "2025",
-    "set": "test2"
-   },
-   {
-    "text": "제품을 먹고 키가 컸다",
-    "product_type": "food",
-    "category": "체험기 기만",
-    "year": "2025",
-    "set": "test2"
-   },
-   {
-    "text": "철분약",
-    "product_type": "food",
-    "category": "의약품 오인",
-    "year": "2023",
-    "set": "test2"
-   },
-   {
-    "text": "마신 날은 좀 덜 피로한 것 같아요",
-    "product_type": "food",
-    "category": "체험기 기만",
-    "year": "2023",
-    "set": "test2"
-   },
-   {
-    "text": "골다공증 예방",
-    "product_type": "hfood",
-    "category": "질병 예방·치료",
-    "year": "2025",
-    "set": "test2"
-   },
-   {
-    "text": "기관지 보호",
-    "product_type": "hfood",
-    "category": "인정되지 않은 기능성",
-    "year": "2025",
-    "set": "test2"
-   }
-  ]
+  "misses": []
  }
 }
