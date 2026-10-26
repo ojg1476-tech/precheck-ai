@@ -24,7 +24,7 @@ CSS = """
 html, body, [class*="css"], .stMarkdown, .stTextArea textarea, button, input, select {
   font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
 }
-.block-container { padding-top: 1.2rem; max-width: 1180px; }
+.block-container { padding-top: 3.4rem; max-width: 1180px; }
 h1, h2, h3, h4 { letter-spacing: -0.02em; }
 .stTabs [data-baseweb="tab-list"] { gap: 6px; border-bottom: 1px solid #e6e8ef; }
 .stTabs [data-baseweb="tab"] { height: 44px; padding: 0 18px; border-radius: 10px 10px 0 0; font-weight: 600; }
