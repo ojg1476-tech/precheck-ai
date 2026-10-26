@@ -55,15 +55,17 @@ tab_batch, tab_one, tab_about = st.tabs(["📋 여러 상품 한 번에", "✏�
 with tab_batch:
     c_up, c_img = st.columns([3.2, 1], vertical_alignment="bottom")
     with c_up:
+        c_lbl, c_try, c_dl = st.columns([2.2, 1, 1], vertical_alignment="center", gap="small")
+        with c_lbl:
+            html('<div class="mr-label">상품 목록 파일 (CSV · 엑셀)</div>')
+        with c_try:
+            use_sample = st.button("예시로 해보기", type="tertiary", use_container_width=True,
+                                   help="파일 없이 예시 상품 11개로 결과를 미리 볼 수 있어요.")
+        with c_dl:
+            st.download_button("⬇️ 입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
+                               mime="text/csv", use_container_width=True)
         up = st.file_uploader("상품 목록 파일 (CSV · 엑셀)", type=["csv", "xlsx"], key="list_upload",
-                              help="필수 칸: 상품명 · 제품종류 · 상세문구 (칸 이름은 첫 줄에). 다른 칸이 더 있어도, 순서가 달라도 괜찮아요. "
-                                   "제품종류는 일반 화장품 · 기능성 화장품 · 일반 식품 · 건강기능식품 중 하나.")
-    c_dl, c_try, _ = st.columns([1.1, 1.3, 5], vertical_alignment="center", gap="small")
-    with c_dl:
-        st.download_button("⬇️ 입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
-                           mime="text/csv", type="tertiary")
-    with c_try:
-        use_sample = st.button("파일 없이 예시로 해보기", type="tertiary")
+                              label_visibility="collapsed")
     with c_img:
         with st.popover("🖼️ 이미지로 검사", use_container_width=True):
             key = api_key()
@@ -105,6 +107,9 @@ with tab_batch:
                         st.session_state["ocr_texts"] = texts
                         st.session_state["source"] = (f"이미지 {len(imgs)}장 · AI 사용료 약 ${cost:.3f}" if key
                                                       else f"이미지 {len(imgs)}장 · 무료 글자 읽기")
+
+    html('<div class="mr-hint">필수 칸: <b>상품명 · 제품종류 · 상세문구</b> (칸 이름은 첫 줄에) · 다른 칸이 더 있어도, 순서가 달라도 '
+         '괜찮아요 · 제품종류는 일반 화장품 / 기능성 화장품 / 일반 식품 / 건강기능식품</div>')
 
     data_name = None
     if up is not None:
