@@ -101,6 +101,8 @@ div[data-testid="stFileUploader"] section { border-radius: 14px; }
 .mr-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .mr-table .z { color: #c1c7d0; }
 .mr-table .memo { color: #868e96; font-size: 13px; min-width: 160px; }
+.st-key-list_upload section small::after { content: "필수 칸: 상품명 · 제품종류 · 상세문구 (칸 이름은 첫 줄에) · 다른 칸이 더 있어도 괜찮아요";
+  display: block; margin-top: 2px; color: #868e96; font-size: 12px; }
 .mr-guide { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 2px; }
 @media (max-width: 860px) { .mr-guide { grid-template-columns: 1fr; } }
 .mr-col { background: #fff; border: 1px solid #e3e8fb; border-radius: 12px; padding: 9px 12px; }

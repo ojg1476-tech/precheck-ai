@@ -55,9 +55,9 @@ tab_batch, tab_one, tab_about = st.tabs(["📋 여러 상품 한 번에", "✏�
 with tab_batch:
     c_up, c_img = st.columns([3.2, 1], vertical_alignment="bottom")
     with c_up:
-        up = st.file_uploader("상품 목록 파일 (CSV · 엑셀)", type=["csv", "xlsx"],
-                              help="제품종류: 일반 화장품 · 기능성 화장품 · 일반 식품 · 건강기능식품")
-    html('<div class="mr-sub" style="margin-top:6px">이렇게 만든 파일이면 돼요</div>' + ui.upload_guide())
+        up = st.file_uploader("상품 목록 파일 (CSV · 엑셀)", type=["csv", "xlsx"], key="list_upload",
+                              help="필수 칸: 상품명 · 제품종류 · 상세문구 (칸 이름은 첫 줄에). 다른 칸이 더 있어도, 순서가 달라도 괜찮아요. "
+                                   "제품종류는 일반 화장품 · 기능성 화장품 · 일반 식품 · 건강기능식품 중 하나.")
     c_dl, c_try, _ = st.columns([1.1, 1.3, 5], vertical_alignment="center", gap="small")
     with c_dl:
         st.download_button("⬇️ 입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
