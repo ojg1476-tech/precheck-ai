@@ -18,7 +18,7 @@
 
   function table(header, rows) { return [header.map(h => ({ v: h, s: "head" })), ...rows.map(r => r.map(v => (v && typeof v === "object") ? v : { v, s: "cell" }))]; }
 
-  function buildReport(results, checker, today = new Date().toISOString().slice(0, 10)) {
+  function buildReport(results, checker, today = new Date().toLocaleDateString("sv-SE")) {
     const ov = M.overview(results, checker);
     const sum = [[{ v: "상세페이지 광고 일괄 점검 리포트", s: "title" }], [{ v: `점검일 ${today} · 기준 버전 ${checker.version} · 규칙 ${checker.rules.length}개`, s: "muted" }], []];
     sum.push([{ v: "점검한 상품", s: "bold" }, ov.total]);

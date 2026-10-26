@@ -72,17 +72,27 @@
   /* ── 시작 화면 ───────────────────────── */
   function proof() {
     const text = "피부 재생 크림, 7일 만에 주름 개선", fs = state.ck.check(text, "cos");
-    let out = "", pos = 0, k = 0;
+    let out = "", pos = 0;
     for (const f of fs) {
-      const c = GRADE[f.grade][0], cls = f.grade === "red" ? "x" : "w g-" + f.grade;
-      out += esc(text.slice(pos, f.start)) + `<span class="${cls}" style="--c:${c};--i:${f.grade === "red" ? k++ : 0}">${esc(text.slice(f.start, f.end))}</span>`;
+      out += esc(text.slice(pos, f.start)) + `<span class="wv g-${f.grade}">${esc(text.slice(f.start, f.end))}</span>`;
       pos = f.end;
     }
     $("#proof-copy").innerHTML = out + esc(text.slice(pos));
-    const sorted = fs.slice().sort((a, b) => ORDER[a.grade] - ORDER[b.grade]);
-    $("#proof-notes").innerHTML = sorted.map((f, i) => {
-      const alt = f.alt.startsWith("(") ? f.alt.replace(/[()]/g, "") : `대신 <em>${esc(f.alt.split(" / ")[0])}</em>`;
-      return `<li style="--c:${GRADE[f.grade][0]};--i:${i}"><span class="ph">${esc(f.phrase)}</span><span><span class="lb">${esc(f.label)}</span><span class="al">${alt}</span></span></li>`;
+    const sorted = fs.slice().sort((a, b) => ORDER[a.grade] - ORDER[b.grade] || a.start - b.start);
+    $("#proof-notes").innerHTML = sorted.map(f => {
+      const alt = f.alt.startsWith("(") ? esc(f.alt.replace(/[()]/g, "")) : `대신 <em>${esc(f.alt.split(" / ")[0])}</em>`;
+      return `<li style="--c:${GRADE[f.grade][0]}"><span class="ph">${esc(f.phrase)}</span>${esc(f.label)}<br>${alt}</li>`;
+    }).join("");
+    const tier = fs.some(f => f.grade === "red") ? "높음" : fs.some(f => f.grade === "amber") ? "중간" : "확인";
+    $("#proof-tier").textContent = "위험도 " + tier;
+
+    // 레이더: 바늘이 지나갈 때 실제 검사 결과가 하나씩 잡힌다 (6초에 한 바퀴, 시계 방향)
+    const more = state.ck.check(text + ", 피부과 추천", "cos");
+    const spots = [[62, 47], [116, 47], [244, 47], [298, 47]];      // [각도(위=0, 시계 방향), 반지름 %]
+    $("#blips").innerHTML = more.slice(0, 4).map((f, i) => {
+      const [deg, r] = spots[i], rad = deg * Math.PI / 180;
+      const x = 50 + r * Math.sin(rad), y = 50 - r * Math.cos(rad);
+      return `<span class="blip" style="left:${x}%;top:${y}%;--c:${GRADE[f.grade][0]};--d:${(deg / 360 * 6 - 6).toFixed(2)}s"><i></i>${esc(f.phrase)}<small>${esc(f.label)}</small></span>`;
     }).join("");
   }
 
@@ -221,7 +231,7 @@
   async function downloadReport() {
     const blob = R.buildReport(state.results, state.ck);
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = `moonguradar_report_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    a.href = URL.createObjectURL(blob); a.download = `moonguradar_report_${new Date().toLocaleDateString("sv-SE")}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
     toast("엑셀 리포트를 받았어요");
   }
@@ -252,12 +262,20 @@
     $("#foot-v").textContent = `기준 ${state.ck.version} · 규칙 ${state.ck.rules.length}개 · 검사와 이미지 읽기는 모두 이 브라우저 안에서만 이뤄지고, 올린 파일은 어디에도 보내지 않아요.`;
     proof();
 
-    const drop = $("#drop"), file = $("#file");
+    const file = $("#file"), ask = $("#ask"), start = $("#view-start");
     file.addEventListener("change", () => { onFiles(file.files); file.value = ""; });
-    drop.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); file.click(); } });
-    ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
-    ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
-    drop.addEventListener("drop", e => onFiles(e.dataTransfer.files));
+    $("#attach").addEventListener("click", () => file.click());
+    ask.addEventListener("submit", e => {
+      e.preventDefault();
+      const t = $("#ask-text").value.trim();
+      if (!t) { file.click(); return; }
+      $("#ed").value = t; $("#ask-text").value = ""; location.hash = "#/text"; checkText();
+    });
+    let depth = 0;
+    start.addEventListener("dragenter", e => { e.preventDefault(); depth++; ask.classList.add("over"); });
+    start.addEventListener("dragover", e => e.preventDefault());
+    start.addEventListener("dragleave", () => { if (--depth <= 0) { depth = 0; ask.classList.remove("over"); } });
+    start.addEventListener("drop", e => { e.preventDefault(); depth = 0; ask.classList.remove("over"); onFiles(e.dataTransfer.files); });
     $("#try-sample").addEventListener("click", async () => {
       const t = await (await fetch("sample_products.csv")).text();
       run(M.readRows(M.parseCSV(t.replace(/^﻿/, ""))), "예시 목록");
@@ -268,7 +286,7 @@
     $("#img-go").addEventListener("click", readImages);
 
     $("#res-tabs").addEventListener("click", e => { const b = e.target.closest("button[data-tab]"); if (b) selectTab(b.dataset.tab); });
-    $("#res-new").addEventListener("click", () => { state.results = null; route(); setTimeout(() => $("#drop").focus(), 0); });
+    $("#res-new").addEventListener("click", () => { state.results = null; route(); setTimeout(() => $("#ask-text").focus(), 0); });
     $("#res-xlsx").addEventListener("click", downloadReport);
     $("#tp-sum").addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) goProduct(+b.dataset.go); });
     $("#tp-rank").addEventListener("click", e => { const r = e.target.closest("tr[data-go]"); if (r && r.dataset.go !== "") goProduct(+r.dataset.go); });

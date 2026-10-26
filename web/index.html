@@ -10,12 +10,13 @@
 <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
+<div class="mesh" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <a class="skip" href="#main">본문으로 건너뛰기</a>
 
 <header class="topbar">
-  <div class="topbar-in">
+  <div class="topbar-in glass">
     <a class="logo" href="#/" aria-label="문구레이더 처음으로">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--pine)"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 16 L24 9" stroke="#ff5a67" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span class="mark" aria-hidden="true"></span>
       <span>문구레이더</span>
     </a>
     <nav class="nav" aria-label="주 메뉴">
@@ -32,36 +33,47 @@
 <!-- 상품 점검: 시작 화면 -->
 <section class="view" id="view-start" data-view="batch-start">
   <div class="hero">
-    <div class="hero-copy">
-      <h1>상세페이지 광고 문구,<br>식약처에 걸리기 전에 찾아드려요</h1>
-      <p class="lead">화장품, 식품, 건강기능식품 상품 목록을 올리면 위반 소지가 있는 표현을 찾아 위험한 상품부터 보여주고, 고칠 문장과 처벌 수위를 엑셀로 정리해 드려요.</p>
-
-      <label class="drop" id="drop" tabindex="0">
-        <input type="file" id="file" accept=".csv,.xlsx,.png,.jpg,.jpeg,.webp" multiple hidden>
-        <svg class="drop-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M11 5h13l9 9v19a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M24 5v9h9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14 21h12M14 25h12M14 29h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".5"/></svg>
-        <span class="drop-t"><b>상품 목록 파일을 끌어다 놓거나 <u>선택</u>하세요</b>
-          <small>CSV · 엑셀 · 상세페이지 이미지(PNG, JPG)</small></span>
-      </label>
-      <p class="need">필수 칸: <b>상품명</b>, <b>제품종류</b>, <b>상세문구</b> <span>(칸 이름은 첫 줄에)</span></p>
-      <div class="start-links">
-        <a href="sample_products.csv" download="moonguradar_template.csv" class="link">입력 양식 받기</a>
-        <button type="button" class="link" id="try-sample">파일 없이 예시로 해보기</button>
-      </div>
-      <p class="err" id="start-err" role="alert" hidden></p>
+    <div class="radar" aria-hidden="true">
+      <div class="rings"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div>
+      <div class="sweep"></div><div class="core"></div></div>
+      <div class="blips" id="blips"></div>
     </div>
 
-    <figure class="proof" aria-label="검수 예시">
-      <figcaption>일반 화장품 상세페이지를 검사하면</figcaption>
-      <p class="proof-copy" id="proof-copy"></p>
-      <ol class="proof-notes" id="proof-notes"></ol>
-      <div class="proof-foot">이 예시는 페이지가 열릴 때 실제 규칙으로 검사한 결과예요.</div>
-    </figure>
+    <p class="eyebrow"><span class="dot"></span>식약처 단속 발표 25건 반영 · 규칙 <b><span id="fact-rules">37</span>개</b></p>
+    <h1>광고 문구, 걱정 없이<br>올릴 수 있게</h1>
+    <p class="lead">상품 목록이나 상세페이지 이미지를 올리면 식약처 기준으로 위험한 표현을 찾아, <br class="br-d">위험한 상품부터 고칠 방법과 처벌 수위까지 알려드려요.</p>
+
+    <form class="ask glass" id="ask" autocomplete="off">
+      <input type="file" id="file" accept=".csv,.xlsx,.png,.jpg,.jpeg,.webp" multiple hidden>
+      <button type="button" class="attach" id="attach" aria-label="파일 선택">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5 12 20a5.5 5.5 0 0 1-7.8-7.8l8.8-8.8a3.7 3.7 0 0 1 5.2 5.2l-8.6 8.6a1.8 1.8 0 0 1-2.6-2.6l7.9-7.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <label class="sr" for="ask-text">상세페이지 문구</label>
+      <input type="text" id="ask-text" placeholder="상품 목록 파일을 끌어다 놓거나, 문구를 붙여 넣어 보세요">
+      <button type="submit" class="go">점검하기</button>
+    </form>
+    <p class="need">파일 필수 칸: <b>상품명 · 제품종류 · 상세문구</b> <span>(칸 이름은 첫 줄에)</span> · CSV, 엑셀, 상세페이지 이미지</p>
+    <div class="chips">
+      <button type="button" class="chip glass" id="try-sample">예시로 해보기</button>
+      <a class="chip glass" href="sample_products.csv" download="moonguradar_template.csv">입력 양식 받기</a>
+      <span class="chip glass plain"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>파일은 브라우저 밖으로 나가지 않아요</span>
+    </div>
+    <p class="err" id="start-err" role="alert" hidden></p>
+
+    <div class="stack">
+      <div class="layer l3 glass"></div><div class="layer l2 glass"></div>
+      <figure class="proof glass" aria-label="검수 예시">
+        <figcaption><span>일반 화장품 상세페이지 예시</span><span class="tier-pill" id="proof-tier"></span></figcaption>
+        <p class="proof-copy" id="proof-copy"></p>
+        <ol class="proof-notes" id="proof-notes"></ol>
+      </figure>
+    </div>
   </div>
 
   <ul class="facts">
-    <li><b id="fact-rules">37</b><span>개 규칙, 법령 원문과 대한화장품협회 해설서 기준</span></li>
-    <li><b>25</b><span>건 식약처 단속 발표를 분석해 자주 걸리는 표현 반영</span></li>
-    <li><b>0%</b><span>멀쩡한 문장을 잘못 잡은 비율 (시험 문장 48개)</span></li>
+    <li class="glass"><b>67.9%</b><span>처음 보는 실제 적발 문구를 찾아낸 비율</span></li>
+    <li class="glass"><b>0%</b><span>멀쩡한 문장을 잘못 잡은 비율</span></li>
+    <li class="glass"><b>93%</b><span>상세페이지 이미지 글자를 맞게 읽은 비율</span></li>
   </ul>
 </section>
 
