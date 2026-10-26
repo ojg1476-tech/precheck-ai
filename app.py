@@ -108,8 +108,8 @@ with tab_batch:
                         st.session_state["source"] = (f"이미지 {len(imgs)}장 · AI 사용료 약 ${cost:.3f}" if key
                                                       else f"이미지 {len(imgs)}장 · 무료 글자 읽기")
 
-    html('<div class="mr-hint">필수 칸: <b>상품명 · 제품종류 · 상세문구</b> (칸 이름은 첫 줄에) · 다른 칸이 더 있어도, 순서가 달라도 '
-         '괜찮아요 · 제품종류는 일반 화장품 / 기능성 화장품 / 일반 식품 / 건강기능식품</div>')
+    html('<div class="mr-hint">필수 칸: <b>상품명 · 제품종류 · 상세문구</b> (칸 이름은 첫 줄에) · '
+         '제품종류는 일반 화장품 / 기능성 화장품 / 일반 식품 / 건강기능식품</div>')
 
     data_name = None
     if up is not None:
