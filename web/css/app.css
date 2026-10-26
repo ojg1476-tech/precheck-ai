@@ -105,6 +105,9 @@ main { max-width: 1208px; margin: 0 auto; padding: 0 24px; }
   background: rgba(255, 255, 255, .6); border: 1px solid var(--glass-line); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px var(--mint-50); }
 .eyebrow b { font-weight: 800; }
+.eyebrow { white-space: nowrap; }
+@media (max-width: 760px) { .eyebrow .ey-more { display: none; } }
+.eyebrow .scope { margin: -3px 4px -3px -9px; padding: 4px 11px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 700; letter-spacing: -.01em; }
 .hero h1 { margin-top: 22px; font-size: 64px; line-height: 1.12; font-weight: 800; letter-spacing: -0.055em; }
 .hero .lead { margin: 20px auto 0; max-width: 40em; }
 
