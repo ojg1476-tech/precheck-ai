@@ -1,0 +1,108 @@
+{
+ "p1_cream": [
+  {
+   "phrase": "피부 속 깊숙이 침투",
+   "grade": "amber",
+   "cat": "C4"
+  },
+  {
+   "phrase": "염증",
+   "grade": "red",
+   "cat": "C1"
+  },
+  {
+   "phrase": "아토피",
+   "grade": "red",
+   "cat": "C1"
+  },
+  {
+   "phrase": "주름 개선",
+   "grade": "red",
+   "cat": "C2"
+  },
+  {
+   "phrase": "미백",
+   "grade": "red",
+   "cat": "C2"
+  },
+  {
+   "phrase": "인체적용시험",
+   "grade": "blue",
+   "cat": "CP"
+  },
+  {
+   "phrase": "32% 증가",
+   "grade": "blue",
+   "cat": "CP"
+  },
+  {
+   "phrase": "스테로이드 성분 무첨가",
+   "grade": "amber",
+   "cat": "C4"
+  }
+ ],
+ "p2_tea": [
+  {
+   "phrase": "감기",
+   "grade": "red",
+   "cat": "F1"
+  },
+  {
+   "phrase": "면역력 강화",
+   "grade": "red",
+   "cat": "F3"
+  },
+  {
+   "phrase": "붓기 빠",
+   "grade": "red",
+   "cat": "F4"
+  },
+  {
+   "phrase": "몸이 가벼워졌",
+   "grade": "amber",
+   "cat": "F5"
+  },
+  {
+   "phrase": "목에 좋은",
+   "grade": "amber",
+   "cat": "F4"
+  },
+  {
+   "phrase": "해독",
+   "grade": "red",
+   "cat": "F3"
+  },
+  {
+   "phrase": "디톡스",
+   "grade": "red",
+   "cat": "F3"
+  },
+  {
+   "phrase": "약사 추천",
+   "grade": "red",
+   "cat": "F6"
+  }
+ ],
+ "p3_omega": [
+  {
+   "phrase": "혈행 개선",
+   "grade": "blue",
+   "cat": "HF"
+  },
+  {
+   "phrase": "약 대신",
+   "grade": "red",
+   "cat": "F2"
+  },
+  {
+   "phrase": "먹고 나서",
+   "grade": "amber",
+   "cat": "F5"
+  },
+  {
+   "phrase": "후기",
+   "grade": "amber",
+   "cat": "F5"
+  }
+ ]
+}
