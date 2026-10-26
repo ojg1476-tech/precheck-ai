@@ -32,6 +32,7 @@ class Finding:
     source: str
     category: str = ""   # 분류 코드 (C1, F3, HF 등)
     checks: list = field(default_factory=list)  # 쓰기 전에 확인할 것
+    penalty_key: str = ""  # 처분 키 (cA, f1 등) — 일괄 점검의 위험도 계산용
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -72,6 +73,7 @@ class Checker:
                     source=r["source"],
                     category=(cat := (r.get("category_cos") if is_cos else r.get("category_food")) or ""),
                     checks=list(self.categories.get(cat, {}).get("checks", [])),
+                    penalty_key=pen_key or "",
                 ))
         return dedupe(found)
 
