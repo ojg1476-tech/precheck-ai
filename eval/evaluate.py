@@ -1,6 +1,6 @@
 """검사기 정확도 측정.
 
-사용: python eval/evaluate.py [--split dev|test|all] [--rules rules/rules.json] [--out eval/results_<split>.md]
+사용: python eval/evaluate.py [--split dev|test|all|test2] [--rules rules/rules.json] [--out eval/results_<split>.md]
 
 지표
 - 위반 탐지율(재현율): 위반 문구 중 검사기가 하나라도 표시한 비율
@@ -29,8 +29,9 @@ def pct(a, b):
 
 def run(split="test", rules=None):
     ck = Checker(rules) if rules else Checker()
-    rows = list(csv.DictReader(open(ROOT / "data" / "eval_set.csv", encoding="utf-8")))
-    if split != "all":
+    path = ROOT / "data" / ("test2.csv" if split == "test2" else "eval_set.csv")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    if split not in ("all", "test2"):
         rows = [r for r in rows if r["split"] == split]
     res = []
     for r in rows:
@@ -88,7 +89,7 @@ def report(split, ck, res):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--split", default="test", choices=["dev", "test", "all"])
+    ap.add_argument("--split", default="test", choices=["dev", "test", "all", "test2"])
     ap.add_argument("--rules", default=None)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()

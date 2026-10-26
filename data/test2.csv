@@ -1,0 +1,47 @@
+id,split,product_type,label,category,text,source,source_url
+T001,test2,cos,violation,의약품 오인,질염 예방,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T002,test2,cos,violation,의약품 오인,가려움 완화,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T003,test2,cos,violation,의약품 오인,질건조증 개선,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T004,test2,cos,violation,의약품 오인,관절염 치료,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T005,test2,cos,violation,의약품 오인,염증·근육 이완,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T006,test2,cos,violation,의약품 오인,피로 회복,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T007,test2,cos,violation,의약품 오인,통증 완화,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T008,test2,cos,violation,의약품 오인,여드름 치료,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T009,test2,cos,violation,의약품 오인,소염 효과,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T010,test2,cos,violation,전문가 추천 오인,산부인과 전문의 개발,식약처 적발(2026.7),https://www.k-health.com/news/articleView.html?idxno=100282
+T011,test2,cos,violation,범위 일탈,바르는 질 유산균,식약처 적발(2026.7),https://www.k-health.com/news/articleView.html?idxno=100282
+T012,test2,fcos,violation,심사 효능과 다른 광고,여드름 예방,식약처 적발(2026.7),https://www.etoday.co.kr/news/view/2606966
+T013,test2,food,violation,건강기능식품 오인,체지방 감소,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T014,test2,food,violation,질병 예방·치료,변비개선도움,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T015,test2,food,violation,거짓·과장,긴장완화,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T016,test2,food,violation,거짓·과장,붓기차,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T017,test2,food,violation,원재료 효능 오인,알부민 효능·효과,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T018,test2,food,violation,의약품 오인,비염한약비염,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T019,test2,food,violation,의약품 오인,한약,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T020,test2,food,violation,체험기 기만,제품을 먹고 키가 컸다,식약처 적발(2025.6),https://www.sedaily.com/article/14077089
+T021,test2,food,violation,질병 예방·치료,감기차,식약처 적발(2023.5),https://www.sedaily.com/article/13684717
+T022,test2,food,violation,의약품 오인,피로회복제,식약처 적발(2023.5),https://www.sedaily.com/article/13684717
+T023,test2,food,violation,의약품 오인,철분약,식약처 적발(2023.5),https://www.sedaily.com/article/13684717
+T024,test2,food,violation,거짓·과장,눈에 좋은,식약처 적발(2023.5),https://www.sedaily.com/article/13684717
+T025,test2,food,violation,체험기 기만,마신 날은 좀 덜 피로한 것 같아요,식약처 적발(2023.5),https://www.sedaily.com/article/13684717
+T026,test2,hfood,violation,질병 예방·치료,골다공증 예방,식약처 적발(2025.5),https://www.newspim.com/news/view/20250502000739
+T027,test2,hfood,violation,인정되지 않은 기능성,기관지 보호,식약처 적발(2025.5),https://www.newspim.com/news/view/20250502000739
+T028,test2,hfood,conditional,인정 기능성 문구,노화로 인해 감소될 수 있는 황반색소밀도를 유지하여 눈 건강에 도움을 줄 수 있음,건강기능식품 기능성 원료 인정 문구 형식,
+T029,test2,hfood,conditional,인정 기능성 문구,유산균 증식 및 유해균 억제에 도움을 줄 수 있음,건강기능식품 기능성 원료 인정 문구 형식,
+T030,test2,hfood,conditional,인정 기능성 문구,배변활동 원활에 도움을 줄 수 있음,건강기능식품 기능성 원료 인정 문구 형식,
+T031,test2,hfood,conditional,인정 기능성 문구,면역력 증진에 도움을 줄 수 있음,건강기능식품 기능성 원료 인정 문구 형식,
+T032,test2,hfood,conditional,인정 기능성 문구,혈중 중성지질 개선에 도움을 줄 수 있음,건강기능식품 기능성 원료 인정 문구 형식,
+T033,test2,cos,allowed,평범한 문구,끈적임 없는 가벼운 제형이에요,synthetic,
+T034,test2,cos,allowed,평범한 문구,메이크업 전 피부결을 매끈하게 정돈해요,synthetic,
+T035,test2,cos,allowed,평범한 문구,자기 전 듬뿍 바르면 아침까지 촉촉해요,synthetic,
+T036,test2,cos,allowed,평범한 문구,피부 노폐물을 깨끗하게 씻어내요,synthetic,
+T037,test2,cos,allowed,평범한 문구,건조한 겨울철에 꼭 챙기는 크림,synthetic,
+T038,test2,cos,allowed,평범한 문구,100ml 대용량에 튜브형 용기,synthetic,
+T039,test2,cos,allowed,평범한 문구,상처가 있는 부위에는 사용하지 마세요,synthetic,
+T040,test2,food,allowed,평범한 문구,갓 볶은 원두의 깊은 향,synthetic,
+T041,test2,food,allowed,평범한 문구,아이 간식으로 좋아요,synthetic,
+T042,test2,food,allowed,평범한 문구,저녁 식사에 곁들이기 좋은 반찬,synthetic,
+T043,test2,food,allowed,평범한 문구,제주산 감귤로 만든 상큼한 주스,synthetic,
+T044,test2,food,allowed,평범한 문구,물에 타서 마시는 간편한 분말,synthetic,
+T045,test2,food,allowed,평범한 문구,명절 선물로 좋은 한과 세트,synthetic,
+T046,test2,food,allowed,평범한 문구,위에 견과류를 뿌려 드시면 더 고소해요,synthetic,
