@@ -10,7 +10,6 @@ import pandas as pd
 import streamlit as st
 
 from precheck import Checker, check_products, overview, read_table, summarize, ui
-from precheck.batch import penalty_text
 from precheck.report import TYPE_NAME, build_report
 
 st.set_page_config(page_title="문구레이더 — 상세페이지 광고 일괄 점검", page_icon="📡", layout="wide")
@@ -144,13 +143,15 @@ with tab_batch:
         table = pd.DataFrame([{
             "순위": i, "상품명": r.name, "제품 종류": TYPE_NAME.get(r.product_type, "-"),
             "위험도": f"{TIER_ICON[r.tier]} {r.tier}", "꼭 고치기": r.counts["red"], "확인 필요": r.counts["amber"],
-            "자료 챙기기": r.counts["blue"], "가장 무거운 형사처벌(최대)": penalty_text(r.max_penalty), "메모": r.error,
+            "자료 챙기기": r.counts["blue"], "최대 처벌": ui.penalty_short(r.max_penalty), "메모": r.error,
         } for i, r in enumerate(results, 1)])
-        st.dataframe(table, hide_index=True, use_container_width=True, column_config={
+        st.dataframe(table, hide_index=True, use_container_width=True, height=min(36 * (len(table) + 1) + 4, 560),
+                     column_config={
             "순위": st.column_config.NumberColumn(width="small"),
             "꼭 고치기": st.column_config.NumberColumn(width="small"),
             "확인 필요": st.column_config.NumberColumn(width="small"),
             "자료 챙기기": st.column_config.NumberColumn(width="small"),
+            "최대 처벌": st.column_config.TextColumn(help="걸린 표현 중 가장 무거운 형사처벌의 상한 (징역 또는 벌금)"),
         })
 
         section("상품별 자세히")

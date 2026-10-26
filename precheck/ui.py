@@ -37,7 +37,7 @@ div[data-testid="stFileUploader"] section { border-radius: 14px; }
   border-radius: 20px; padding: 28px 30px; margin-bottom: 18px; display: flex; gap: 20px; align-items: center; }
 .mr-logo { width: 56px; height: 56px; border-radius: 16px; background: #3b5bdb; color: #fff; display: grid; place-items: center;
   font-size: 28px; flex: none; box-shadow: 0 6px 16px rgba(59,91,219,.25); }
-.mr-hero h1 { margin: 0; padding: 0; font-size: 30px; font-weight: 800; color: #1b2430; }
+.mr-title { margin: 0; padding: 0; line-height: 1.25; font-size: 30px; font-weight: 800; color: #1b2430; }
 .mr-hero p { margin: 4px 0 10px; color: #4a5160; font-size: 15.5px; }
 .mr-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .mr-chip { background: #fff; border: 1px solid #dfe3f0; color: #4a5160; border-radius: 999px; padding: 3px 11px; font-size: 12.5px; }
@@ -91,7 +91,7 @@ div[data-testid="stFileUploader"] section { border-radius: 14px; }
 
 def hero(rule_count: int, version: str) -> str:
     return f"""<div class="mr-hero"><div class="mr-logo">📡</div><div>
-<h1>문구레이더</h1>
+<div class="mr-title">문구레이더</div>
 <p>상세페이지 광고 문구를 식약처 기준으로 한 번에 점검하고, 위험한 상품부터 알려드려요.</p>
 <div class="mr-chips"><span class="mr-chip">규칙 <b>{rule_count}개</b></span>
 <span class="mr-chip">기준일 <b>{escape(version)}</b></span>
@@ -187,3 +187,12 @@ def product_title(i: int, r) -> str:
     return (f"{i}. {r.name}  ·  위험도 {r.tier}  ·  꼭 고치기 {c['red']} · 확인 필요 {c['amber']} · 자료 챙기기 {c['blue']}"
             f"  ·  최대 {penalty_text(r.max_penalty)}" if r.max_penalty else
             f"{i}. {r.name}  ·  위험도 {r.tier}  ·  꼭 고치기 {c['red']} · 확인 필요 {c['amber']} · 자료 챙기기 {c['blue']}")
+
+
+def penalty_short(p) -> str:
+    """표에 넣는 짧은 처벌 표기: 징역 10년 · 벌금 1억"""
+    if not p:
+        return "-"
+    years, won = p
+    money = f"{won // 100_000_000}억" if won >= 100_000_000 else f"{won // 10_000:,}만"
+    return f"징역 {years}년 · 벌금 {money}"
