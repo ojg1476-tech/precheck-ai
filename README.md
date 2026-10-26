@@ -1,5 +1,7 @@
 # 문구레이더 (precheck-ai)
 
+[![tests](https://github.com/ojg1476-tech/precheck-ai/actions/workflows/tests.yml/badge.svg)](https://github.com/ojg1476-tech/precheck-ai/actions/workflows/tests.yml)
+
 화장품·식품·건강기능식품 셀러를 위한 **상세페이지 광고 일괄 점검 도구**예요. 상품 목록을 올리면 모든 상품의 광고 문구를 식약처 기준으로 검사해, **위험한 상품부터 순서대로** 보여주고 상품별로 고칠 곳·확인할 것·적발 시 처분을 정리한 엑셀 리포트를 만들어요.
 
 **▶ 직접 써보기: https://precheck-ai.streamlit.app/** (예시 목록으로 바로 해볼 수 있어요)

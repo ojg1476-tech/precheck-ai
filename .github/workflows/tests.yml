@@ -1,0 +1,35 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 패키지 설치 (화면용 streamlit은 테스트에 필요 없음)
+        run: pip install pandas openpyxl pillow
+      - name: 규칙 파일이 웹 버전 규칙과 같은지 확인
+        run: |
+          node tools/export_rules.js
+          git diff --exit-code rules/rules.json
+      - name: 웹 버전과 Python 엔진 결과 비교
+        run: python tests/test_parity.py
+      - name: 대안 문구 재검사
+        run: python tests/test_alternatives.py
+      - name: 일괄 점검·리포트·이미지 읽기
+        run: python tests/test_batch.py
+      - name: 단속 데이터 분석
+        run: python tests/test_enforcement.py
+      - name: 정확도 측정 (오탐 0% 유지 확인)
+        run: |
+          python eval/evaluate.py --split all | tee eval_out.txt
+          grep -q "오탐률 (허용 문구를 잘못 잡음) | 0.0%" eval_out.txt
