@@ -78,8 +78,8 @@ main { max-width: 1208px; margin: 0 auto; padding: 0 24px; }
 
 /* ── 시작 화면 ─────────────────────────── */
 #view-start { padding-top: 22px; overflow-x: clip; }
-.hero { position: relative; text-align: center; padding: 36px 0 0; }
-.radar { position: absolute; left: 50%; top: -150px; width: 1040px; height: 1040px; transform: translateX(-50%); z-index: -1; pointer-events: none; }
+.hero { position: relative; text-align: center; padding: 14px 0 0; }
+.radar { position: absolute; left: 50%; top: -128px; width: 1040px; height: 1040px; transform: translateX(-50%); z-index: -1; pointer-events: none; }
 .radar::before { content: ""; position: absolute; inset: 0; border-radius: 50%;
   -webkit-mask-image: radial-gradient(circle, #000 40%, transparent 70%); mask-image: radial-gradient(circle, #000 40%, transparent 70%); }
 .rings { position: absolute; inset: 0; -webkit-mask-image: radial-gradient(circle closest-side, #000 55%, transparent 100%); mask-image: radial-gradient(circle closest-side, #000 55%, transparent 100%); }
@@ -106,7 +106,7 @@ main { max-width: 1208px; margin: 0 auto; padding: 0 24px; }
 .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px var(--mint-50); }
 .eyebrow b { font-weight: 800; }
 .eyebrow { white-space: nowrap; }
-.hero .scope { display: table; margin: 72px auto 0; padding: 7px 16px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 700; letter-spacing: -.01em; box-shadow: 0 6px 18px rgba(20,33,29,.18); }
+.hero .scope { display: table; margin: 94px auto 0; padding: 7px 16px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 700; letter-spacing: -.01em; box-shadow: 0 6px 18px rgba(20,33,29,.18); }
 .hero h1 { margin-top: 18px; font-size: 64px; line-height: 1.12; font-weight: 800; letter-spacing: -0.055em; }
 .hero .lead { margin: 20px auto 0; max-width: 40em; }
 

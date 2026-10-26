@@ -88,7 +88,7 @@
 
     // 레이더: 바늘이 지나갈 때 실제 검사 결과가 하나씩 잡힌다 (6초에 한 바퀴, 시계 방향)
     const more = state.ck.check(text + ", 피부과 추천", "cos");
-    const spots = [[62, 47], [116, 47], [244, 47], [298, 47]];      // [각도(위=0, 시계 방향), 반지름 %]
+    const spots = [[66, 47], [116, 47], [244, 47], [294, 47]];      // [각도(위=0, 시계 방향), 반지름 %]
     $("#blips").innerHTML = more.slice(0, 4).map((f, i) => {
       const [deg, r] = spots[i], rad = deg * Math.PI / 180;
       const x = 50 + r * Math.sin(rad), y = 50 - r * Math.cos(rad);
