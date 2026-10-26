@@ -1,0 +1,258 @@
+{
+ "summary": {
+  "시험 페이지": {
+   "문장": 24,
+   "평균 글자 정확도": 0.78,
+   "거의 그대로 읽은 문장(95% 이상)": 14,
+   "원문이면 규칙이 잡는 문장": 11,
+   "OCR 글로도 잡은 문장": 9,
+   "OCR 때문에 놓친 문장": [
+    "보톡스 화장품으로 불리는 앰플 → 염증개선 완화 효과눈에 SARS 때에는 즉시 Nol 내세요",
+    "당뇨에 좋은 아침 그래놀라 → 좋은 아침 그래놀라"
+   ],
+   "OCR 때문에 새로 걸린 평범한 문장": []
+  }
+ },
+ "rows": [
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "바르는 순간 피부재생이 시작돼요",
+   "label": "violation",
+   "ocr": "바르는 순간 피부재생이 시작돼요",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "가볍게 스며드는 워터 제형",
+   "label": "allowed",
+   "ocr": "아침마다 손이 가는 순한 향이에요",
+   "acc": 0.0,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "보톡스 화장품으로 불리는 앰플",
+   "label": "violation",
+   "ocr": "염증개선 완화 효과눈에 SARS 때에는 즉시 Nol 내세요",
+   "acc": 0.0,
+   "flag_truth": true,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "아침마다 손이 가는 순한 향이에요",
+   "label": "allowed",
+   "ocr": "아침마다 손이 가는 순한 향이에요",
+   "acc": 1.0,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "모발굵기 개선까지 한 번에",
+   "label": "violation",
+   "ocr": "BE 7] 개선까지 한 번에",
+   "acc": 0.636,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "용량 30ml · 제조국 대한민국 · 사용기한 개봉 후 12개월",
+   "label": "allowed",
+   "ocr": "용량 30011 ㆍ제조국 대한민국ㆍ사용기한 개봉 후 12개월",
+   "acc": 0.875,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "염증개선 완화 효과",
+   "label": "violation",
+   "ocr": "염증개선 완화 효과",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t1_serum",
+   "group": "시험 페이지",
+   "text": "눈에 들어갔을 때에는 즉시 씻어 내세요",
+   "label": "allowed",
+   "ocr": "눈에 SARS 때에는 즉시 Nol 내세요",
+   "acc": 0.562,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "당뇨에 좋은 아침 그래놀라",
+   "label": "violation",
+   "ocr": "좋은 아침 그래놀라",
+   "acc": 0.727,
+   "flag_truth": true,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "통귀리와 견과류를 듬뿍 넣었어요",
+   "label": "allowed",
+   "ocr": "통귀리와 견과류를 SS 넣었어요",
+   "acc": 0.857,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "갱년기 영양제 대신 매일 한 그릇",
+   "label": "violation",
+   "ocr": "갱년기 영양제 대신 매일 한 그릇",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "아이 간식으로도 잘 먹어요",
+   "label": "allowed",
+   "ocr": "아이 간식으로도 잘 먹어요",
+   "acc": 1.0,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "항산화 영양제 못지않은 베리 토핑",
+   "label": "violation",
+   "ocr": "항산화 영양제 못지않은 베리 토핑",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "내용량 500g · 원재료 귀리, 아몬드, 꿀 · 알레르기 땅콩 함유",
+   "label": "allowed",
+   "ocr": "내용량 5008 ㆍ원재료 귀리, 아몬드, 꿀ㆍ알레르기 땅콩 함유",
+   "acc": 0.958,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "피로회복 영양제처럼 든든하게",
+   "label": "violation",
+   "ocr": "피로회복 영양제처럼 든든하게",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t2_granola",
+   "group": "시험 페이지",
+   "text": "개봉 후 밀봉하여 서늘한 곳에 보관하세요",
+   "label": "allowed",
+   "ocr": "갱년기 영양제 대신 매일 한 그릇아이 간식으로도 잘 먹어요",
+   "acc": 0.0,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "혈행개선 영양제 부럽지 않은 차",
+   "label": "violation",
+   "ocr": "혈행개선 영양제 부럽지 않은 차",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "볶은 보리의 고소한 향",
+   "label": "allowed",
+   "ocr": "볶은 보리의 고소한 향",
+   "acc": 1.0,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "당뇨개선제 대신 하루 두 잔",
+   "label": "violation",
+   "ocr": "당뇨개선제 대신 하루 두 잔",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "물 대신 마시기 좋아요",
+   "label": "allowed",
+   "ocr": "물 대신 마시기 좋아요",
+   "acc": 1.0,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "염증치료를 돕는 한 잔",
+   "label": "violation",
+   "ocr": "염증치료를 돕는 한 잔",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "티백 1.5g × 30개 · 국내산 보리 100%",
+   "label": "allowed",
+   "ocr": "티백 1.58 × 30개ㆍ국내산 보리 100%",
+   "acc": 0.944,
+   "flag_truth": false,
+   "flag_ocr": false
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "간 건강이 걱정되는 분께",
+   "label": "violation",
+   "ocr": "간 건강이 걱정되는 분께",
+   "acc": 1.0,
+   "flag_truth": true,
+   "flag_ocr": true
+  },
+  {
+   "page": "test_t3_tea",
+   "group": "시험 페이지",
+   "text": "뜨거운 물에 3분간 우려 드세요",
+   "label": "allowed",
+   "ocr": "물 대신 마시기 좋아요",
+   "acc": 0.154,
+   "flag_truth": false,
+   "flag_ocr": false
+  }
+ ]
+}

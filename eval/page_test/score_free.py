@@ -43,10 +43,14 @@ def best_line(text, lines):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tessdata")
+    ap.add_argument("--set", default="dev", choices=["dev", "test"],
+                    help="dev = 쉬운·어려운 페이지 6장(개선 작업용), test = 고정해 둔 시험 페이지 3장")
     args = ap.parse_args()
     ck = Checker()
-    truth = {**json.loads((H / "truth.json").read_text(encoding="utf-8")),
-             **json.loads((H / "truth_hard.json").read_text(encoding="utf-8"))}
+    files = ["truth.json", "truth_hard.json"] if args.set == "dev" else ["truth_test.json"]
+    truth = {}
+    for f in files:
+        truth.update(json.loads((H / f).read_text(encoding="utf-8")))
     runs, rows = {}, []
     for pid, t in truth.items():
         text = ocr.read_text_free([(H / "pages" / f"{pid}.png").read_bytes()], tessdata=args.tessdata)
@@ -56,15 +60,16 @@ def main():
             got, acc = best_line(b["text"], lines)
             want = bool(ck.check(b["text"], t["type"]))      # 원문 그대로 검사했을 때
             have = bool(ck.check(got, t["type"])) if acc >= 0.5 else False
-            rows.append({"page": pid, "hard": pid.startswith("hard_"), "text": b["text"], "label": b["label"],
+            rows.append({"page": pid, "group": "시험 페이지" if pid.startswith("test_") else
+                         "어려운 페이지" if pid.startswith("hard_") else "쉬운 페이지", "text": b["text"], "label": b["label"],
                          "ocr": got, "acc": round(acc, 3), "flag_truth": want, "flag_ocr": have})
-    (H / "runs" / "tesseract.json").write_text(json.dumps(runs, ensure_ascii=False, indent=1), encoding="utf-8")
+    (H / "runs" / f"tesseract_{args.set}.json").write_text(json.dumps(runs, ensure_ascii=False, indent=1), encoding="utf-8")
 
     res = {}
-    for hard in (False, True):
-        rs = [r for r in rows if r["hard"] == hard]
+    for group in dict.fromkeys(r["group"] for r in rows):
+        rs = [r for r in rows if r["group"] == group]
         flagged = [r for r in rs if r["flag_truth"]]
-        res["어려운 페이지" if hard else "쉬운 페이지"] = {
+        res[group] = {
             "문장": len(rs),
             "평균 글자 정확도": round(sum(r["acc"] for r in rs) / len(rs), 3),
             "거의 그대로 읽은 문장(95% 이상)": sum(r["acc"] >= 0.95 for r in rs),
@@ -73,7 +78,7 @@ def main():
             "OCR 때문에 놓친 문장": [f"{r['text']} → {r['ocr']}" for r in flagged if not r["flag_ocr"]],
             "OCR 때문에 새로 걸린 평범한 문장": [r["text"] for r in rs if r["flag_ocr"] and not r["flag_truth"]],
         }
-    (H / "results_free.json").write_text(json.dumps({"summary": res, "rows": rows}, ensure_ascii=False, indent=1),
+    (H / f"results_free_{args.set}.json").write_text(json.dumps({"summary": res, "rows": rows}, ensure_ascii=False, indent=1),
                                          encoding="utf-8")
     print(json.dumps(res, ensure_ascii=False, indent=1))
 
