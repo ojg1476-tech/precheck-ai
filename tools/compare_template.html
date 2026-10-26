@@ -1,0 +1,241 @@
+<title>검수 방식 비교 실험</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 실험 보고서 — 위에 결론 표, 아래에 문구별 채점표 */
+:root{
+  --bg:#f5f6f4; --paper:#ffffff; --ink:#18231f; --muted:#5d6b66; --line:#dde2df;
+  --accent:#1f5c4a; --accent-soft:#e3eee9;
+  --red:#b42318; --red-soft:#fde8e6; --amber:#a15c07; --amber-soft:#fdf0d9; --blue:#2759a8; --blue-soft:#e6eefb;
+  --good:#1f7a4d; --good-soft:#e2f3ea;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111715; --paper:#18201d; --ink:#e7ece9; --muted:#9aa8a2; --line:#2b3632;
+  --accent:#6cc2a3; --accent-soft:#1e322b;
+  --red:#ff8a80; --red-soft:#3a1f1d; --amber:#f2b55a; --amber-soft:#382b17; --blue:#8db4f5; --blue-soft:#1b2638;
+  --good:#6fd39f; --good-soft:#1b3326; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111715; --paper:#18201d; --ink:#e7ece9; --muted:#9aa8a2; --line:#2b3632;
+  --accent:#6cc2a3; --accent-soft:#1e322b;
+  --red:#ff8a80; --red-soft:#3a1f1d; --amber:#f2b55a; --amber-soft:#382b17; --blue:#8db4f5; --blue-soft:#1b2638;
+  --good:#6fd39f; --good-soft:#1b3326; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px}
+h1{font-size:24px;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:17px;margin:0;text-wrap:balance}
+p{margin:0}
+.sub{color:var(--muted);font-size:14px;max-width:68ch}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;min-width:0}
+.methods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.methods{grid-template-columns:1fr}}
+.method{border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:6px;align-content:start}
+.method b{font-size:15px}
+.method span{color:var(--muted);font-size:13.5px}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:600;border:0;border-radius:8px;padding:11px 18px;background:var(--accent);color:var(--paper);cursor:pointer}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.status{font-size:14px;color:var(--muted)}
+.steps{display:grid;gap:4px;font-size:13.5px;font-family:var(--mono);color:var(--muted)}
+.steps .done{color:var(--good)} .steps .err{color:var(--red)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:13px;white-space:nowrap}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.best{background:var(--good-soft);color:var(--good);font-weight:700;border-radius:4px;padding:1px 6px}
+.chip{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.c-v{background:var(--red-soft);color:var(--red)} .c-a{background:var(--good-soft);color:var(--good)} .c-c{background:var(--blue-soft);color:var(--blue)}
+.ok{color:var(--good);font-weight:600} .no{color:var(--red);font-weight:600} .mid{color:var(--muted)}
+.note{font-size:13px;color:var(--muted);max-width:75ch}
+details summary{cursor:pointer;font-weight:600}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:6px">
+    <h1>검수 방식 비교 실험</h1>
+    <p class="sub">식약처가 실제로 적발한 문구와 평범한 문구 46개를 세 가지 방식으로 검수해요. 정답은 AI에게 보여주지 않아요. 결과는 자동으로 저장돼서 Claude가 바로 읽어 분석해요.</p>
+  </header>
+
+  <section class="panel">
+    <div class="methods">
+      <div class="method"><span class="tag">방식 A</span><b>그냥 AI</b><span>셀러가 ChatGPT에 묻듯 기준 없이 판단을 맡겨요. 일관성을 보려고 같은 질문을 두 번 해요.</span></div>
+      <div class="method"><span class="tag">방식 B</span><b>규칙만</b><span>지금 검사기의 규칙 37개로만 판단해요. AI는 쓰지 않아요.</span></div>
+      <div class="method"><span class="tag">방식 C</span><b>규칙 + 기준표 AI</b><span>규칙으로 먼저 거르고, 남은 문구는 AI가 우리 기준 목록 안에서만 골라요. 처벌 정보는 검증된 표에서 가져와요.</span></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="run" type="button">실험 시작</button>
+      <span class="status" id="status">AI 호출 6번, 호출 사이에 10초씩 쉬어서 3~5분 걸려요. 처음 누르면 AI 사용 허락을 물어봐요.</span>
+    </div>
+    <div class="steps" id="steps" hidden></div>
+  </section>
+
+  <section class="panel" id="resultPanel">
+    <h2>결과</h2>
+    <p class="note" id="resultNote">아직 실험 전이에요. 규칙만(방식 B) 결과는 AI 없이 바로 계산돼서 미리 보여요.</p>
+    <div class="scroll"><table id="summary"></table></div>
+    <p class="note">위반 탐지율: 적발 문구를 위반이나 자료 필요로 알린 비율. 오탐률: 평범한 문구를 위반으로 잡은 비율. 처벌 정보 정확도: 위반으로 잡은 문구 중 최대 징역·벌금을 원문대로 말한 비율(정답이 확인된 문구만). 일관성: 같은 질문 두 번에 같은 판정이 나온 비율. 대안 문구 재검사: AI가 제안한 대신 쓸 문구를 규칙으로 다시 검사했을 때 또 걸린 비율.</p>
+  </section>
+
+  <section class="panel">
+    <details>
+      <summary>문구별 채점표</summary>
+      <div class="scroll" style="margin-top:12px"><table id="detail"></table></div>
+    </details>
+  </section>
+</div>
+
+<script>
+/*__RULES__*/
+</script>
+<script>
+const DATA=/*__DATA__*/[];
+const TYPE_NAME={cos:"일반 화장품",fcos:"기능성 화장품",food:"일반 식품",hfood:"건강기능식품"};
+const LABEL={violation:["적발 문구","c-v"],allowed:["평범한 문구","c-a"],conditional:["자료 필요 문구","c-c"]};
+const ORD={red:0,amber:1,blue:2};
+const PEN_NUM={cA:[1,1e7],cB:[1,1e7],cAB:[1,1e7],cP:[1,1e7],cX:[1,1e7],f1:[10,1e8],f2:[10,1e8],f3:[10,1e8],f34:null,f4:[5,5e7],f5:[5,5e7],fP:[5,5e7]};
+const CATS={
+ C1:["화장품: 의약품처럼 보임(질병·치료·몸 기능 변화)",[1,1e7]],C2:["화장품: 기능성 인증 없는 기능성 표현(미백·주름·자외선·탈모·여드름 완화 등)",[1,1e7]],
+ C3:["화장품: 의사·약사·병원·기관 추천·개발",[1,1e7]],C4:["화장품: 사실과 다르거나 범위를 벗어난 표현(시술 효과, 즉시 효과, 배합금지 원료 미사용 강조, 질 내 사용·먹을 수 있음 등)",[1,1e7]],
+ C5:["화장품: 최고·최상 등 절대적 표현",[1,1e7]],C6:["기능성 화장품: 심사받은 효능과 다른 효능 광고",[1,1e7]],
+ F1:["식품: 질병 예방·치료 효능",[10,1e8]],F2:["식품: 의약품처럼 보임(약 이름, 약 대신 등)",[10,1e8]],F3:["일반 식품: 건강기능식품처럼 보임(기능성 표현)",[10,1e8]],
+ F4:["식품: 신체 효능 거짓·과장, 인정되지 않은 기능성",[5,5e7]],F5:["식품: 체험기·후기로 효능을 보여줌",[5,5e7]],
+ P:["자료가 있을 때만 쓸 수 있음(실증 필요, 건강기능식품 인정 문구 확인)",null]};
+
+function runRules(text,t){
+  const out=[];
+  for(const r of RULES){ if(!r.for.includes(t))continue; r.re.lastIndex=0; let m;
+    while((m=r.re.exec(text))){ if(!m[0].trim()){r.re.lastIndex++;continue;} const lead=m[0].length-m[0].trimStart().length;
+      out.push({start:m.index+lead,end:m.index+m[0].length,g:r.g,pen:(t==="cos"||t==="fcos")?r.penC:r.penF}); } }
+  out.sort((a,b)=>a.start-b.start||ORD[a.g]-ORD[b.g]||(b.end-b.start)-(a.end-a.start));
+  const res=[]; for(const f of out){const l=res[res.length-1]; if(l&&f.start<l.end){if(ORD[f.g]<ORD[l.g])res[res.length-1]=f;continue;} res.push(f);} return res;
+}
+const penKey=v=>v?Object.keys(PEN).find(k=>PEN[k]===v):null;
+function rulesVerdict(row){
+  const fs=runRules(row.text,row.type); if(!fs.length) return {verdict:"허용",pen:null};
+  const top=fs.slice().sort((a,b)=>ORD[a.g]-ORD[b.g])[0];
+  const strong=fs.filter(f=>f.g!=="blue"); const pf=(strong[0]||top);
+  return {verdict: strong.length?"위반":"자료필요", pen: PEN_NUM[penKey(pf.pen)]??null};
+}
+function altFlagged(alt,t){ if(!alt||typeof alt!=="string") return null; return runRules(alt,t).some(f=>f.g!=="blue"); }
+
+const listText=rows=>rows.map(r=>`${r.id} [${TYPE_NAME[r.type]}] ${r.text}`).join("\n");
+function promptA(rows){return `너는 한국 식약처 광고 규정을 잘 아는 검수 담당자야. 아래는 온라인 상세페이지에 쓰인 광고 문구들이야. 각 문구 앞에 제품 종류를 적어 뒀어.
+각 문구에 대해 판단해 줘.
+- verdict: "위반"(식약처 기준상 쓰면 안 됨), "허용"(그대로 써도 됨), "자료필요"(증명 자료가 있을 때만 쓸 수 있음) 중 하나
+- law: 근거가 되는 법 조항 (짧게)
+- prison_years: 적발 시 형사처벌 최대 징역 연수 (숫자). 위반이 아니면 null
+- fine_won: 적발 시 형사처벌 최대 벌금 (원 단위 숫자). 위반이 아니면 null
+- alternative: 위반이면 대신 쓸 문구, 아니면 null
+설명 없이 JSON 배열로만 답해. 형식: [{"id":"T001","verdict":"위반","law":"...","prison_years":1,"fine_won":10000000,"alternative":"..."}]
+
+${listText(rows)}`;}
+function promptC(rows){return `너는 광고 문구를 미리 정해진 기준 목록에 따라 분류하는 검수 담당자야. 아래 기준 목록 밖의 판단은 하지 마.
+[기준 목록]
+${Object.entries(CATS).map(([k,v])=>`${k}: ${v[0]}`).join("\n")}
+[써도 되는 표현 예]
+화장품의 보습, 노폐물 제거, 메이크업으로 일시적으로 가려줌·연출, 식물줄기세포 함유, 사용감·향·용량 설명, 사용법·주의사항. 식품의 맛·재료·원산지·먹는 방법·보관법·포장 설명. 건강기능식품이 인정받은 기능성을 "~에 도움을 줄 수 있음" 형식으로 쓴 것은 P(자료 확인)로 분류.
+각 문구에 대해 cat에 해당하는 기준 코드 하나를 고르고, 어떤 기준에도 해당하지 않으면 "OK"를 적어 줘. 제품 종류에 맞는 기준만 골라.
+설명 없이 JSON 배열로만 답해. 형식: [{"id":"T001","cat":"C1"}]
+
+${listText(rows)}`;}
+function parseArr(text){ const a=text.indexOf("["), b=text.lastIndexOf("]"); if(a<0||b<a) throw {code:"bad_json",message:"JSON 배열을 찾지 못했어요"}; return JSON.parse(text.slice(a,b+1)); }
+
+const $=id=>document.getElementById(id);
+let sample=null, db=null, results=null;
+(async()=>{ try{ sample=await window.claude?.use?.("sample"); db=await window.claude?.use?.("db"); }catch(e){}
+  if(!sample){ $("run").disabled=true; $("status").textContent="이 화면에서는 AI를 쓸 수 없어요. claude.ai에서 열어 주세요."; } })();
+
+function score(){
+  const R={};
+  const methods=results?["A1","A2","B","C"]:["B"];
+  for(const m of methods){
+    const s={det:[0,0],fp:[0,0],cond:[0,0],pen:[0,0],alt:[0,0]};
+    for(const row of DATA){ const v=results?.[m]?.[row.id] ?? (m==="B"?rulesVerdict(row):null); if(!v) continue;
+      const flagged=v.verdict==="위반"||v.verdict==="자료필요";
+      if(row.label==="violation"){ s.det[1]++; if(flagged)s.det[0]++;
+        if(row.pen&&v.verdict==="위반"){ s.pen[1]++; if(v.pen&&v.pen[0]===row.pen[0]&&v.pen[1]===row.pen[1]) s.pen[0]++; }
+        if(v.alt!==undefined && v.verdict==="위반"){ const f=altFlagged(v.alt,row.type); if(f!==null){ s.alt[1]++; if(f)s.alt[0]++; } } }
+      if(row.label==="allowed"){ s.fp[1]++; if(v.verdict==="위반")s.fp[0]++; }
+      if(row.label==="conditional"){ s.cond[1]++; if(flagged)s.cond[0]++; } }
+    R[m]=s; }
+  if(results?.A1&&results?.A2){ let same=0,n=0; for(const row of DATA){const a=results.A1[row.id],b=results.A2[row.id]; if(a&&b){n++; if(a.verdict===b.verdict)same++;}} R.consistency=[same,n]; }
+  return R;
+}
+const pct=([a,b])=>b?`${(a/b*100).toFixed(1)}% <span class="mid">(${a}/${b})</span>`:`<span class="mid">-</span>`;
+function render(){
+  const S=score(); const cols=results?[["A1","A 그냥 AI (1회차)"],["B","B 규칙만"],["C","C 규칙 + 기준표 AI"]]:[["B","B 규칙만"]];
+  const rowsDef=[["위반 탐지율","det",true],["오탐률","fp",false],["자료 필요 문구 알림률","cond",true],["처벌 정보 정확도","pen",true],["대안 문구 재검사에서 또 걸림","alt",false]];
+  let h=`<tr><th>지표</th>${cols.map(c=>`<th>${c[1]}</th>`).join("")}</tr>`;
+  for(const [name,k,hi] of rowsDef){
+    const vals=cols.map(([m])=>{const x=S[m]?.[k]; return x&&x[1]?x[0]/x[1]:null;});
+    const valid=vals.filter(v=>v!==null); const best=valid.length>1?(hi?Math.max(...valid):Math.min(...valid)):null;
+    h+=`<tr><td>${name}</td>${cols.map(([m],i)=>{const x=S[m]?.[k]; const isBest=best!==null&&vals[i]===best; return `<td class="num">${x?(isBest?`<span class="best">${pct(x).split(" <")[0]}</span> <span class="mid">(${x[0]}/${x[1]})</span>`:pct(x)):"-"}</td>`}).join("")}</tr>`; }
+  if(S.consistency) h+=`<tr><td>일관성 (같은 질문 두 번)</td><td class="num">${pct(S.consistency)}</td><td class="num"><span class="mid">100% (규칙은 항상 같음)</span></td><td class="num"><span class="mid">규칙 부분은 항상 같음</span></td></tr>`;
+  $("summary").innerHTML=h;
+  let d=`<tr><th>ID</th><th>문구</th><th>정답</th><th>A 그냥 AI</th><th>B 규칙</th><th>C 규칙+AI</th></tr>`;
+  const cell=v=>!v?"-":`<span class="${v.verdict==="위반"?"no":v.verdict==="허용"?"ok":"mid"}">${v.verdict}</span>${v.pen?` <span class="mid">${v.pen[0]}년/${(v.pen[1]/1e4).toLocaleString()}만</span>`:""}`;
+  for(const row of DATA){ const [ln,lc]=LABEL[row.label];
+    d+=`<tr><td class="num">${row.id}</td><td>${esc(row.text)} <span class="mid">· ${TYPE_NAME[row.type]}</span></td><td><span class="chip ${lc}">${ln}</span>${row.pen?` <span class="mid">${row.pen[0]}년/${(row.pen[1]/1e4).toLocaleString()}만</span>`:""}</td><td>${cell(results?.A1?.[row.id])}</td><td>${cell(results?.B?.[row.id]||rulesVerdict(row))}</td><td>${cell(results?.C?.[row.id])}</td></tr>`; }
+  $("detail").innerHTML=d;
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function step(msg,cls){ const el=document.createElement("div"); el.textContent=msg; if(cls)el.className=cls; $("steps").appendChild(el); return el; }
+
+const LS="cmp-progress-v1";
+let prog=(()=>{try{return JSON.parse(localStorage.getItem(LS))||null}catch(e){return null}})()||{raw:{A1:[],A2:[],C:[]},R:{A1:{},A2:{},C:{}},done:[]};
+const saveProg=()=>{try{localStorage.setItem(LS,JSON.stringify(prog))}catch(e){}};
+const CHUNK=23;
+const chunks=[]; for(let i=0;i<DATA.length;i+=CHUNK) chunks.push(DATA.slice(i,i+CHUNK));
+const JOBS=[]; for(const pass of ["A1","A2","C"]) chunks.forEach((c,i)=>JOBS.push({key:pass+"-"+i,pass,i,rows:c}));
+const jobName=j=>`${j.pass==="C"?"C 규칙+기준표 AI":"A 그냥 AI "+(j.pass==="A1"?"1회차":"2회차")} · ${j.i+1}/${chunks.length} 묶음`;
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function showProgress(){ if(!prog.done.length) return; $("steps").hidden=false; $("steps").innerHTML="";
+  for(const j of JOBS) if(prog.done.includes(j.key)) step(jobName(j)+" 완료","done");
+  if(prog.done.length<JOBS.length){ $("run").textContent="이어서 하기"; $("status").textContent=`${JOBS.length}개 중 ${prog.done.length}개 끝났어요. 이어서 하면 남은 것만 돌려요.`; } }
+
+function finish(){
+  const R={A1:prog.R.A1,A2:prog.R.A2,B:{},C:{}};
+  for(const row of DATA){ const b=rulesVerdict(row); R.B[row.id]=b; const c=prog.R.C[row.id]||{cat:"OK"};
+    if(b.verdict!=="허용"){ R.C[row.id]={...b,cat:c.cat,by:"rules"}; continue; }
+    const cat=CATS[c.cat]; R.C[row.id]={verdict:!cat?"허용":c.cat==="P"?"자료필요":"위반",pen:cat?cat[1]:null,cat:c.cat,by:"ai"}; }
+  results=R; render(); $("resultNote").textContent="실험이 끝났어요. 초록색이 가장 좋은 결과예요."; return R;
+}
+
+$("run").addEventListener("click",async()=>{
+  if(!sample) return; $("run").disabled=true; $("steps").hidden=false; showProgress();
+  try{
+    let first=true;
+    for(const j of JOBS){
+      if(prog.done.includes(j.key)) continue;
+      if(!first){ $("status").textContent="다음 질문 전에 10초 쉬는 중이에요..."; await wait(10000); }
+      first=false;
+      const el=step(jobName(j)+" 판단 중...");
+      $("status").textContent="AI가 판단하고 있어요. 창을 닫지 마세요.";
+      const {text}=await sample(j.pass==="C"?promptC(j.rows):promptA(j.rows),{modelTier:"default",cache:false});
+      const arr=parseArr(text);
+      for(const o of arr){ if(!o||!o.id) continue;
+        if(j.pass==="C") prog.R.C[o.id]={cat:o.cat};
+        else prog.R[j.pass][o.id]={verdict:["위반","허용","자료필요"].includes(o.verdict)?o.verdict:"허용",law:o.law??null,
+           pen:(o.prison_years!=null&&o.fine_won!=null&&Number.isFinite(+o.prison_years)&&Number.isFinite(+o.fine_won))?[+o.prison_years,+o.fine_won]:null,alt:o.alternative??null}; }
+      prog.raw[j.pass][j.i]=text; prog.done.push(j.key); saveProg();
+      el.textContent=jobName(j)+" 완료"; el.className="done";
+    }
+    const R=finish(); const S=score();
+    if(db){ try{ const id="run-"+new Date().toISOString().replace(/[:.]/g,"-"); await db.doc("runs/"+id).set({createdAt:new Date().toISOString(),n:DATA.length,results:R,metrics:S,raw:prog.raw});
+        step("결과를 저장했어요. Claude에게 '실험 끝났어'라고 알려 주세요.","done"); }catch(e){ step("결과 저장에 실패했어요: "+(e.code||e.message)+" — 위 표를 캡처해서 보내 주세요.","err"); } }
+    else step("결과를 저장할 수 없는 화면이에요. 위 표를 캡처해서 보내 주세요.","err");
+    $("status").textContent="완료"; $("run").textContent="실험 시작";
+  }catch(e){
+    step("멈췄어요: "+(e.code==="not_granted"?"AI 사용을 허락하지 않았어요.":e.code==="rate_limited"?"요청이 많다고 해요. 1~2분 뒤 '이어서 하기'를 눌러 주세요. 끝난 부분은 남아 있어요.":(e.message||e.code)),"err");
+    $("status").textContent=`${JOBS.length}개 중 ${prog.done.length}개 끝났어요.`; $("run").textContent="이어서 하기"; $("run").disabled=false;
+  }
+});
+showProgress();
+render();
+</script>
