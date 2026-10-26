@@ -90,6 +90,17 @@ div[data-testid="stFileUploader"] section { border-radius: 14px; }
 .mr-phead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 2px 0 4px; }
 .mr-phead .n { font-size: 18px; font-weight: 800; color: #1b2430; }
 .mr-phead .m { font-size: 13px; color: #6b7280; }
+.mr-table-wrap { max-height: var(--h, 430px); overflow: auto; background: #fff; border: 1px solid #e6e8ef; border-radius: 14px; }
+.mr-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.mr-table th { position: sticky; top: 0; z-index: 1; background: #f8f9fc; color: #6b7280; font-weight: 600; font-size: 12.5px;
+  text-align: left; padding: 9px 12px; border-bottom: 1px solid #e6e8ef; white-space: nowrap; }
+.mr-table td { padding: 9px 12px; border-bottom: 1px solid #f1f3f5; vertical-align: top; color: #1b2430; line-height: 1.5;
+  word-break: keep-all; overflow-wrap: anywhere; }
+.mr-table tr:last-child td { border-bottom: none; }
+.mr-table tr:hover td { background: #fafbff; }
+.mr-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mr-table .z { color: #c1c7d0; }
+.mr-table .memo { color: #868e96; font-size: 13px; min-width: 160px; }
 .mr-note { font-size: 12.5px; color: #868e96; line-height: 1.6; }
 </style>
 """
@@ -212,3 +223,21 @@ def penalty_short(p) -> str:
     years, won = p
     money = f"{won // 100_000_000}억" if won >= 100_000_000 else f"{won // 10_000:,}만"
     return f"징역 {years}년 · 벌금 {money}"
+
+
+def rank_table(results, type_names: dict, height: int = 430) -> str:
+    """위험 순서 표. 긴 글은 칸 안에서 줄바꿈되고, 표가 높이를 넘으면 상자 안에서 스크롤된다."""
+    def num(n):
+        return f'<td class="num{" z" if not n else ""}">{n}</td>'
+    rows = []
+    for i, r in enumerate(results, 1):
+        c = r.counts
+        rows.append(f"<tr><td class='num'>{i}</td><td><b>{escape(r.name)}</b></td>"
+                    f"<td>{escape(type_names.get(r.product_type, '-'))}</td><td>{tier_pill(r.tier).replace('위험도 ', '')}</td>"
+                    f"{num(c['red'])}{num(c['amber'])}{num(c['blue'])}"
+                    f"<td style='white-space:nowrap'>{escape(penalty_short(r.max_penalty))}</td>"
+                    f"<td class='memo'>{escape(r.error)}</td></tr>")
+    head = ("<tr><th>순위</th><th>상품명</th><th>제품 종류</th><th>위험도</th><th class='num'>꼭 고치기</th>"
+            "<th class='num'>확인 필요</th><th class='num'>자료 챙기기</th><th>최대 처벌</th><th>메모</th></tr>")
+    return (f'<div class="mr-table-wrap" style="--h:{height}px"><table class="mr-table"><thead>{head}</thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>')
