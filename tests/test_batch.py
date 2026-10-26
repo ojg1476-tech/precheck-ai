@@ -119,7 +119,7 @@ def test_ui_cards_group_and_escape():
     ck = Checker()
     res = check_products(read_table(SAMPLE.read_bytes(), "s.csv"), ck)
     ov = overview(res, ck)
-    assert "mr-kpi" in ui.kpis(ov) and "mr-bar" in ui.common_bars(ov)
+    assert "mr-num" in ui.kpis(ov) and "mr-bar" in ui.common_bars(ov)
     fs = ck.check("먹는 위고비, 식욕억제, 지방 배출 <b>", "food")
     html = ui.finding_cards(fs)
     assert html.count('class="mr-card"') < len(fs)           # 같은 규칙은 카드 하나로 묶임

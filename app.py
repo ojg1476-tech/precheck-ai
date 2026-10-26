@@ -4,6 +4,7 @@
 이미지 글자 읽기: tesseract(packages.txt)가 있으면 무료로, .streamlit/secrets.toml 에 ANTHROPIC_API_KEY 가 있으면 AI로 읽는다.
 화면 조각(HTML·CSS)은 precheck/ui.py 에 있다.
 """
+from html import escape
 from pathlib import Path
 
 import pandas as pd
@@ -12,9 +13,8 @@ import streamlit as st
 from precheck import Checker, check_products, overview, read_table, summarize, ui
 from precheck.report import TYPE_NAME, build_report
 
-st.set_page_config(page_title="문구레이더 — 상세페이지 광고 일괄 점검", page_icon="📡", layout="wide")
+st.set_page_config(page_title="문구레이더 | 상세페이지 광고 문구 점검", page_icon="📝", layout="wide")
 SAMPLE = Path(__file__).parent / "examples" / "sample_products.csv"
-TIER_ICON = {"높음": "🔴", "중간": "🟠", "확인": "🔵", "양호": "🟢", "오류": "⚪"}
 REPO = "https://github.com/ojg1476-tech/precheck-ai"
 PANEL = 430  # 표·카드 목록 상자 높이(px). 넘치면 상자 안에서 스크롤
 
@@ -47,9 +47,9 @@ def section(title: str):
 
 ck = get_checker()
 html(ui.CSS)
-html(ui.hero(len(ck.rules), ck.version))
+html(ui.hero(len(ck.rules), ck.version, ck))
 
-tab_batch, tab_one, tab_about = st.tabs(["📋 여러 상품 한 번에", "✏️ 한 개 검사", "📊 기준과 성능"])
+tab_batch, tab_one, tab_about = st.tabs(["여러 상품 한 번에", "문구 하나 검사", "기준과 성능"])
 
 # ── 여러 상품 한 번에 ─────────────────────────────────────
 with tab_batch:
@@ -62,12 +62,12 @@ with tab_batch:
             use_sample = st.button("예시로 해보기", type="tertiary", use_container_width=True,
                                    help="파일 없이 예시 상품 11개로 결과를 미리 볼 수 있어요.")
         with c_dl:
-            st.download_button("⬇️ 입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
+            st.download_button("입력 양식 받기", SAMPLE.read_bytes(), file_name="문구레이더_입력양식.csv",
                                mime="text/csv", use_container_width=True)
         up = st.file_uploader("상품 목록 파일 (CSV · 엑셀)", type=["csv", "xlsx"], key="list_upload",
                               label_visibility="collapsed")
     with c_img:
-        with st.popover("🖼️ 이미지로 검사", use_container_width=True):
+        with st.popover("이미지로 검사하기", use_container_width=True):
             key = api_key()
             free = free_ocr_ready()
             if not key and not free:
@@ -126,14 +126,14 @@ with tab_batch:
 
     results = st.session_state.get("results")
     if not results:
-        html(ui.empty("📂", "상품 목록 파일을 올리면 위험한 상품부터 보여드려요."))
+        html(ui.empty("상품 목록 파일을 올려 주세요", "위반 소지가 있는 상품을 위험한 순서로 보여드려요. 파일이 없으면 ‘예시로 해보기’를 눌러 보세요."))
     else:
         ov = overview(results, ck)
         top, dl = st.columns([3, 1], vertical_alignment="center")
         with top:
-            section(f"점검 결과 · {st.session_state.get('source', '')} · 상품 {ov['total']}개")
+            html(f'<div class="mr-section">점검 결과<small>{escape(st.session_state.get("source", ""))}</small></div>')
         with dl:
-            st.download_button("⬇️ 엑셀 리포트 받기", build_report(results, ck), type="primary", use_container_width=True,
+            st.download_button("엑셀 리포트 받기", build_report(results, ck), type="primary", use_container_width=True,
                                file_name="문구레이더_점검리포트.xlsx",
                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         ocr_texts = st.session_state.get("ocr_texts")
@@ -155,7 +155,7 @@ with tab_batch:
                 if ov["common"]:
                     html('<div class="mr-sub">여러 상품에서 반복된 문제</div>' + ui.common_bars(ov))
                 else:
-                    html(ui.empty("✅", "여러 상품에서 반복된 문제는 없어요."))
+                    html(ui.empty("반복된 문제가 없어요", "여러 상품에 같은 유형의 표현이 걸리지 않았어요."))
 
         with t_rank:
             html(ui.rank_table(results, TYPE_NAME, PANEL))
@@ -163,13 +163,13 @@ with tab_batch:
         with t_detail:
             flagged = [(i, r) for i, r in enumerate(results, 1) if r.findings]
             if not flagged:
-                html(ui.empty("✅", "걸린 표현이 있는 상품이 없어요."))
+                html(ui.empty("걸린 표현이 없어요", "모든 상품이 기본 검사를 통과했어요."))
             else:
                 left, right = st.columns([1, 2.2], gap="medium")
                 with left:
                     with st.container(height=PANEL, border=True):
                         pick = st.radio("상품", [i for i, _ in flagged], label_visibility="collapsed",
-                                        format_func=lambda i: f"{TIER_ICON[results[i - 1].tier]} {i}. {results[i - 1].name}")
+                                        format_func=lambda i: f"{results[i - 1].name}  ({results[i - 1].tier})")
                 r = results[pick - 1]
                 with right:
                     with st.container(height=PANEL, border=False):
@@ -196,9 +196,9 @@ with tab_one:
                     with st.container(height=PANEL - 120, border=False):
                         html(ui.highlighted(text, fs))
             else:
-                html(ui.empty("✅", "기본 검사에서 걸린 표현은 없어요."))
+                html(ui.empty("걸린 표현이 없어요", "기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요."))
         else:
-            html(ui.empty("✏️", "왼쪽에 문구를 붙여 넣고 ‘검사하기’를 눌러 주세요."))
+            html(ui.empty("문구를 붙여 넣어 주세요", "왼쪽에 상세페이지 글을 넣고 ‘검사하기’를 누르면 고칠 곳을 표시해 드려요."))
 
 # ── 기준과 성능 ─────────────────────────────────────────
 with tab_about:
