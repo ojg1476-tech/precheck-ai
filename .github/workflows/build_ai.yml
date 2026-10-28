@@ -7,6 +7,10 @@ on:
         description: "결과를 저장소에 커밋"
         type: boolean
         default: true
+      diag:
+        description: "양자화 진단도 실행"
+        type: boolean
+        default: false
       variant:
         description: "쓸 변환본 (q_uint8, q_int8_pc, q_uint8_pc)"
         default: "q_int8_pc"
@@ -41,9 +45,9 @@ jobs:
           git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
           cd /tmp/corpus && git sparse-checkout set sentiment
       - name: 진단 (변환본 비교)
+        if: ${{ inputs.diag }}
         run: python tools/build_ai.py --diag-only --onnx /tmp/onnx/model.onnx --tokenizer /tmp/onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt --fp32 jhgan/ko-sroberta-multitask --compare /tmp/onnx/model.onnx,/tmp/onnx/q_uint8.onnx,/tmp/onnx/q_int8_pc.onnx,/tmp/onnx/q_uint8_pc.onnx
       - name: 검증과 기준 문구 임베딩
-        if: ${{ inputs.commit }}
         run: cp /tmp/onnx/${{ inputs.variant }}.onnx /tmp/onnx/model_quantized.onnx && python tools/build_ai.py --onnx /tmp/onnx/model_quantized.onnx --tokenizer /tmp/onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt --fp32 jhgan/ko-sroberta-multitask
       - name: 브라우저용 라이브러리
         run: |
