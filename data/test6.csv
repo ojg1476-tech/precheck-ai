@@ -1,0 +1,21 @@
+id,split,product_type,label,category,text,source,source_url
+S001,test6,food,violation,,불면증 완화·수면유도제,식약처 적발 보도,https://m.dailypharm.com/user/news/32071
+S002,test6,cos,violation,,바르는 보톡스·필러 시술,식약처 적발 보도,https://m.dailypharm.com/user/news/7712
+S003,test6,food,violation,,탈모에 좋은,식약처 적발 보도,https://dailypharm.com/user/news/6743
+S004,test6,food,violation,,탈모 개선,식약처 적발 보도,https://dailypharm.com/user/news/6743
+S005,test6,food,violation,,머리카락 나는 약,식약처 적발 보도,https://dailypharm.com/user/news/6743
+S006,test6,fcos,violation,,눈썹염색,식약처 적발 보도,https://www.kpinews.kr/newsView/1065573908398647
+S007,test6,fcos,violation,,흰 눈썹 염색약,식약처 적발 보도,https://www.kpinews.kr/newsView/1065573908398647
+S008,test6,fcos,violation,,눈썹 탈색제,식약처 적발 보도,https://www.kpinews.kr/newsView/1065573908398647
+S009,test6,fcos,violation,,눈썹 인중 염색약,식약처 적발 보도,https://www.kpinews.kr/newsView/1065573908398647
+S010,test6,fcos,violation,,속눈썹을 염색하는 제품,식약처 적발 보도,https://www.kpinews.kr/newsView/1065573908398647
+S011,test6,fcos,violation,,머리색이랑 똑같은 눈썹을 얻었어요,식약처 적발 보도,https://www.kpinews.kr/newsView/1065573908398647
+S012,test6,food,violation,,벌써 체중이 2kg 빠졌어요,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S013,test6,food,violation,,Before & After,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S014,test6,food,violation,,습진,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S015,test6,food,violation,,아토피 발생 완화효과,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S016,test6,food,violation,,성인병 예방,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S017,test6,cos,violation,,이마가 봉긋하게 채워져요,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S018,test6,cos,violation,,여드름 흉터가 없어졌어요,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S019,test6,cos,violation,,피부 재생까지 케어하네요,식약처 적발 보도,https://www.dailypharm.com/user/news/29091
+S020,test6,hfood,allowed,,식후 혈당상승 억제에 도움을 줄 수 있음,식약처 인정 기능성 문구(보도 인용),https://dailypharm.com/user/news/16649
