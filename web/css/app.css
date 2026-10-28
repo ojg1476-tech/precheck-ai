@@ -7,7 +7,7 @@
 :root {
   --ink: #14211d; --ink-2: #2c3a35; --muted: #596a64; --faint: #85948f;
   --line: rgba(20, 33, 29, .09); --line-2: rgba(20, 33, 29, .06);
-  --pine: #0f5b48; --mint: #2fc796; --mint-50: rgba(47, 199, 150, .12);
+  --violet: #7a4fd6; --violet-50: rgba(122, 79, 214, .1); --pine: #0f5b48; --mint: #2fc796; --mint-50: rgba(47, 199, 150, .12);
   --red: #e03348; --red-50: #fde8eb; --amber: #c27c12; --amber-50: #fcf0db;
   --blue: #2f6ad0; --blue-50: #e5eefc; --ok: #24895a; --ok-50: #e2f4ea; --gray: #7c8783; --gray-50: #eef1f0;
   --glass: rgba(255, 255, 255, .58); --glass-strong: rgba(255, 255, 255, .78); --glass-line: rgba(255, 255, 255, .85);
@@ -547,3 +547,22 @@ button.chip:hover, a.chip:hover { background: #fff; }
   .bars-y { gap: 6px; height: 160px; }
   .rw { font-size: 13px; padding: 7px 11px; }
 }
+
+/* AI로 한 번 더 확인 */
+.g-ai { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4'%3E%3Cpath d='M0 2.5h5' fill='none' stroke='%237a4fd6' stroke-width='1.6'/%3E%3C/svg%3E") !important; }
+.ai-box { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 16px; border-radius: 16px; background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(122,79,214,.08)); border: 1px solid rgba(122,79,214,.2); margin-bottom: 12px; }
+.ai-box > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.ai-box b { font-size: 14px; color: var(--ink); }
+.ai-box span { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.ai-box .btn { flex: none; height: 38px; border-color: rgba(122,79,214,.35); color: var(--violet); }
+.ai-box.done { justify-content: flex-start; }
+.ai-box.done span { font-size: 13.5px; color: var(--ink-2); }
+.ai-box.done b { color: var(--violet); font-size: inherit; }
+.ai-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 0 4px var(--violet-50); flex: none; }
+.ai-box .prog { display: block; height: 6px; border-radius: 99px; background: rgba(122,79,214,.12); overflow: hidden; margin-top: 4px; }
+.ai-box .prog i { display: block; height: 100%; background: var(--violet); border-radius: 99px; transition: width .2s; }
+.res-ai { margin: 0 0 12px; }
+#ed-ai .ai-box { margin: 12px 0 0; }
+.ai-list { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+.ai-list li { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.ai-list li span { font-size: 12.5px; color: var(--muted); }

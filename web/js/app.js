@@ -8,7 +8,7 @@
     "높음": ["var(--red)", "꼭 고칠 표현이 있어요"], "중간": ["var(--amber)", "확인이 필요해요"],
     "확인": ["var(--blue)", "증명 자료를 챙기세요"], "양호": ["var(--ok)", "걸린 표현이 없어요"], "오류": ["var(--gray)", "읽지 못했어요"],
   };
-  const GRADE = { red: ["var(--red)", "var(--red-50)"], amber: ["var(--amber)", "var(--amber-50)"], blue: ["var(--blue)", "var(--blue-50)"] };
+  const GRADE = { red: ["var(--red)", "var(--red-50)"], amber: ["var(--amber)", "var(--amber-50)"], blue: ["var(--blue)", "var(--blue-50)"], ai: ["var(--violet)", "var(--violet-50)"] };
   const ORDER = { red: 0, amber: 1, blue: 2 };
   const TYPES = [["cos", "일반 화장품"], ["fcos", "기능성 화장품"], ["food", "일반 식품"], ["hfood", "건강기능식품"]];
   const state = { ck: null, results: null, source: "", ocr: null, pick: 0, imgFiles: [], season: [], news: null, enforced: null };
@@ -29,7 +29,7 @@
     let out = "", pos = 0;
     fs.forEach((f, i) => {
       const [c, b] = GRADE[f.grade];
-      out += esc(text.slice(pos, f.start)) + `<mark class="g-${f.grade} ${cls}" data-i="${i}" style="--c:${c};--b:${b}">${esc(text.slice(f.start, f.end))}</mark>`;
+      out += esc(text.slice(pos, f.start)) + `<mark class="g-${f.grade} ${cls}" data-i="${f._i ?? i}" style="--c:${c};--b:${b}">${esc(text.slice(f.start, f.end))}</mark>`;
       pos = f.end;
     });
     return out + esc(text.slice(pos));
@@ -193,7 +193,7 @@
   }
 
   function run(items, source, ocr = null) {
-    state.results = M.checkProducts(items, state.ck);
+    state.results = M.checkProducts(items, state.ck); state.ai = null;
     state.source = source; state.ocr = ocr; state.imgFiles = [];
     state.pick = Math.max(0, state.results.findIndex(r => r.findings.length));
     renderResult(); location.hash = "#/"; route();
@@ -269,6 +269,7 @@
         <span class="nm">${esc(r.name)}</span><span class="mt">꼭 고치기 ${r.counts.red} · 확인 ${r.counts.amber} · 자료 ${r.counts.blue}</span></span></button></li>`).join("")
       || `<li class="empty-s" style="padding:16px">걸린 표현이 있는 상품이 없어요.</li>`;
     renderDetail();
+    renderAIBatchBox();
 
     // 읽어 낸 글
     if (state.ocr) $("#tp-ocr").innerHTML = `<p class="sub" style="margin:0 0 12px">이미지에서 읽어 낸 글이에요. 잘못 읽은 곳이 있으면 글을 고쳐 ‘문구 하나 검사’에 넣어 보세요.</p>` +
@@ -310,14 +311,15 @@
   function renderDetail() {
     const r = state.results[state.pick];
     document.querySelectorAll("#plist button").forEach(b => b.setAttribute("aria-selected", String(+b.dataset.pick === state.pick)));
-    if (!r || !r.findings.length) { $("#pdetail").innerHTML = ""; return; }
+    const aiH = (state.ai && state.ai.get(state.pick)) || [];
+    if (!r || (!r.findings.length && !aiH.length)) { $("#pdetail").innerHTML = ""; return; }
     const c = r.counts;
     $("#pdetail").innerHTML = `<div class="ph-head"><h3>${esc(r.name)}</h3>${tierTag(r.tier)}<span class="mt">${esc(R.TYPE_NAME[r.productType])} · 꼭 고치기 ${c.red}, 확인 필요 ${c.amber}, 자료 챙기기 ${c.blue}</span></div>
       ${r.maxPenalty ? `<p class="ph-pen">이대로 두면 최대 <b>${M.penaltyText(r.maxPenalty)}</b></p>` : ""}
       ${(() => { const s = L.worstStop(r.findings, r.productType); return s ? lossHTML(s, s.scope === "store" ? "store" : "p:" + r.name) : ""; })()}
       <div class="copybox"><div class="cap"><span>상세 문구</span><button type="button" id="copy-more">전체 보기</button></div>
-        <div class="copytext" id="copytext">${marked(r.text, r.findings)}</div></div>
-      ${cards(r.findings, r.productType)}`;
+        <div class="copytext" id="copytext">${marked(r.text, withAI(r.findings, (state.ai && state.ai.get(state.pick)) || []))}</div></div>
+      ${cards(r.findings, r.productType)}${aiCard((state.ai && state.ai.get(state.pick)) || [])}`;
     const ct = $("#copytext");
     if (ct.scrollHeight <= 140) { ct.classList.add("open"); $("#copy-more").hidden = true; }
     $("#pdetail").scrollTop = 0;
@@ -331,7 +333,8 @@
   function goProduct(i) { state.pick = i; renderDetail(); selectTab("detail"); }
 
   async function downloadReport() {
-    const blob = R.buildReport(state.results, state.ck, undefined, { season: state.season, news: state.news, enforced: state.enforced });
+    const blob = R.buildReport(state.results, state.ck, undefined, { season: state.season, news: state.news, enforced: state.enforced,
+      ai: state.ai ? [...state.ai.entries()].flatMap(([i, hs]) => hs.map(h => ({ name: state.results[i].name, ...h }))) : null });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob); a.download = `moonguradar_report_${new Date().toLocaleDateString("sv-SE")}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
@@ -345,7 +348,8 @@
     const ed = $("#ed"), text = ed.value;
     lastFs = text.trim() ? state.ck.check(text, txtType) : [];
     if (text.trim()) countOnce("check-text");
-    $("#ed-hl").innerHTML = marked(text, lastFs) + "\n";
+    const aiHits = aiText.text === text && txtType !== "hfood" ? aiText.hits : [];
+    $("#ed-hl").innerHTML = marked(text, withAI(lastFs, aiHits)) + "\n";
     $("#ed-count").textContent = `${text.length.toLocaleString("ko-KR")}자`;
     const c = M.summarize(lastFs);
     $("#ed-sum").innerHTML = [["red", "꼭 고치기"], ["amber", "확인 필요"], ["blue", "자료 챙기기"]].map(([g, n]) =>
@@ -354,11 +358,95 @@
     $("#ed-loss").innerHTML = st ? lossHTML(st, st.scope === "store" ? "store" : "p:text") : "";
     $("#ed-cards").innerHTML = !text.trim()
       ? `<div class="hint"><b>문구를 붙여 넣어 주세요</b>상세페이지 글을 왼쪽에 넣으면 고칠 곳에 물결 밑줄을 긋고, 이유와 대신 쓸 말을 여기에 보여드려요.</div>`
-      : lastFs.length ? cards(lastFs, txtType)
-        : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`;
+      : (lastFs.length ? cards(lastFs, txtType) : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`) + aiCard(aiHits);
+    renderAIBox("#ed-ai", text.trim() ? (aiText.text === text ? aiText : null) : null, "text");
     syncScroll();
+    if (text.trim() && window.MoonguAI && MoonguAI.isReady() && aiText.text !== text) {
+      clearTimeout(checkText.t); checkText.t = setTimeout(() => runAIText(), 700);
+    }
   }
   function syncScroll() { const ed = $("#ed"); $("#ed-hl").parentElement.scrollTop = ed.scrollTop; }
+
+  /* ── AI로 한 번 더 확인 (뜻 비교) ─────────── */
+  let aiText = { text: null, hits: [] }, aiBusy = false;
+  function withAI(fs, hits) {   // 규칙 결과와 AI 구절을 위치 순서로 합쳐 밑줄 긋기용으로
+    return fs.map((f, i) => ({ ...f, _i: i })).concat(hits.map((h, k) => ({ grade: "ai", start: h.start, end: h.end, _i: "a" + k })))
+      .sort((a, b) => a.start - b.start);
+  }
+  function aiCard(hits) {
+    if (!hits.length) return "";
+    const [c, b] = GRADE.ai;
+    return `<article class="fcard ai-card" style="--c:${c};--b:${b}">
+      <div class="hd"><span class="grade">AI 확인 필요</span><span class="lb">실제 적발 문구와 뜻이 비슷한 표현</span></div>
+      <ul class="ai-list">${hits.map(h => `<li><b>‘${esc(h.text)}’</b><span>비슷한 실제 적발 문구: ‘${esc(h.near.t)}’</span></li>`).join("")}</ul>
+      <p class="why">규칙에는 걸리지 않았지만, 실제로 적발된 문구와 뜻이 가까워요. 효능을 말하는 표현인지 직접 확인해 보세요.</p>
+    </article>`;
+  }
+  function renderAIBox(sel, done, where) {
+    const el = $(sel); if (!el) return;
+    if (aiBusy) return;
+    if (where === "text" && txtType === "hfood") {
+      el.innerHTML = `<div class="ai-box"><span>건강기능식품은 식약처가 인정한 기능 문구를 쓸 수 있어서 AI 확인은 하지 않아요. 인정받은 문구인지는 위 ‘자료 챙기기’로 확인하세요.</span></div>`;
+      return;
+    }
+    if (done) {
+      el.innerHTML = `<div class="ai-box done"><span class="ai-dot"></span><span>AI 확인 완료 · ${done.hits.length ? `뜻이 비슷한 표현 <b>${done.hits.length}곳</b>` : "더 찾은 표현이 없어요"}</span></div>`;
+      return;
+    }
+    const ready = window.MoonguAI && MoonguAI.isReady();
+    el.innerHTML = `<div class="ai-box"><div><b>AI로 한 번 더 확인</b><span>규칙에 없는 표현도 실제 적발 문구와 뜻을 비교해 찾아요.${ready ? "" : " 처음 한 번 AI 모델(약 110MB)을 받아요."} 문구는 이 브라우저 밖으로 나가지 않아요.</span></div>
+      <button type="button" class="btn ghost ai-go" data-where="${where}">AI 확인</button></div>`;
+  }
+  async function aiLoad(el) {
+    await MoonguAI.load((p, total) => { el.innerHTML = aiProgress(`AI 모델 받는 중 · ${Math.round(p * 100)}% (${Math.round(total / 1048576)}MB, 처음 한 번만)`, p); });
+  }
+  function aiProgress(msg, p) {
+    return `<div class="ai-box busy"><div><b>${esc(msg)}</b><span class="prog"><i style="width:${(p * 100).toFixed(0)}%"></i></span></div></div>`;
+  }
+  async function runAIText() {
+    const ed = $("#ed"), text = ed.value, el = $("#ed-ai");
+    if (!text.trim() || aiBusy || txtType === "hfood") return;
+    aiBusy = true;
+    try {
+      if (!MoonguAI.isReady()) { await aiLoad(el); countOnce("ai-load"); }
+      el.innerHTML = aiProgress("AI가 문장을 살펴보는 중", 0);
+      const hits = await MoonguAI.check(text, lastFs.map(f => [f.start, f.end]), (i, n) => { el.innerHTML = aiProgress(`AI가 문장을 살펴보는 중 · ${i}/${n}`, i / n); });
+      if (ed.value === text) aiText = { text, hits };
+      countOnce("ai-check-text");
+    } catch (e) {
+      el.innerHTML = `<div class="ai-box"><span>AI를 준비하지 못했어요. ${esc(e.message)}</span></div>`; aiBusy = false; return;
+    }
+    aiBusy = false;
+    checkText();
+  }
+  async function runAIBatch() {
+    const el = $("#res-ai"), res = state.results;
+    if (aiBusy || !res) return;
+    aiBusy = true;
+    try {
+      if (!MoonguAI.isReady()) { await aiLoad(el); countOnce("ai-load"); }
+      // 건강기능식품은 인정받은 기능 문구를 쓸 수 있어 AI 확인에서 뺀다 (AI는 '기능을 말하는 표현'을 찾도록 배웠다)
+      const todo = res.map((r, i) => [r, i]).filter(([r]) => r.text && !r.error && r.productType !== "hfood");
+      state.ai = new Map();
+      for (let k = 0; k < todo.length; k++) {
+        const [r, i] = todo[k];
+        el.innerHTML = aiProgress(`AI가 상품을 살펴보는 중 · ${k + 1}/${todo.length} ${r.name}`, k / todo.length);
+        state.ai.set(i, await MoonguAI.check(r.text, r.findings.map(f => [f.start, f.end])));
+      }
+      countOnce("ai-check-batch");
+    } catch (e) {
+      el.innerHTML = `<div class="ai-box"><span>AI를 준비하지 못했어요. ${esc(e.message)}</span></div>`; aiBusy = false; return;
+    }
+    aiBusy = false;
+    renderAIBatchBox(); renderDetail();
+  }
+  function renderAIBatchBox() {
+    const el = $("#res-ai"); if (!el || aiBusy) return;
+    if (state.ai) {
+      const n = [...state.ai.values()].reduce((s, h) => s + h.length, 0), p = [...state.ai.values()].filter(h => h.length).length;
+      el.innerHTML = `<div class="ai-box done"><span class="ai-dot"></span><span>AI 확인 완료 · ${n ? `상품 ${p}개에서 뜻이 비슷한 표현 <b>${n}곳</b>을 더 찾았어요. ‘상품별 자세히’와 엑셀 리포트에 함께 담겨요.` : "규칙 밖에서 더 찾은 표현이 없어요."}</span></div>`;
+    } else renderAIBox("#res-ai", null, "batch");
+  }
 
   /* ── 실제 적발 ───────────────────────── */
   // 같은 규칙에 걸리는 실제 적발 문구 (같은 분야 먼저, 최대 3개)
@@ -493,6 +581,10 @@
     });
 
     document.addEventListener("input", onLossInput);
+    document.addEventListener("click", e => {
+      const b = e.target.closest(".ai-go"); if (!b) return;
+      b.dataset.where === "batch" ? runAIBatch() : runAIText();
+    });
     seg($("#txt-type"), "txt-type", txtType, v => { txtType = v; checkText(); });
     const ed = $("#ed"); let t;
     ed.addEventListener("input", () => { clearTimeout(t); t = setTimeout(checkText, 120); $("#ed-hl").innerHTML = esc(ed.value) + "\n"; });
