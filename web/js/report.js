@@ -3,6 +3,10 @@
   "use strict";
   const M = root.Moongu || (typeof require !== "undefined" ? require("./engine.js") : null);
   const X = root.MiniXLSX || (typeof require !== "undefined" ? require("./xlsx.js") : null);
+  const L = root.MoonguLoss || (typeof require !== "undefined" ? require("./loss.js") : null);
+  const RV = root.MoonguRelevance || (typeof require !== "undefined" ? require("./relevance.js") : null);
+  const SE = root.MoonguSeason || (typeof require !== "undefined" ? require("./season.js") : null);
+  const DOM = { cos: "화장품", food: "식품", hfood: "건강기능식품" };
   const TYPE_NAME = { cos: "일반 화장품", fcos: "기능성 화장품", food: "일반 식품", hfood: "건강기능식품", "": "-" };
   const NOTICE = "이 리포트는 공개된 법령·식약처 기준·실제 단속 사례에 비춰 문제가 될 수 있는 표현을 알려 주는 점검 자료예요. "
     + "법적으로 위반인지 확정하는 판단은 아니며, 최종 확인은 관계 기관이나 전문가에게 받으세요.";
@@ -18,14 +22,37 @@
 
   function table(header, rows) { return [header.map(h => ({ v: h, s: "head" })), ...rows.map(r => r.map(v => (v && typeof v === "object") ? v : { v, s: "cell" }))]; }
 
-  function buildReport(results, checker, today = new Date().toLocaleDateString("sv-SE")) {
+  /* 맞춤 소식 시트: 다가오는 단속 시즌 + 상품에 해당하는 최신 소식 */
+  function personalRows(results, ctx, now) {
+    const P = RV.personalize(results, ctx, now), rows = [];
+    const names = ps => ps.length > 6 ? ps.slice(0, 6).map(p => p.name).join(", ") + ` 외 ${ps.length - 6}개` : ps.map(p => p.name).join(", ");
+    const hits = ps => [...new Set(ps.map(p => p.hit).filter(Boolean))].join(", ");
+    for (const { e, products } of P.season) {
+      rows.push([{ v: "다가오는 단속 시즌", s: "amber" }, `${SE.soon(e)} (${e.date.slice(0, 4) === String(now.getFullYear()) && e.until < 0 ? "" : "과거 "}${e.date} 발표)`, DOM[e.domain], e.theme, names(products), hits(products),
+        e.tip + (e.total ? ` · 당시 ${e.total.toLocaleString("ko-KR")}건 적발` : ""), e.source]);
+    }
+    for (const { item: n, level, products } of P.news) {
+      rows.push([{ v: n.kind === "제도" ? "기준 변경 소식" : "최신 단속 소식", s: n.kind === "제도" ? "blue" : "red" }, n.date,
+        n.cats.map(c => DOM[c]).join("·"), n.title, level === "분야" ? `같은 분야 상품 전체 (${products.length}개)` : names(products), hits(products),
+        n.summary || "제목만 모은 소식이에요. 출처에서 내용을 확인하세요.", n.url]);
+    }
+    return { rows, nSeason: P.season.length, nNews: P.news.length };
+  }
+
+  function buildReport(results, checker, today = new Date().toLocaleDateString("sv-SE"), ctx = null) {
     const ov = M.overview(results, checker);
+    const per = ctx && RV ? personalRows(results, ctx, new Date(today + "T09:00:00")) : null;
     const sum = [[{ v: "상세페이지 광고 일괄 점검 리포트", s: "title" }], [{ v: `점검일 ${today} · 기준 버전 ${checker.version} · 규칙 ${checker.rules.length}개`, s: "muted" }], []];
     sum.push([{ v: "점검한 상품", s: "bold" }, ov.total]);
     for (const [k, v] of Object.entries(ov.tiers)) sum.push([{ v: "위험도 " + k, s: k }, v]);
     sum.push([], [{ v: "여러 상품에서 반복된 문제", s: "bold" }]);
     for (const [name, n] of ov.common) sum.push([name, `${n}개 상품`]);
     if (!ov.common.length) sum.push(["-"]);
+    if (per) {
+      sum.push([], [{ v: "내 상품에 필요한 소식", s: "bold" }]);
+      sum.push([per.rows.length ? `다가오는 단속 시즌 ${per.nSeason}건, 상품에 해당하는 최신 소식 ${per.nNews}건 → ‘맞춤 소식’ 시트에 정리했어요.`
+        : "지금은 상품에 해당하는 단속 시즌이나 소식이 없어요."]);
+    }
     sum.push([], [{ v: "위험도 뜻", s: "bold" }]);
     for (const t of ["높음: 꼭 고쳐야 할 표현이 하나 이상 있어요.", "중간: 문제가 될 수 있어 확인이 필요한 표현이 있어요.",
       "확인: 쓸 수는 있지만 증명 자료나 인정 여부를 확인해야 하는 표현만 있어요.", "양호: 기본 검사에서 걸린 표현이 없어요.",
@@ -35,8 +62,9 @@
 
     const rank = results.map((p, i) => {
       const c = p.counts;
+      const st = L ? L.worstStop(p.findings, p.productType) : null;
       return [i + 1, p.name, TYPE_NAME[p.productType] ?? p.productType, { v: p.tier, s: p.tier }, M.penaltyText(p.maxPenalty),
-        c.red, c.amber, c.blue, p.score, p.error || ""];
+        st ? st.label + (st.scope === "store" ? " (가게 전체)" : "") : "-", c.red, c.amber, c.blue, p.score, p.error || ""];
     });
     const detail = [];
     for (const p of results) {
@@ -54,10 +82,15 @@
     ];
     return X.writeWorkbook([
       { name: "요약", rows: sum, widths: [48, 14, 10, 10], merges: [`A${noticeRow}:D${noticeRow}`], heights: { [noticeRow]: 48 } },
-      { name: "위험 순위", rows: table(["순위", "상품명", "제품 종류", "위험도", "가장 무거운 형사처벌(최대)", "꼭 고치기", "확인 필요", "자료 챙기기", "점수", "메모"], rank),
-        widths: [6, 26, 14, 9, 30, 9, 9, 10, 7, 28], freeze: 1 },
+      { name: "위험 순위", rows: table(["순위", "상품명", "제품 종류", "위험도", "가장 무거운 형사처벌(최대)", "1차 위반 행정처분", "꼭 고치기", "확인 필요", "자료 챙기기", "점수", "메모"], rank),
+        widths: [6, 26, 14, 9, 30, 26, 9, 9, 10, 7, 28], freeze: 1 },
       { name: "상세", rows: table(["상품명", "등급", "찾은 표현", "쉬운 이름", "왜 문제인가", "대신 이렇게", "쓰기 전에 확인할 것", "이대로 두면", "관련 기준", "출처"], detail),
         widths: [20, 10, 18, 20, 36, 26, 44, 44, 30, 28], freeze: 1 },
+      ...(per ? [{ name: "맞춤 소식", rows: [[{ v: "내 상품에 필요한 소식", s: "title" }],
+        [{ v: `${today} 기준 · 다가오는 단속 시즌은 과거 같은 시기의 단속 기록이며 예측이 아니에요.`, s: "muted" }], [],
+        ...table(["구분", "날짜·시기", "분야", "제목·주제", "해당 상품", "겹친 표현", "내용", "출처"],
+          per.rows.length ? per.rows : [["-", "", "", "지금은 상품에 해당하는 단속 시즌이나 소식이 없어요.", "", "", "", ""]])],
+        widths: [16, 22, 12, 40, 30, 16, 52, 40], freeze: 4 }] : []),
       { name: "기준 안내", rows: [[{ v: "이 점검의 기준과 출처", s: "title" }], [], ...basis.map(t => [t])], widths: [110],
         heights: Object.fromEntries(basis.map((_, i) => [i + 3, 36])) },
     ], STYLES);

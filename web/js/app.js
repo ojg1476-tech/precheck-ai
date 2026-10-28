@@ -284,20 +284,23 @@
     return `<div class="card loss-card"><h3>이대로 두면 얼마 손해?<small>식품 ${foodN}개 중 가장 무거운 처분 기준</small></h3>${lossHTML(food, "store")}${cos}</div>`;
   }
 
-  /* 요약: 다가오는 단속 시즌에 해당하는 상품 */
+  /* 요약: 맡긴 상품에 필요한 소식 (다가오는 단속 시즌 + 해당 최신 소식) */
   function sumSeason(res) {
-    if (!state.season.length) return "";
-    const hits = new Map();
-    for (const r of res) for (const e of SE.forProduct(state.season, r)) {
-      const k = e.theme + e.domain; if (!hits.has(k)) hits.set(k, { e, names: [] });
-      if (!hits.get(k).names.includes(r.name)) hits.get(k).names.push(r.name);
-    }
-    const rows = [...hits.values()].slice(0, 4).map(({ e, names }) => `<li><span class="sw">${SE.soon(e)}</span>
-      <span><b>${esc(e.theme)}</b> <span class="dm d-${e.domain}">${SE.DOMAIN_NAME[e.domain]}</span>
-      <span class="mt">${esc(SE.when(e))} · ${esc(e.tip)}</span><span class="pn">해당 상품: ${names.slice(0, 3).map(esc).join(", ")}${names.length > 3 ? ` 외 ${names.length - 3}개` : ""}</span></span></li>`).join("");
-    return `<div class="card sea-card"><h3>다가오는 단속 시즌<small>과거 이맘때 단속 주제와 겹치는 상품</small></h3>
-      ${rows ? `<ul>${rows}</ul>` : `<p class="empty-s">앞으로 두 달 동안의 과거 단속 주제와 겹치는 상품이 없어요.</p>`}
-      <a class="more" href="#/season">단속 달력과 최신 소식 보기 →</a></div>`;
+    if (!state.season.length && !state.news) return "";
+    const P = window.MoonguRelevance.personalize(res, { season: state.season, news: state.news });
+    const nm = ps => ps.slice(0, 3).map(p => esc(p.name)).join(", ") + (ps.length > 3 ? ` 외 ${ps.length - 3}개` : "");
+    const rows = [
+      ...P.season.map(({ e, products }) => `<li><span class="sw">${SE.soon(e)}</span><span><b>${esc(e.theme)}</b> <span class="dm d-${e.domain}">${SE.DOMAIN_NAME[e.domain]}</span>
+        <span class="mt">과거 이맘때 단속 · ${esc(e.tip)}</span><span class="pn">해당 상품: ${nm(products)}</span></span></li>`),
+      ...P.news.map(({ item: n, level, products }) => `<li><span class="sw ${n.kind === "제도" ? "po" : "en"}">${n.kind === "제도" ? "기준 변경" : "최신 단속"}</span><span>
+        <a href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.title)}</b></a>
+        <span class="mt">${esc(n.date.replace(/-/g, "."))}${products[0] && products[0].hit ? ` · 겹친 표현 ‘${esc(products[0].hit)}’` : ""}</span>
+        <span class="pn">${level === "분야" ? `같은 분야 상품 전체 (${products.length}개)` : "해당 상품: " + nm(products)}</span></span></li>`),
+    ].slice(0, 6).join("");
+    return `<div class="card sea-card"><h3>내 상품에 필요한 소식<small>올린 상품의 분야·표현과 겹치는 것만</small></h3>
+      ${rows ? `<ul>${rows}</ul>` : `<p class="empty-s">지금은 올린 상품에 해당하는 단속 시즌이나 소식이 없어요.</p>`}
+      <p class="ln">엑셀 리포트의 ‘맞춤 소식’ 시트에 전부 정리돼요.</p>
+      <a class="more" href="#/season">단속 달력과 전체 소식 보기 →</a></div>`;
   }
 
   function renderDetail() {
@@ -324,7 +327,7 @@
   function goProduct(i) { state.pick = i; renderDetail(); selectTab("detail"); }
 
   async function downloadReport() {
-    const blob = R.buildReport(state.results, state.ck);
+    const blob = R.buildReport(state.results, state.ck, undefined, { season: state.season, news: state.news });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob); a.download = `moonguradar_report_${new Date().toLocaleDateString("sv-SE")}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
