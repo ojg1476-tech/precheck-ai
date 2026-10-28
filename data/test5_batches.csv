@@ -1,0 +1,18 @@
+id,split,product_type,label,category,text,source,source_url
+V001,A_2022-23,cos,violation,,의사가 추천하는 화장품,식약처 적발 보도,https://cosinkorea.com/mobile/article.html?no=46940
+V002,A_2022-23,cos,violation,,아토피,식약처 적발 보도,https://cosinkorea.com/mobile/article.html?no=46940
+V003,A_2022-23,food,violation,,어린이 키성장,식약처 적발 보도,https://www.newsis.com/view/NISX20230316_0002228624
+V004,A_2022-23,food,violation,,아이키,식약처 적발 보도,https://www.newsis.com/view/NISX20230316_0002228624
+V005,A_2022-23,food,violation,,"키성장 영양제, 키크는 영양제",식약처 적발 보도,https://www.newsis.com/view/NISX20230316_0002228624
+V006,A_2022-23,hfood,violation,,어린이 키크는,식약처 적발 보도,https://www.newsis.com/view/NISX20230316_0002228624
+V007,A_2022-23,food,violation,,소아비만 및 성조숙증을 예방,식약처 적발 보도,https://www.newsis.com/view/NISX20230316_0002228624
+V008,A_2022-23,food,violation,,"변비, 감기 등 아이들에게 좋다",식약처 적발 보도,https://www.newsis.com/view/NISX20230316_0002228624
+V009,A_2022-23,food,violation,,저희딸 96센치에서 지금 무려 104.8센치 됐거든요,식약처 적발 보도,https://www.newsis.com/view/NISX20230316_0002228624
+V010,B_2024,cos,violation,,노폐물 배출,식약처 적발 보도,https://v.daum.net/v/20241224101112626
+V011,B_2024,cos,violation,,부종에 도움,식약처 적발 보도,https://v.daum.net/v/20241224101112626
+V012,B_2024,cos,violation,,"피부재생, 염증 개선",식약처 적발 보도,https://www.todayebnews.com/news/articleView.html?idxno=7327
+V013,B_2024,cos,violation,,피부과 전문의 추천 제품,식약처 적발 보도,https://www.todayebnews.com/news/articleView.html?idxno=7327
+V014,B_2024,food,violation,,"심혈관 질환, 고혈압, 당뇨병, 암 등의 질환을 앓고 있는 경우에도 보충이 도움이 될 수 있다",식약처 적발 보도,https://www.newsis.com/view/NISX20240927_0002902223
+V015,C_2025,cos,violation,,"세포재생, 지방세포 증식",식약처 적발 보도,https://www.nocutnews.co.kr/news/6327536
+V016,D_2026,food,violation,,속 편한,식약처 적발 보도,https://biz.sbs.co.kr/amp/article/20000333938
+V017,D_2026,food,violation,,소화가 잘되는,식약처 적발 보도,https://biz.sbs.co.kr/amp/article/20000333938
