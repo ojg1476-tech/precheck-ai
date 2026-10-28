@@ -11,7 +11,7 @@
   const GRADE = { red: ["var(--red)", "var(--red-50)"], amber: ["var(--amber)", "var(--amber-50)"], blue: ["var(--blue)", "var(--blue-50)"] };
   const ORDER = { red: 0, amber: 1, blue: 2 };
   const TYPES = [["cos", "일반 화장품"], ["fcos", "기능성 화장품"], ["food", "일반 식품"], ["hfood", "건강기능식품"]];
-  const state = { ck: null, results: null, source: "", ocr: null, pick: 0, imgFiles: [], season: [], news: null };
+  const state = { ck: null, results: null, source: "", ocr: null, pick: 0, imgFiles: [], season: [], news: null, enforced: null };
 
   /* ── 공통 ───────────────────────────── */
   function toast(msg) {
@@ -68,7 +68,7 @@
   }
 
   /* 같은 규칙에 걸린 표현은 카드 하나로 */
-  function cards(fs) {
+  function cards(fs, type = "") {
     const groups = new Map();
     fs.map((f, i) => ({ f, i })).sort((a, b) => ORDER[a.f.grade] - ORDER[b.f.grade] || a.f.start - b.f.start)
       .forEach(x => { const k = x.f.ruleId + x.f.grade; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(x); });
@@ -76,6 +76,9 @@
       const f = g[0].f, [c, b] = GRADE[f.grade];
       const seen = new Set(), chips = g.filter(x => !seen.has(x.f.phrase) && seen.add(x.f.phrase))
         .map(x => `<button type="button" data-i="${x.i}" title="문구에서 위치 보기">${esc(x.f.phrase)}</button>`).join("");
+      const ex = realExamples(f, type);
+      const real = ex.length ? `<div class="real-ex"><b>같은 유형으로 실제 적발된 문구</b>${ex.map(p =>
+        `<a href="${esc(p.src)}" target="_blank" rel="noopener" title="${esc(p.site)}${p.year ? " · " + p.year + "년" : ""}">‘${esc(p.t)}’</a>`).join("")}</div>` : "";
       const checks = f.checks.length ? `<div class="checks"><b>쓰기 전에 확인할 것</b>${f.checks.map(t =>
         `<label><input type="checkbox"><span>${esc(t)}</span></label>`).join("")}</div>` : "";
       return `<article class="fcard" style="--c:${c};--b:${b}">
@@ -83,6 +86,7 @@
         <div class="phs">${chips}</div>
         <p class="why">${esc(f.why)}</p>
         <div class="two">${f.penalty ? `<div class="risk"><b>이대로 두면</b>${esc(f.penalty)}</div>` : ""}<div class="alt"><b>대신 이렇게</b>${esc(f.alt)}</div></div>
+        ${real}
         ${checks}
         <details><summary>근거 보기</summary><p>정확한 용어: ${esc(f.term)}<br>관련 기준: ${esc(f.law)}<br>출처: ${esc(f.source)}</p></details>
       </article>`;
@@ -313,7 +317,7 @@
       ${(() => { const s = L.worstStop(r.findings, r.productType); return s ? lossHTML(s, s.scope === "store" ? "store" : "p:" + r.name) : ""; })()}
       <div class="copybox"><div class="cap"><span>상세 문구</span><button type="button" id="copy-more">전체 보기</button></div>
         <div class="copytext" id="copytext">${marked(r.text, r.findings)}</div></div>
-      ${cards(r.findings)}`;
+      ${cards(r.findings, r.productType)}`;
     const ct = $("#copytext");
     if (ct.scrollHeight <= 140) { ct.classList.add("open"); $("#copy-more").hidden = true; }
     $("#pdetail").scrollTop = 0;
@@ -327,7 +331,7 @@
   function goProduct(i) { state.pick = i; renderDetail(); selectTab("detail"); }
 
   async function downloadReport() {
-    const blob = R.buildReport(state.results, state.ck, undefined, { season: state.season, news: state.news });
+    const blob = R.buildReport(state.results, state.ck, undefined, { season: state.season, news: state.news, enforced: state.enforced });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob); a.download = `moonguradar_report_${new Date().toLocaleDateString("sv-SE")}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
@@ -350,11 +354,55 @@
     $("#ed-loss").innerHTML = st ? lossHTML(st, st.scope === "store" ? "store" : "p:text") : "";
     $("#ed-cards").innerHTML = !text.trim()
       ? `<div class="hint"><b>문구를 붙여 넣어 주세요</b>상세페이지 글을 왼쪽에 넣으면 고칠 곳에 물결 밑줄을 긋고, 이유와 대신 쓸 말을 여기에 보여드려요.</div>`
-      : lastFs.length ? cards(lastFs)
+      : lastFs.length ? cards(lastFs, txtType)
         : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`;
     syncScroll();
   }
   function syncScroll() { const ed = $("#ed"); $("#ed-hl").parentElement.scrollTop = ed.scrollTop; }
+
+  /* ── 실제 적발 ───────────────────────── */
+  // 같은 규칙에 걸리는 실제 적발 문구 (같은 분야 먼저, 최대 3개)
+  function realExamples(f, type) {
+    const E = state.enforced; if (!E || !E.byRule[f.ruleId]) return [];
+    const cos = type === "cos" || type === "fcos";
+    return E.byRule[f.ruleId].map(i => E.phrases[i]).filter(p => p.t !== f.phrase)
+      .sort((a, b) => ((b.type === "cos" || b.type === "fcos") === cos) - ((a.type === "cos" || a.type === "fcos") === cos) || (b.year || 0) - (a.year || 0))
+      .slice(0, 3);
+  }
+  function renderReal() {
+    const E = state.enforced; if (!E) { document.querySelector(".real").hidden = true; return; }
+    const food = E.yearly.filter(y => y.domain === "food"), max = Math.max(...food.map(y => y.n));
+    const full = food.filter(y => y.months === 12), last = full[full.length - 1], prev = full[full.length - 2];
+    const perDay = Math.round(last.n / 365), grow = Math.round((last.n / prev.n - 1) * 100);
+    $("#real-main").innerHTML = `<div class="rm-top"><div><b class="big">${last.n.toLocaleString("ko-KR")}<small>건</small></b>
+        <span class="lb">${last.year}년 식품 온라인 부당광고 적발</span></div>
+        <div class="pills"><span>하루 평균 <b>${perDay}건</b></span><span>${prev.year}년보다 <b>${grow}%</b> 늘었어요</span></div></div>
+      <div class="bars-y" role="img" aria-label="식품 온라인 부당광고 적발 건수: ${food.map(y => `${y.year}년${y.months < 12 ? `(1~${y.months}월)` : ""} ${y.n}건`).join(", ")}">
+        ${food.map(y => `<div class="by${y === last ? " hi" : ""}${y.months < 12 ? " part" : ""}" tabindex="0">
+          <span class="tip">${y.year}년${y.months < 12 ? ` 1~${y.months}월` : ""} · ${y.n.toLocaleString("ko-KR")}건</span>
+          <span class="ba"><i style="height:${(y.n / max * 100).toFixed(1)}%"></i>${y === last || y.months < 12 ? `<span class="v" style="bottom:calc(${(y.n / max * 100).toFixed(1)}% + 5px)">${y.n.toLocaleString("ko-KR")}</span>` : ""}</span><span class="yl">${String(y.year).slice(2)}년${y.months < 12 ? `<br><em>1~${y.months}월</em>` : ""}</span></div>`).join("")}
+      </div>`;
+    const cosAll = E.types.find(t => t.domain === "cos" && t.type === "전체"), cosDrug = E.types.find(t => t.domain === "cos" && t.type === "의약품오인");
+    const f25 = E.types.filter(t => t.domain === "food" && t.period === "2025"), hf = f25.find(t => t.type === "건기식오인"), dz = f25.find(t => t.type === "질병예방치료");
+    const f25all = full[full.length - 1].n;
+    $("#real-side").innerHTML = [
+      cosAll && `<div class="rs glass"><b>${cosAll.n.toLocaleString("ko-KR")}<small>건</small></b><span>화장품 부당광고 적발 (2021년~2025년 9월)</span>
+        <em>그중 <b>${Math.round(cosDrug.n / cosAll.n * 100)}%</b>가 ‘약처럼 보이는 표현’</em></div>`,
+      hf && `<div class="rs glass"><b>${hf.n.toLocaleString("ko-KR")}<small>건</small></b><span>2025년 식품 적발 중 ‘건강기능식품처럼 보이는 표현’</span>
+        <em>식품 적발의 <b>${Math.round(hf.n / f25all * 100)}%</b> · 질병 예방·치료 표현도 ${dz.n.toLocaleString("ko-KR")}건</em></div>`,
+    ].filter(Boolean).join("");
+    // 문구 벽: 분야별로 섞어서 최근 것 위주로
+    // 화장품·식품을 번갈아 (최근 것 먼저)
+    const seen = new Set(), grp = { c: [], f: [] };
+    for (const p of E.phrases.slice().sort((a, b) => (b.year || 0) - (a.year || 0)))
+      if (!seen.has(p.t) && p.t.length <= 18) { seen.add(p.t); grp[p.type === "cos" || p.type === "fcos" ? "c" : "f"].push(p); }
+    const pick = [];
+    for (let i = 0; pick.length < 28 && (i < grp.c.length || i < grp.f.length); i++) { if (grp.c[i]) pick.push(grp.c[i]); if (grp.f[i]) pick.push(grp.f[i]); }
+    $("#real-wall").innerHTML = pick.map(p => `<a href="${esc(p.src)}" target="_blank" rel="noopener" class="rw d-${p.type === "fcos" ? "cos" : p.type}"
+      title="${esc(p.cat)} · ${esc(p.site)}${p.year ? " · " + p.year + "년" : ""}">${esc(p.t)}<i>${SE.DOMAIN_NAME[p.type === "fcos" ? "cos" : p.type]}</i></a>`).join("");
+    $("#real-src").textContent = `출처: 연도별·유형별 건수는 국정감사 자료를 인용한 보도(푸드투데이, 메디포뉴스), 문구는 식약처 발표를 인용한 보도 ${E.phrases.length}개에서 모았어요. 2026년은 1~8월 건수예요.`;
+    $("#real-wall").addEventListener("click", e => { if (e.target.closest("a")) countOnce("real-phrase-click"); });
+  }
 
   /* ── 단속 소식 ───────────────────────── */
   let newsCat = "all";
@@ -395,10 +443,11 @@
     proof();
     pulse();
     try {
-      const [sea, news] = await Promise.all([fetch("season.json").then(r => r.json()), fetch("news.json").then(r => r.json())]);
-      state.season = sea.events; state.news = news;
+      const [sea, news, enf] = await Promise.all(["season.json", "news.json", "enforced.json"].map(f => fetch(f).then(r => r.json())));
+      state.season = sea.events; state.news = news; state.enforced = enf;
     } catch (e) { /* 시즌·소식이 없어도 검사는 된다 */ }
     renderSeason();
+    renderReal();
     const nf = $("#news-filter");
     nf.insertAdjacentHTML("beforeend", [["all", "전체"], ["cos", "화장품"], ["food", "식품"], ["hfood", "건강기능식품"]].map(([v, t]) =>
       `<label><input type="radio" name="news-cat" value="${v}"${v === "all" ? " checked" : ""}><span>${t}</span></label>`).join(""));

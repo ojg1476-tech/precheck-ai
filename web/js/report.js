@@ -66,10 +66,18 @@
       return [i + 1, p.name, TYPE_NAME[p.productType] ?? p.productType, { v: p.tier, s: p.tier }, M.penaltyText(p.maxPenalty),
         st ? st.label + (st.scope === "store" ? " (가게 전체)" : "") : "-", c.red, c.amber, c.blue, p.score, p.error || ""];
     });
-    const detail = [];
+    const detail = [], E = ctx && ctx.enforced;
+    // 같은 규칙에 걸리는 실제 적발 문구 (같은 분야 먼저, 최대 3개)
+    const realOf = (f, type) => {
+      const ids = E.byRule[f.ruleId]; if (!ids) return "";
+      const cos = type === "cos" || type === "fcos", isCos = p => p.type === "cos" || p.type === "fcos";
+      return ids.map(i => E.phrases[i]).filter(p => p.t !== f.phrase).sort((a, b) => (isCos(b) === cos) - (isCos(a) === cos) || (b.year || 0) - (a.year || 0))
+        .slice(0, 3).map(p => `‘${p.t}’${p.year ? ` (${p.year})` : ""}`).join(", ");
+    };
     for (const p of results) {
       for (const f of p.findings.slice().sort((a, b) => ORDER[a.grade] - ORDER[b.grade] || a.start - b.start)) {
-        detail.push([p.name, { v: f.gradeName, s: f.grade }, f.phrase, f.label, f.why, f.alt, f.checks.map(c => "□ " + c).join("\n"), f.penalty, f.law, f.source]);
+        detail.push([p.name, { v: f.gradeName, s: f.grade }, f.phrase, f.label, f.why, f.alt, f.checks.map(c => "□ " + c).join("\n"), f.penalty,
+          ...(E ? [realOf(f, p.productType)] : []), f.law, f.source]);
       }
     }
     const basis = [
@@ -84,8 +92,9 @@
       { name: "요약", rows: sum, widths: [48, 14, 10, 10], merges: [`A${noticeRow}:D${noticeRow}`], heights: { [noticeRow]: 48 } },
       { name: "위험 순위", rows: table(["순위", "상품명", "제품 종류", "위험도", "가장 무거운 형사처벌(최대)", "1차 위반 행정처분", "꼭 고치기", "확인 필요", "자료 챙기기", "점수", "메모"], rank),
         widths: [6, 26, 14, 9, 30, 26, 9, 9, 10, 7, 28], freeze: 1 },
-      { name: "상세", rows: table(["상품명", "등급", "찾은 표현", "쉬운 이름", "왜 문제인가", "대신 이렇게", "쓰기 전에 확인할 것", "이대로 두면", "관련 기준", "출처"], detail),
-        widths: [20, 10, 18, 20, 36, 26, 44, 44, 30, 28], freeze: 1 },
+      { name: "상세", rows: table(["상품명", "등급", "찾은 표현", "쉬운 이름", "왜 문제인가", "대신 이렇게", "쓰기 전에 확인할 것", "이대로 두면",
+          ...(E ? ["같은 유형 실제 적발 문구"] : []), "관련 기준", "출처"], detail),
+        widths: [20, 10, 18, 20, 36, 26, 44, 44, ...(E ? [34] : []), 30, 28], freeze: 1 },
       ...(per ? [{ name: "맞춤 소식", rows: [[{ v: "내 상품에 필요한 소식", s: "title" }],
         [{ v: `${today} 기준 · 다가오는 단속 시즌은 과거 같은 시기의 단속 기록이며 예측이 아니에요.`, s: "muted" }], [],
         ...table(["구분", "날짜·시기", "분야", "제목·주제", "해당 상품", "겹친 표현", "내용", "출처"],
