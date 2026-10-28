@@ -66,7 +66,7 @@ jobs:
           cp /tmp/onnx/config.json /tmp/onnx/tokenizer.json /tmp/onnx/tokenizer_config.json $M/
           cp /tmp/onnx/special_tokens_map.json $M/ 2>/dev/null || true
           split -b 90m -d -a 1 /tmp/onnx/model_quantized.onnx $M/onnx/model_quantized.onnx.part
-          ls -la $M/onnx; ls $M/onnx | grep -c part > $M/onnx/parts.txt
+          ls -la $M/onnx; ls $M/onnx/model_quantized.onnx.part* | wc -l > $M/onnx/parts.txt
           echo "::notice::모델 조각 $(cat $M/onnx/parts.txt)개"
       - name: 커밋
         if: ${{ inputs.commit }}
