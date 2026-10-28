@@ -1,0 +1,69 @@
+name: build-ai
+# 브라우저용 '뜻 비교' AI 만들기: 모델 ONNX 변환·8비트 줄이기·검증, 기준 문구 임베딩, 브라우저 라이브러리 받기. 수동 실행만.
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: "결과를 저장소에 커밋"
+        type: boolean
+        default: true
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 패키지
+        run: pip install -q "optimum[onnxruntime]" sentence-transformers tokenizers pandas openpyxl
+      - name: 모델을 ONNX로 바꾸고 8비트로 줄이기
+        run: |
+          optimum-cli export onnx --model jhgan/ko-sroberta-multitask --task feature-extraction /tmp/onnx
+          python - <<'PY'
+          from onnxruntime.quantization import quantize_dynamic, QuantType
+          quantize_dynamic("/tmp/onnx/model.onnx", "/tmp/onnx/model_quantized.onnx", weight_type=QuantType.QUInt8)
+          PY
+          ls -la /tmp/onnx
+          echo "::notice::모델 크기 $(du -h /tmp/onnx/model.onnx | cut -f1) → 8비트 $(du -h /tmp/onnx/model_quantized.onnx | cut -f1)"
+      - name: 리뷰 코퍼스
+        run: |
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
+          cd /tmp/corpus && git sparse-checkout set sentiment
+      - name: 검증과 기준 문구 임베딩
+        run: python tools/build_ai.py --onnx /tmp/onnx/model_quantized.onnx --tokenizer /tmp/onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt --fp32 jhgan/ko-sroberta-multitask
+      - name: 브라우저용 라이브러리
+        run: |
+          mkdir -p /tmp/npm && cd /tmp/npm
+          V=$(npm view @huggingface/transformers@3 version | tail -1 | awk '{print $NF}' | tr -d "'")
+          npm pack @huggingface/transformers@$V >/dev/null && tar xzf huggingface-transformers-$V.tgz && mv package tf
+          ORT=$(node -p "require('./tf/package.json').dependencies['onnxruntime-web']")
+          npm pack onnxruntime-web@$ORT >/dev/null && mkdir ort && tar xzf onnxruntime-web-*.tgz -C ort
+          D=$GITHUB_WORKSPACE/web/vendor/transformers; rm -rf $D; mkdir -p $D
+          cp tf/dist/transformers.min.js $D/ 2>/dev/null || cp tf/dist/transformers.js $D/transformers.min.js
+          cp tf/LICENSE $D/LICENSE-transformers.txt
+          cp ort/package/dist/ort-wasm-simd-threaded.wasm ort/package/dist/ort-wasm-simd-threaded.mjs $D/ 2>/dev/null || true
+          cp ort/package/dist/ort-wasm-simd-threaded.jsep.wasm ort/package/dist/ort-wasm-simd-threaded.jsep.mjs $D/ 2>/dev/null || true
+          cp ort/package/LICENSE $D/LICENSE-onnxruntime.txt 2>/dev/null || true
+          echo "transformers.js $V, onnxruntime-web $ORT" > $D/VERSION.txt
+          ls -la $D; echo "::notice::transformers.js $V · onnxruntime-web $ORT · $(ls $D | tr '\n' ' ')"
+      - name: 모델 파일 넣기 (깃허브 파일 크기 제한 때문에 90MB씩 나눔)
+        run: |
+          M=web/ai/model/ko-sroberta-multitask; rm -rf $M; mkdir -p $M/onnx
+          cp /tmp/onnx/config.json /tmp/onnx/tokenizer.json /tmp/onnx/tokenizer_config.json $M/
+          cp /tmp/onnx/special_tokens_map.json $M/ 2>/dev/null || true
+          split -b 90m -d -a 1 /tmp/onnx/model_quantized.onnx $M/onnx/model_quantized.onnx.part
+          ls -la $M/onnx; ls $M/onnx | grep -c part > $M/onnx/parts.txt
+          echo "::notice::모델 조각 $(cat $M/onnx/parts.txt)개"
+      - name: 커밋
+        if: ${{ inputs.commit }}
+        run: |
+          git config user.name "moonguradar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/ai web/vendor/transformers
+          git commit -m "AI 확인용 모델·기준 문구·라이브러리 (build-ai 자동 생성)" && git push
