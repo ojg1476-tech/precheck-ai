@@ -50,6 +50,7 @@ class Embedder:
         self.s = ort.InferenceSession(onnx_path, providers=["CPUExecutionProvider"])
         self.t = Tokenizer.from_file(str(Path(tok_dir) / "tokenizer.json"))
         self.t.enable_truncation(128)
+        self.t.no_padding()   # tokenizer.json에 패딩 설정이 들어 있으면 패딩 토큰까지 평균에 섞인다 (원인이었음)
         self.inputs = {i.name for i in self.s.get_inputs()}
 
     def __call__(self, texts, bs=64):
@@ -58,7 +59,7 @@ class Embedder:
             enc = self.t.encode_batch(texts[i:i + bs])
             L = max(len(e.ids) for e in enc)
             ids = np.array([e.ids + [1] * (L - len(e.ids)) for e in enc], dtype=np.int64)
-            att = np.array([[1] * len(e.ids) + [0] * (L - len(e.ids)) for e in enc], dtype=np.int64)
+            att = np.array([list(e.attention_mask) + [0] * (L - len(e.ids)) for e in enc], dtype=np.int64)
             feed = {"input_ids": ids, "attention_mask": att}
             if "token_type_ids" in self.inputs: feed["token_type_ids"] = np.zeros_like(ids)
             h = self.s.run(None, feed)[0]
