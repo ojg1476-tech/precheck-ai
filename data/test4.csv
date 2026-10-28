@@ -1,0 +1,48 @@
+id,split,product_type,label,category,text,source,source_url
+W001,test4,food,violation,건강기능식품 오인,집중력 향상,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W002,test4,food,violation,질병 예방·치료,ADHD,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W003,test4,food,violation,질병 예방·치료,우울증 예방,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W004,test4,food,violation,건강기능식품 오인,고3 영양제,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W005,test4,food,violation,건강기능식품 오인,섭취 즉시 몰입력과 에너지를 높여주는,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W006,test4,food,violation,건강기능식품 오인,대치동 영양제,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W007,test4,food,violation,건강기능식품 오인,청소년 영양제,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W008,test4,food,violation,건강기능식품 오인,수험생 집중력 영양제,식약처 적발(2026.10),https://www.medipana.com/news/articleView.html?idxno=420299
+W009,test4,food,violation,의약품 오인,공진단,식약처 적발(2026.9),https://www.etoday.co.kr/news/view/2628959
+W010,test4,food,violation,건강기능식품 오인,기억력 향상,식약처 적발(2026.9),https://www.etoday.co.kr/news/view/2628959
+W011,test4,food,violation,의약품 오인,카나비노이드,식약처 적발(2026.7),https://nodrugzone.mfds.go.kr/fileView.do?uniqueKey=cb00d1a0008a85e71a41b8741facbffe5e04b9f5c11acbc47c860fc7f02e7f4f
+W012,test4,food,violation,건강기능식품 오인,면역강화,식약처 적발(2026.7),https://nodrugzone.mfds.go.kr/fileView.do?uniqueKey=cb00d1a0008a85e71a41b8741facbffe5e04b9f5c11acbc47c860fc7f02e7f4f
+W013,test4,food,violation,질병 예방·치료,치매예방,식약처 적발(2026.7),https://nodrugzone.mfds.go.kr/fileView.do?uniqueKey=cb00d1a0008a85e71a41b8741facbffe5e04b9f5c11acbc47c860fc7f02e7f4f
+W014,test4,food,violation,의약품 오인,올레샷,식약처 적발(2026.7),https://www.sideview.co.kr/news/articleView.html?idxno=20174
+W015,test4,food,violation,의약품 오인,위O비,식약처 적발(2026.7),https://www.sideview.co.kr/news/articleView.html?idxno=20174
+W016,test4,food,violation,의약품 오인,마운OO,식약처 적발(2026.7),https://www.sideview.co.kr/news/articleView.html?idxno=20174
+W017,test4,food,violation,의약품 오인,GLP-1,식약처 적발(2026.7),https://www.sideview.co.kr/news/articleView.html?idxno=20174
+W018,test4,cos,violation,의약품 오인,여드름성 피부 완화,식약처 적발(2026.7),https://www.k-health.com/news/articleView.html?idxno=100282
+W019,test4,cos,violation,의약품 오인,지방제거·감소,식약처 적발(2021.5),https://www.etoday.co.kr/news/view/2025522
+W020,test4,cos,violation,의약품 오인,셀룰라이트 분해,식약처 적발(2021.5),https://www.etoday.co.kr/news/view/2025522
+W021,test4,cos,violation,의약품 오인,진피층 흡수,식약처 적발(2021.5),https://www.etoday.co.kr/news/view/2025522
+W022,test4,cos,violation,의약품 오인,손상된 피부를 개선한다,식약처 적발(2025.8),https://www.newsis.com/view/NISX20250827_0003304689
+W023,test4,cos,violation,의약품 오인,국소적으로 축적된 지방 연소를 촉진한다,식약처 적발(2025.8),https://www.newsis.com/view/NISX20250827_0003304689
+W024,test4,cos,violation,의약품 오인,흉터 자국 옅어짐,식약처 적발(2025.8),https://www.newsis.com/view/NISX20250827_0003304689
+W025,test4,cos,violation,의약품 오인,근육 이완·피로 회복,식약처 적발(2025.8),https://www.newsis.com/view/NISX20250827_0003304689
+W026,test4,cos,violation,의약품 오인,홍반 감소,식약처 적발(2025.8),https://www.newsis.com/view/NISX20250827_0003304689
+W027,test4,cos,violation,기능성 오인,주름 제거,식약처 적발(2025.8),https://www.newsis.com/view/NISX20250827_0003304689
+W028,test4,cos,allowed,허용,촉촉하게 채워 주는 보습감,작성자 작성(규칙 수정 전 고정),
+W029,test4,cos,allowed,허용,피부결을 매끄럽게 정돈해 주는 토너,작성자 작성(규칙 수정 전 고정),
+W030,test4,cos,allowed,허용,산뜻하게 마무리되는 선크림,작성자 작성(규칙 수정 전 고정),
+W031,test4,cos,allowed,허용,아이와 함께 자라는 브랜드,작성자 작성(규칙 수정 전 고정),
+W032,test4,cos,allowed,허용,더 좋아진 패키지로 새로 나왔어요,작성자 작성(규칙 수정 전 고정),
+W033,test4,cos,allowed,허용,하루 종일 편안한 사용감,작성자 작성(규칙 수정 전 고정),
+W034,test4,cos,allowed,허용,순한 성분으로 매일 쓰기 좋아요,작성자 작성(규칙 수정 전 고정),
+W035,test4,cos,allowed,허용,건조한 겨울에 딱 맞는 크림,작성자 작성(규칙 수정 전 고정),
+W036,test4,cos,allowed,허용,향이 오래 남는 바디로션,작성자 작성(규칙 수정 전 고정),
+W037,test4,cos,allowed,허용,피부에 부드럽게 발리는 텍스처,작성자 작성(규칙 수정 전 고정),
+W038,test4,food,allowed,허용,새싹이 자라는 농장에서 직접 키웠어요,작성자 작성(규칙 수정 전 고정),
+W039,test4,food,allowed,허용,아침을 든든하게 채워 주는 그래놀라,작성자 작성(규칙 수정 전 고정),
+W040,test4,food,allowed,허용,온 가족이 즐기는 따뜻한 차,작성자 작성(규칙 수정 전 고정),
+W041,test4,food,allowed,허용,바삭하게 구워 고소한 맛,작성자 작성(규칙 수정 전 고정),
+W042,test4,food,allowed,허용,국내산 원료로 정직하게 만들었어요,작성자 작성(규칙 수정 전 고정),
+W043,test4,food,allowed,허용,공부하다 출출할 때 먹기 좋은 간식,작성자 작성(규칙 수정 전 고정),
+W044,test4,food,allowed,허용,에너지 가득한 하루를 응원해요,작성자 작성(규칙 수정 전 고정),
+W045,test4,food,allowed,허용,설탕을 줄여 담백한 맛,작성자 작성(규칙 수정 전 고정),
+W046,test4,food,allowed,허용,시험 기간 선물로 인기 많은 세트,작성자 작성(규칙 수정 전 고정),
+W047,test4,food,allowed,허용,잠들기 전 마시기 좋은 따뜻한 우유,작성자 작성(규칙 수정 전 고정),

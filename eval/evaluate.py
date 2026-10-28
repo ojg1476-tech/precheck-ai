@@ -29,9 +29,9 @@ def pct(a, b):
 
 def run(split="test", rules=None):
     ck = Checker(rules) if rules else Checker()
-    path = ROOT / "data" / ({"test2": "test2.csv", "test3": "test3.csv"}.get(split, "eval_set.csv"))
+    path = ROOT / "data" / ({"test2": "test2.csv", "test3": "test3.csv", "test4": "test4.csv"}.get(split, "eval_set.csv"))
     rows = list(csv.DictReader(open(path, encoding="utf-8")))
-    if split not in ("all", "test2", "test3"):
+    if split not in ("all", "test2", "test3", "test4"):
         rows = [r for r in rows if r["split"] == split]
     res = []
     for r in rows:
@@ -89,7 +89,7 @@ def report(split, ck, res):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--split", default="test", choices=["dev", "test", "all", "test2", "test3"])
+    ap.add_argument("--split", default="test", choices=["dev", "test", "all", "test2", "test3", "test4"])
     ap.add_argument("--rules", default=None)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
