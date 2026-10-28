@@ -68,7 +68,7 @@ def main():
     EV, EA, ER = enc([x for _, _, x in V]), enc([x for _, _, x in A]), enc([x for _, _, x in R]) if R else np.zeros((0, 1))
     batches = ["test3", "test4", "test5", "test6", "test7"]
     lines = [f"모델: {MODEL} · 적발 문구 {len(V)}개 · 허용 {len(A)}개 · 리뷰 {len(R)}개", "",
-             "| 빼 둔 묶음 | 문구 | 규칙 v4 | 뜻 비교만 | 규칙+뜻 비교 | 기준값 | 평범한 문장 오탐(규칙+뜻) |", "| --- | --- | --- | --- | --- | --- | --- |"]
+             "| 빼 둔 묶음 | 문구 | 규칙 v4 | 뜻 비교만 | 규칙+뜻 비교 | 기준값 | 뜻 비교가 새로 표시한 평범한 문장 |", "| --- | --- | --- | --- | --- | --- | --- |"]
     tot = [0, 0, 0, 0]
     for target in ["fpr1", "fpr05"]:
         cap = 0.01 if target == "fpr1" else 0.005
@@ -82,12 +82,13 @@ def main():
             neg = np.vstack([EA, ER]) if len(R) else EA
             neg_s = (neg @ KB.T).max(1)
             neg_rule = [rule(t, x) for _, t, x in A + R]
+            # 규칙이 이미 잡은 문장은 빼고, 뜻 비교가 '새로' 표시하는 평범한 문장 비율로 기준값을 정한다
+            free = [x for x, r in zip(neg_s, neg_rule) if not r]
             th = None
-            for c in np.arange(0.80, 0.999, 0.002):
-                fp = np.mean([(s >= c) or r for s, r in zip(neg_s, neg_rule)])
-                if fp <= cap: th = float(c); break
+            for c in np.arange(0.70, 0.999, 0.002):
+                if np.mean([x >= c for x in free]) <= cap: th = float(c); break
             th = th or 0.999
-            fp = float(np.mean([(s >= th) or r for s, r in zip(neg_s, neg_rule)]))
+            fp = float(np.mean([x >= th for x in free]))
             s = (EV[ti] @ KB.T).max(1)
             r_hit = [rule(V[i][1], V[i][2]) for i in ti]
             e_hit = [bool(x >= th) for x in s]
@@ -101,7 +102,11 @@ def main():
     lines.append(f"합계(오탐 목표 1%): 규칙 {tot[1] / tot[0] * 100:.1f}% → 뜻 비교 {tot[2] / tot[0] * 100:.1f}% → 규칙+뜻 비교 {tot[3] / tot[0] * 100:.1f}% (문구 {tot[0]}개)")
     out = ROOT / f"eval/experiments/embed_result_{MODEL.split('/')[-1]}.md"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    for l in lines: log(l)
+    print("\n".join(lines))
+    if os.environ.get("GITHUB_ACTIONS"):   # 주석은 단계당 10개까지라 몇 줄씩 묶는다
+        body = [l for l in lines if l.startswith("|") and not l.startswith("| ---")] + [lines[-1], lines[0]]
+        for i in range(0, len(body), 4):
+            print("::notice::" + " ## ".join(body[i:i + 4])[:4000])
 
 
 if __name__ == "__main__":
