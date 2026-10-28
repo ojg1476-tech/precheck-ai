@@ -193,7 +193,12 @@ def main():
         n, r_, b_ = res2[k]
         log(f"학습형 {k}: 규칙 {r_ / n * 100:.1f}% → 규칙+AI {b_ / n * 100:.1f}% · " + " / ".join(det[k]))
 
-    # 3) 최종: 모든 적발 문구를 기준으로 기준값을 다시 정하고 저장
+    # 3) 최종: 학습형(로지스틱 회귀)을 모든 적발 문구로 다시 학습하고, 리뷰 후반부로 기준값을 정해 저장
+    X = np.vstack([EV, EN]); y = np.r_[np.ones(len(EV)), np.zeros(len(EN))]
+    lr = LogisticRegression(C=2.0, class_weight="balanced", max_iter=2000).fit(X, y)
+    lr_f = lambda M: lr.decision_function(M)
+    lr_th, lr_fp = calib2(lr_f)
+    log(f"최종 학습형: 기준값 {lr_th:.4f}, 평범한 리뷰 새 표시 {lr_fp * 100:.2f}%")
     th, fp = calibrate(EV)
     q = np.clip(np.round(EV * 127), -127, 127).astype(np.int8)        # 8비트로 저장 (복원: /127)
     out = {
@@ -202,13 +207,17 @@ def main():
         "note": "실제 적발 문구와 뜻이 가까운 구절을 '확인 필요'로 알려 주는 용도. 기존 규칙 판정과는 따로 보여 준다.",
         "phrases": [{"t": x, "type": t} for _, t, x in V],
         "emb": base64.b64encode(q.tobytes()).decode(),
+        "lr": {"w": base64.b64encode(lr.coef_[0].astype(np.float32).tobytes()).decode(), "b": float(lr.intercept_[0]),
+               "threshold": round(lr_th, 5), "measured_fp": round(lr_fp, 4),
+               "note": "적발 문구(+) 대 평범한 리뷰·허용 문장 구절(−) 로지스틱 회귀. 구절 점수 = w·v + b, 기준값보다 크면 표시"},
     }
     p = ROOT / "web/ai/kb.json"; p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     # 브라우저 결과와 맞춰 보기 위한 확인용 값
     probe = ["피부 재생 크림", "탈모에 좋은 차", "촉촉한 보습 로션", "아이 키 크는 젤리"]
     log("최종 기준값 %.3f (평범한 문장 새 표시 %.2f%%) · 확인용 점수 %s" % (th, fp * 100, {x: round(score(x, EV)[0], 4) for x in (wemb(probe) or probe)}))
-    (ROOT / "web/ai/probe.json").write_text(json.dumps({x: round(score(x, EV)[0], 4) for x in probe}, ensure_ascii=False) + "\n", encoding="utf-8")
+    (ROOT / "web/ai/probe.json").write_text(json.dumps({x: {"knn": round(score(x, EV)[0], 4), "lr": round(float(text_max(x, lr_f)), 4)} for x in probe},
+                                                      ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
