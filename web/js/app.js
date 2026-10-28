@@ -1,7 +1,7 @@
 /* 문구레이더 화면 동작. 모든 검사는 이 브라우저 안에서만 돌고, 파일은 어디에도 보내지 않는다. */
 (function () {
   "use strict";
-  const M = window.Moongu, R = window.MoonguReport;
+  const M = window.Moongu, R = window.MoonguReport, L = window.MoonguLoss, SE = window.MoonguSeason;
   const $ = s => document.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const TIER = {
@@ -11,7 +11,7 @@
   const GRADE = { red: ["var(--red)", "var(--red-50)"], amber: ["var(--amber)", "var(--amber-50)"], blue: ["var(--blue)", "var(--blue-50)"] };
   const ORDER = { red: 0, amber: 1, blue: 2 };
   const TYPES = [["cos", "일반 화장품"], ["fcos", "기능성 화장품"], ["food", "일반 식품"], ["hfood", "건강기능식품"]];
-  const state = { ck: null, results: null, source: "", ocr: null, pick: 0, imgFiles: [] };
+  const state = { ck: null, results: null, source: "", ocr: null, pick: 0, imgFiles: [], season: [], news: null };
 
   /* ── 공통 ───────────────────────────── */
   function toast(msg) {
@@ -33,6 +33,38 @@
       pos = f.end;
     });
     return out + esc(text.slice(pos));
+  }
+
+  /* 이대로 두면 얼마 손해: 1차 위반 처분 기간 × 하루 매출 */
+  const daily = {};   // key → 하루 매출 (store = 가게 전체, p:<상품> = 그 상품)
+  try { const v = +localStorage.getItem("moongu-daily-store"); if (v > 0) daily.store = v; } catch (e) { /* 저장소 없음 */ }
+  function lossHTML(stop, key) {
+    if (!stop) return "";
+    const v = daily[key] || 0, store = stop.scope === "store";
+    return `<div class="loss" data-key="${esc(key)}" data-min="${stop.min}" data-max="${stop.max}">
+      <div class="lh"><b>이대로 두면 얼마 손해?</b><span>${esc(stop.label)} · 1차 위반 기준</span></div>
+      <label class="li"><span>${store ? "가게 하루 매출" : "이 상품 하루 매출"}</span>
+        <input inputmode="numeric" autocomplete="off" placeholder="예: 300,000" value="${v ? v.toLocaleString("ko-KR") : ""}"><span>원</span></label>
+      <div class="lv">${lossLine(stop, v)}</div>
+      <p class="ln">${store ? "식품은 상품 하나만 걸려도 가게 전체 영업이 멈춰요." : "화장품은 걸린 제품의 광고(판매 페이지)가 멈춰요."} 게시물 접속 차단과 형사처벌은 이와 별도예요.</p>
+    </div>`;
+  }
+  function lossLine(stop, v) {
+    return v ? `최대 <b>${L.lossText(stop, v)}</b>어치 매출이 멈출 수 있어요` : `하루 매출을 넣으면 금액으로 계산해 드려요`;
+  }
+  function onLossInput(e) {
+    const box = e.target.closest(".loss"); if (!box || e.target.tagName !== "INPUT") return;
+    const digits = e.target.value.replace(/[^0-9]/g, "").slice(0, 12), v = +digits || 0;
+    e.target.value = v ? v.toLocaleString("ko-KR") : "";
+    const key = box.dataset.key; daily[key] = v;
+    if (key === "store") { try { localStorage.setItem("moongu-daily-store", String(v)); } catch (err) { /* 무시 */ } }
+    const stop = { min: +box.dataset.min, max: +box.dataset.max };
+    document.querySelectorAll(`.loss[data-key="${CSS.escape(key)}"]`).forEach(b => {
+      if (b !== box) { const i = b.querySelector("input"); if (i) i.value = e.target.value; }
+      b.querySelector(".lv").innerHTML = lossLine({ min: +b.dataset.min, max: +b.dataset.max }, v);
+    });
+    if (box.querySelector(".lv")) box.querySelector(".lv").innerHTML = lossLine(stop, v);
+    if (v) countOnce("loss-calc");
   }
 
   /* 같은 규칙에 걸린 표현은 카드 하나로 */
@@ -91,7 +123,7 @@
   /* ── 라우팅 ─────────────────────────── */
   function route() {
     const h = location.hash.replace(/^#\/?/, "");
-    const r = h.startsWith("text") ? "text" : h.startsWith("about") ? "about" : "batch";
+    const r = h.startsWith("text") ? "text" : h.startsWith("about") ? "about" : h.startsWith("season") ? "season" : "batch";
     document.querySelectorAll(".nav a").forEach(a => { if (a.dataset.route !== r) a.removeAttribute("aria-current"); else a.setAttribute("aria-current", "page"); });
     let v = r;
     if (r === "batch") v = state.results ? "batch-result" : state.imgFiles.length ? "batch-images" : "batch-start";
@@ -215,8 +247,8 @@
       <span class="n">상품 ${k}개</span></div>`).join("") : `<p class="empty-s">여러 상품에 같은 유형의 표현이 걸리지 않았어요.</p>`;
     $("#tp-sum").innerHTML = `<div class="sum-grid">
       <div><div class="card"><div class="board">${cells.join("")}</div><div class="dist">${dist}</div></div>
-        <div class="card urgent"><h3>먼저 고칠 상품<small>형사처벌이 무거운 순서</small></h3>${urgentHTML}</div></div>
-      <div class="card"><h3>여러 상품에서 반복된 문제<small>꼭 고치기·확인 필요 기준</small></h3><div class="bars">${bars}</div></div></div>`;
+        <div class="card urgent"><h3>먼저 고칠 상품<small>형사처벌이 무거운 순서</small></h3>${urgentHTML}</div>${sumLoss(res)}</div>
+      <div><div class="card"><h3>여러 상품에서 반복된 문제<small>꼭 고치기·확인 필요 기준</small></h3><div class="bars">${bars}</div></div>${sumSeason(res)}</div></div>`;
 
     // 위험 순서
     $("#tp-rank").innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>순위</th><th>상품명</th><th>제품 종류</th><th>위험도</th>
@@ -239,6 +271,35 @@
       Object.entries(state.ocr).map(([n, t]) => `<div class="copybox"><div class="cap"><span>${esc(n)}</span></div><div class="copytext open">${esc(t) || "(읽은 글 없음)"}</div></div>`).join("");
   }
 
+  /* 요약: 식품은 가게 전체 영업정지라 가장 긴 처분 하나만, 화장품은 상품별 광고 정지 개수 */
+  function sumLoss(res) {
+    let food = null, foodN = 0, cosN = 0;
+    for (const r of res) {
+      const s = L.worstStop(r.findings, r.productType); if (!s) continue;
+      if (s.scope === "store") { foodN++; if (!food || s.max > food.max) food = s; } else cosN++;
+    }
+    if (!food && !cosN) return "";
+    const cos = cosN ? `<p class="ln">화장품 ${cosN}개는 걸린 제품마다 광고업무정지 2~3개월이 따로 걸려요. 상품별 금액은 ‘상품별 자세히’에서 계산해 보세요.</p>` : "";
+    if (!food) return `<div class="card loss-card"><h3>이대로 두면 얼마 손해?</h3>${cos}</div>`;
+    return `<div class="card loss-card"><h3>이대로 두면 얼마 손해?<small>식품 ${foodN}개 중 가장 무거운 처분 기준</small></h3>${lossHTML(food, "store")}${cos}</div>`;
+  }
+
+  /* 요약: 다가오는 단속 시즌에 해당하는 상품 */
+  function sumSeason(res) {
+    if (!state.season.length) return "";
+    const hits = new Map();
+    for (const r of res) for (const e of SE.forProduct(state.season, r)) {
+      const k = e.theme + e.domain; if (!hits.has(k)) hits.set(k, { e, names: [] });
+      if (!hits.get(k).names.includes(r.name)) hits.get(k).names.push(r.name);
+    }
+    const rows = [...hits.values()].slice(0, 4).map(({ e, names }) => `<li><span class="sw">${SE.soon(e)}</span>
+      <span><b>${esc(e.theme)}</b> <span class="dm d-${e.domain}">${SE.DOMAIN_NAME[e.domain]}</span>
+      <span class="mt">${esc(SE.when(e))} · ${esc(e.tip)}</span><span class="pn">해당 상품: ${names.slice(0, 3).map(esc).join(", ")}${names.length > 3 ? ` 외 ${names.length - 3}개` : ""}</span></span></li>`).join("");
+    return `<div class="card sea-card"><h3>다가오는 단속 시즌<small>과거 이맘때 단속 주제와 겹치는 상품</small></h3>
+      ${rows ? `<ul>${rows}</ul>` : `<p class="empty-s">앞으로 두 달 동안의 과거 단속 주제와 겹치는 상품이 없어요.</p>`}
+      <a class="more" href="#/season">단속 달력과 최신 소식 보기 →</a></div>`;
+  }
+
   function renderDetail() {
     const r = state.results[state.pick];
     document.querySelectorAll("#plist button").forEach(b => b.setAttribute("aria-selected", String(+b.dataset.pick === state.pick)));
@@ -246,6 +307,7 @@
     const c = r.counts;
     $("#pdetail").innerHTML = `<div class="ph-head"><h3>${esc(r.name)}</h3>${tierTag(r.tier)}<span class="mt">${esc(R.TYPE_NAME[r.productType])} · 꼭 고치기 ${c.red}, 확인 필요 ${c.amber}, 자료 챙기기 ${c.blue}</span></div>
       ${r.maxPenalty ? `<p class="ph-pen">이대로 두면 최대 <b>${M.penaltyText(r.maxPenalty)}</b></p>` : ""}
+      ${(() => { const s = L.worstStop(r.findings, r.productType); return s ? lossHTML(s, s.scope === "store" ? "store" : "p:" + r.name) : ""; })()}
       <div class="copybox"><div class="cap"><span>상세 문구</span><button type="button" id="copy-more">전체 보기</button></div>
         <div class="copytext" id="copytext">${marked(r.text, r.findings)}</div></div>
       ${cards(r.findings)}`;
@@ -281,6 +343,8 @@
     const c = M.summarize(lastFs);
     $("#ed-sum").innerHTML = [["red", "꼭 고치기"], ["amber", "확인 필요"], ["blue", "자료 챙기기"]].map(([g, n]) =>
       `<div class="${c[g] ? "" : "zero"}"><div class="k"><span class="sq" style="--c:${GRADE[g][0]}"></span>${n}</div><div class="v">${c[g]}</div></div>`).join("");
+    const st = text.trim() ? L.worstStop(lastFs, txtType) : null;
+    $("#ed-loss").innerHTML = st ? lossHTML(st, st.scope === "store" ? "store" : "p:text") : "";
     $("#ed-cards").innerHTML = !text.trim()
       ? `<div class="hint"><b>문구를 붙여 넣어 주세요</b>상세페이지 글을 왼쪽에 넣으면 고칠 곳에 물결 밑줄을 긋고, 이유와 대신 쓸 말을 여기에 보여드려요.</div>`
       : lastFs.length ? cards(lastFs)
@@ -289,6 +353,37 @@
   }
   function syncScroll() { const ed = $("#ed"); $("#ed-hl").parentElement.scrollTop = ed.scrollTop; }
 
+  /* ── 단속 소식 ───────────────────────── */
+  let newsCat = "all";
+  function renderSeason() {
+    const up = SE.upcoming(state.season), today = new Date();
+    const end = new Date(today.getTime() + 61 * 864e5);
+    $("#sea-range").textContent = `${today.getMonth() + 1}월 ${today.getDate()}일 ~ ${end.getMonth() + 1}월 ${end.getDate()}일`;
+    $("#sea-up").innerHTML = up.length ? up.map(e => `<article class="sea-ev">
+        <div class="top"><span class="sw">${SE.soon(e)}</span><span class="dm d-${e.domain}">${SE.DOMAIN_NAME[e.domain]}</span></div>
+        <h4>${esc(e.theme)}</h4>
+        <p class="mt">${esc(SE.when(e))}${e.total ? ` · <b>${e.total.toLocaleString("ko-KR")}건</b> 적발` : ""}</p>
+        <p class="tip">${esc(e.tip)}</p>
+        <a href="${esc(e.source)}" target="_blank" rel="noopener">출처</a></article>`).join("")
+      : `<p class="empty-s">앞으로 두 달 동안 과거에 단속 발표가 있었던 시기가 없어요.</p>`;
+    const months = Array.from({ length: 12 }, () => []);
+    for (const e of state.season) months[+e.date.slice(5, 7) - 1].push(e);
+    const now = today.getMonth();
+    $("#sea-cal").innerHTML = months.map((evs, i) => `<div class="mo${i === now ? " now" : ""}"><div class="mh">${i + 1}월${i === now ? "<em>지금</em>" : ""}</div>
+      ${evs.length ? evs.map(e => `<span class="ch d-${e.domain}" title="${esc(SE.when(e))} · ${esc(e.tip)}">${esc(e.theme)}<i>${e.date.slice(2, 4)}년</i></span>`).join("") : `<span class="none">발표 없음</span>`}</div>`).join("");
+    renderNews();
+  }
+  function renderNews() {
+    const N = state.news; if (!N) return;
+    $("#news-upd").textContent = `${N.updated} 업데이트`;
+    const items = N.items.filter(n => newsCat === "all" || n.cats.includes(newsCat)).sort((a, b) => b.date.localeCompare(a.date));
+    $("#news-list").innerHTML = items.map(n => `<li><a href="${esc(n.url)}" target="_blank" rel="noopener">
+      <div class="nh"><span class="nd">${esc(n.date.replace(/-/g, "."))}</span><span class="nk k-${n.kind === "단속" ? "en" : "po"}">${esc(n.kind)}</span>
+        ${n.cats.map(c => `<span class="dm d-${c}">${SE.DOMAIN_NAME[c]}</span>`).join("")}</div>
+      <b>${esc(n.title)}</b>${n.summary ? `<p>${esc(n.summary)}</p>` : ""}<span class="src">${esc(n.source)} ↗</span></a></li>`).join("")
+      || `<li class="empty-s">이 분야의 소식이 아직 없어요.</li>`;
+  }
+
   /* ── 시작 ───────────────────────────── */
   async function init() {
     const data = await (await fetch("rules.json")).json();
@@ -296,6 +391,16 @@
     $("#foot-v").textContent = `기준 ${state.ck.version} · 규칙 ${state.ck.rules.length}개 · 검사와 이미지 읽기는 모두 이 브라우저 안에서만 이뤄지고, 올린 파일은 어디에도 보내지 않아요.`;
     proof();
     pulse();
+    try {
+      const [sea, news] = await Promise.all([fetch("season.json").then(r => r.json()), fetch("news.json").then(r => r.json())]);
+      state.season = sea.events; state.news = news;
+    } catch (e) { /* 시즌·소식이 없어도 검사는 된다 */ }
+    renderSeason();
+    const nf = $("#news-filter");
+    nf.insertAdjacentHTML("beforeend", [["all", "전체"], ["cos", "화장품"], ["food", "식품"], ["hfood", "건강기능식품"]].map(([v, t]) =>
+      `<label><input type="radio" name="news-cat" value="${v}"${v === "all" ? " checked" : ""}><span>${t}</span></label>`).join(""));
+    nf.addEventListener("change", e => { newsCat = e.target.value; renderNews(); });
+    $("#news-list").addEventListener("click", e => { if (e.target.closest("a")) countOnce("news-click"); });
 
     const file = $("#file"), ask = $("#ask"), start = $("#view-start");
     file.addEventListener("change", () => { onFiles(file.files); file.value = ""; });
@@ -335,6 +440,7 @@
       if (m) { m.scrollIntoView({ block: "center", behavior: "smooth" }); m.classList.add("flash"); setTimeout(() => m.classList.remove("flash"), 1400); }
     });
 
+    document.addEventListener("input", onLossInput);
     seg($("#txt-type"), "txt-type", txtType, v => { txtType = v; checkText(); });
     const ed = $("#ed"); let t;
     ed.addEventListener("input", () => { clearTimeout(t); t = setTimeout(checkText, 120); $("#ed-hl").innerHTML = esc(ed.value) + "\n"; });

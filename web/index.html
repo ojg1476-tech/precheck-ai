@@ -29,6 +29,7 @@
     <nav class="nav" aria-label="주 메뉴">
       <a href="#/" data-route="batch">상품 점검</a>
       <a href="#/text" data-route="text">문구 하나 검사</a>
+      <a href="#/season" data-route="season">단속 소식</a>
       <a href="#/about" data-route="about">기준과 성능</a>
     </nav>
     <a class="gh" href="https://github.com/ojg1476-tech/precheck-ai" target="_blank" rel="noopener">GitHub</a>
@@ -148,10 +149,28 @@
     </div>
     <aside class="ed-side" aria-live="polite">
       <div class="ed-sum" id="ed-sum"></div>
+      <div id="ed-loss"></div>
       <div class="ed-cards" id="ed-cards"></div>
     </aside>
   </div>
   <div class="pulse" data-where="text"></div>
+</section>
+
+<!-- 단속 소식: 시즌 예보 + 최신 소식 -->
+<section class="view" id="view-season" data-view="season" hidden>
+  <div class="sea-head">
+    <h2>단속 시즌과 최신 소식</h2>
+    <p class="sub">식약처는 시기마다 비슷한 주제로 단속해요. 과거 이맘때 무엇이 걸렸는지 보고, 다가올 단속에 맞춰 문구를 미리 고쳐 두세요.</p>
+  </div>
+  <h3 class="sea-t">다가오는 단속 시즌<small id="sea-range"></small></h3>
+  <div class="sea-up" id="sea-up"></div>
+  <h3 class="sea-t">1년 단속 달력<small>2021~2026년 식약처 점검 발표 기준</small></h3>
+  <div class="sea-legend"><span class="d-cos">화장품</span><span class="d-food">식품</span><span class="d-hfood">건강기능식품</span></div>
+  <div class="sea-cal" id="sea-cal"></div>
+  <h3 class="sea-t">최신 소식<small id="news-upd"></small></h3>
+  <fieldset class="seg" id="news-filter" aria-label="분야"></fieldset>
+  <ul class="news" id="news-list"></ul>
+  <p class="note sea-note">시즌 예보는 과거에 이 시기에 이런 단속 발표가 있었다는 기록이에요. 올해도 같은 단속이 있다는 뜻은 아니에요.</p>
 </section>
 
 <!-- 기준과 성능 -->
@@ -215,6 +234,8 @@
 <script src="js/xlsx.js"></script>
 <script src="js/report.js"></script>
 <script src="js/ocr.js"></script>
+<script src="js/loss.js"></script>
+<script src="js/season.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
