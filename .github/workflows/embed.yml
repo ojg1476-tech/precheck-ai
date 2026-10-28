@@ -1,0 +1,27 @@
+name: embed-eval
+# 뜻 비교(문장 임베딩) 실험. 수동 실행만.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "임베딩 모델"
+        default: "intfloat/multilingual-e5-small"
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: 패키지
+        run: pip install -q sentence-transformers pandas openpyxl
+      - name: 리뷰 코퍼스 (평범한 문장 오탐 확인용)
+        run: |
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
+          cd /tmp/corpus && git sparse-checkout set sentiment
+      - name: 실험
+        env:
+          EMBED_MODEL: ${{ inputs.model }}
+          REVIEWS: /tmp/corpus/sentiment/naver_shopping.txt
+        run: python eval/experiments/embed_eval.py
