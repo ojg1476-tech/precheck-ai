@@ -7,6 +7,7 @@ GitHub Actions(.github/workflows/news.yml)가 매일 실행한다. 직접 고른
     python tools/update_news.py --dry-run  # 무엇이 붙을지만 출력
 """
 import html
+import os
 import json
 import re
 import sys
@@ -20,10 +21,11 @@ ROOT = Path(__file__).resolve().parents[1]
 NEWS = ROOT / "web/news.json"
 KST = timezone(timedelta(hours=9))
 
-# 정책브리핑(korea.kr)의 식약처 보도자료 RSS. 첫 번째로 읽히는 것을 쓴다.
-FEEDS = [
-    ("식약처 보도자료", "https://www.korea.kr/rss/dept_mfds.xml"),
-    ("식약처 보도자료", "https://www.korea.kr/rss/pressrelease.xml"),
+# 식약처 보도자료. 위에서부터 읽히는 첫 번째 것을 쓴다. (정책브리핑 RSS는 2026년 서비스 중단)
+BASE = "https://www.mfds.go.kr"
+SOURCES = [
+    ("식약처 보도자료", BASE + "/www/rss/brd.do?brdId=ntc0021", "rss"),
+    ("식약처 보도자료", BASE + "/brd/m_99/list.do", "html"),
 ]
 TOPIC = re.compile(r"광고|부당|과대|허위|표시")
 FIELD = {
@@ -33,9 +35,6 @@ FIELD = {
 }
 MFDS = re.compile(r"식약처|식품의약품안전처")
 MAX_ITEMS = 40
-
-
-import os
 
 
 def log(msg):
@@ -68,6 +67,23 @@ def parse(raw):
         yield title, link, desc, d
 
 
+def parse_html(raw):
+    """식약처 보도자료 목록 페이지: view.do?seq= 링크와 그 근처 날짜를 읽는다."""
+    text = raw.decode("utf-8", "replace")
+    for m in re.finditer(r'<a[^>]+href="([^"]*view\.do\?seq=\d+[^"]*)"[^>]*>(.*?)</a>', text, re.S):
+        href, inner = html.unescape(m.group(1)), m.group(2)
+        title = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", inner))).strip()
+        near = text[m.end(): m.end() + 1500]
+        d = re.search(r"(20\d\d)[.-](\d\d)[.-](\d\d)", re.sub(r"<[^>]+>", " ", inner) + near)
+        if not title or not d:
+            continue
+        if href.startswith("./"):
+            href = BASE + "/brd/m_99/" + href[2:]
+        elif href.startswith("/"):
+            href = BASE + href
+        yield title, href, "", datetime(int(d[1]), int(d[2]), int(d[3])).date()
+
+
 def pick(title, desc, require_mfds):
     if not TOPIC.search(title):
         return None
@@ -83,16 +99,22 @@ def main(dry=False):
     data = json.loads(NEWS.read_text(encoding="utf-8"))
     known = {i["url"] for i in data["items"]} | {re.sub(r"\W", "", i["title"]) for i in data["items"]}
     added, used = [], None
-    for name, url in FEEDS:
+    for name, url, kind in SOURCES:
         try:
-            items = list(parse(fetch(url)))
+            raw = fetch(url)
+            items = list(parse(raw) if kind == "rss" else parse_html(raw))
         except Exception as e:  # 피드가 바뀌거나 막히면 다음 후보로
             log(f"[skip] {url}: {e}")
             continue
+        if not items:
+            body = raw.decode("utf-8", "replace")
+            i = body.find("view.do")
+            log(f"[empty] {url}: {len(raw)}바이트, 앞부분 {body[max(0, i - 300): i + 300] if i >= 0 else body[:400]!r}")
+            continue
         used = url
-        log(f"[ok] {url}: {len(items)}건")
+        log(f"[ok] {url}: {len(items)}건, 최신 {items[0][3]} {items[0][0][:40]}")
         for title, link, desc, d in items:
-            cats = pick(title, desc, require_mfds=url.endswith("pressrelease.xml"))
+            cats = pick(title, desc, require_mfds=False)
             if not cats or link in known or re.sub(r"\W", "", title) in known:
                 continue
             kind = "단속" if re.search(r"적발|점검|단속|조치", title) else "제도"
