@@ -161,6 +161,38 @@ def main():
     log("묶음 하나씩 빼고 재기 (8비트 모델, 구절 나누기): " + " / ".join(rows))
     log(f"합계: 규칙 {tot[1] / tot[0] * 100:.1f}% → 규칙+AI {tot[2] / tot[0] * 100:.1f}% (처음 보는 문구 {tot[0]}개)")
 
+    # 2b) 학습형: 적발 문구(+) vs 평범한 문장 구절(−)로 로지스틱 회귀, 뜻 거리 대비(contrast) 방식
+    from sklearn.linear_model import LogisticRegression
+    RA, RB = R[: len(R) // 2], R[len(R) // 2:]
+    negW = sorted({w for _, s_ in RA for w in windows(s_)} | {w for _, _, x in A for w in windows(x)})
+    EN = np.vstack([cache[w] for w in negW])
+    def text_max(text, f):
+        ws = windows(text)
+        return max(f(np.vstack([cache[w] for w in ws]))) if ws else -9
+    def calib2(f):
+        free = [text_max(x, f) for t, x in RB if not rule(t, x)]
+        q = np.quantile(free, 1 - TARGET_FP)
+        return float(q) + 1e-6, float(np.mean([v > q for v in free]))
+    res2 = {"lr": [0, 0, 0], "contrast": [0, 0, 0]}
+    det = {"lr": [], "contrast": []}
+    for hb in ["test3", "test4", "test5", "test6", "test7"]:
+        ti = [i for i, v in enumerate(V) if v[0] == hb]
+        tr = [i for i, v in enumerate(V) if v[0] != hb]
+        X = np.vstack([EV[tr], EN]); y = np.r_[np.ones(len(tr)), np.zeros(len(EN))]
+        lr = LogisticRegression(C=2.0, class_weight="balanced", max_iter=2000).fit(X, y)
+        KBp, KBn = EV[tr], EN
+        fns = {"lr": lambda M: lr.decision_function(M), "contrast": lambda M: (M @ KBp.T).max(1) - (M @ KBn.T).max(1)}
+        for k, f in fns.items():
+            th, fp = calib2(f)
+            r = [rule(V[i][1], V[i][2]) for i in ti]
+            e = [text_max(V[i][2], f) > th for i in ti]
+            b = [x or y_ for x, y_ in zip(r, e)]
+            res2[k][0] += len(ti); res2[k][1] += sum(r); res2[k][2] += sum(b)
+            det[k].append(f"{hb} {sum(r)}→{sum(b)}/{len(ti)} (새 표시 {fp * 100:.2f}%)")
+    for k in res2:
+        n, r_, b_ = res2[k]
+        log(f"학습형 {k}: 규칙 {r_ / n * 100:.1f}% → 규칙+AI {b_ / n * 100:.1f}% · " + " / ".join(det[k]))
+
     # 3) 최종: 모든 적발 문구를 기준으로 기준값을 다시 정하고 저장
     th, fp = calibrate(EV)
     q = np.clip(np.round(EV * 127), -127, 127).astype(np.int8)        # 8비트로 저장 (복원: /127)
