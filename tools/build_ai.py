@@ -100,6 +100,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--onnx", required=True); ap.add_argument("--tokenizer", required=True)
     ap.add_argument("--reviews", required=True); ap.add_argument("--fp32", help="비교용 원래 모델(sentence-transformers 이름)")
+    ap.add_argument("--compare", help="진단용 ONNX 파일들(쉼표)"); ap.add_argument("--diag-only", action="store_true")
     a = ap.parse_args()
     emb = Embedder(a.onnx, a.tokenizer)
     ck = Checker()
@@ -108,12 +109,22 @@ def main():
     R = reviews(a.reviews)
     EV = emb([x for _, _, x in V])
 
+    # 0) 진단: 여러 변환본이 원래 모델과 얼마나 같은지
+    if a.compare:
+        from sentence_transformers import SentenceTransformer
+        texts = [x for _, _, x in V][:200]
+        ref = SentenceTransformer(a.fp32).encode(texts, normalize_embeddings=True)
+        for pth in a.compare.split(","):
+            e = Embedder(pth, a.tokenizer)(texts)
+            log(f"진단 {Path(pth).name}: 원래 모델과 코사인 평균 {(ref * e).sum(1).mean():.4f}, 최소 {(ref * e).sum(1).min():.4f}")
     # 1) 원래 모델과 비교
     if a.fp32:
         from sentence_transformers import SentenceTransformer
         ref = SentenceTransformer(a.fp32).encode([x for _, _, x in V], normalize_embeddings=True)
         log(f"8비트 모델과 원래 모델의 임베딩 코사인: 평균 {(ref * EV).sum(1).mean():.4f}, 최소 {(ref * EV).sum(1).min():.4f}")
 
+    if a.diag_only:
+        return
     # 문장별 구절 임베딩 캐시
     cache = {}
     def wemb(texts):

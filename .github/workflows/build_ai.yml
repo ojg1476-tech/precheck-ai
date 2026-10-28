@@ -7,6 +7,9 @@ on:
         description: "결과를 저장소에 커밋"
         type: boolean
         default: true
+      variant:
+        description: "쓸 변환본 (q_uint8, q_int8_pc, q_uint8_pc)"
+        default: "q_int8_pc"
 permissions:
   contents: write
 jobs:
@@ -27,16 +30,21 @@ jobs:
           optimum-cli export onnx --model jhgan/ko-sroberta-multitask --task feature-extraction /tmp/onnx
           python - <<'PY'
           from onnxruntime.quantization import quantize_dynamic, QuantType
-          quantize_dynamic("/tmp/onnx/model.onnx", "/tmp/onnx/model_quantized.onnx", weight_type=QuantType.QUInt8)
+          quantize_dynamic("/tmp/onnx/model.onnx", "/tmp/onnx/q_uint8.onnx", weight_type=QuantType.QUInt8)
+          quantize_dynamic("/tmp/onnx/model.onnx", "/tmp/onnx/q_int8_pc.onnx", weight_type=QuantType.QInt8, per_channel=True)
+          quantize_dynamic("/tmp/onnx/model.onnx", "/tmp/onnx/q_uint8_pc.onnx", weight_type=QuantType.QUInt8, per_channel=True)
           PY
           ls -la /tmp/onnx
-          echo "::notice::모델 크기 $(du -h /tmp/onnx/model.onnx | cut -f1) → 8비트 $(du -h /tmp/onnx/model_quantized.onnx | cut -f1)"
+          echo "::notice::모델 크기 $(du -h /tmp/onnx/model.onnx | cut -f1)"
       - name: 리뷰 코퍼스
         run: |
           git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
           cd /tmp/corpus && git sparse-checkout set sentiment
+      - name: 진단 (변환본 비교)
+        run: python tools/build_ai.py --diag-only --onnx /tmp/onnx/model.onnx --tokenizer /tmp/onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt --fp32 jhgan/ko-sroberta-multitask --compare /tmp/onnx/model.onnx,/tmp/onnx/q_uint8.onnx,/tmp/onnx/q_int8_pc.onnx,/tmp/onnx/q_uint8_pc.onnx
       - name: 검증과 기준 문구 임베딩
-        run: python tools/build_ai.py --onnx /tmp/onnx/model_quantized.onnx --tokenizer /tmp/onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt --fp32 jhgan/ko-sroberta-multitask
+        if: ${{ inputs.commit }}
+        run: cp /tmp/onnx/${{ inputs.variant }}.onnx /tmp/onnx/model_quantized.onnx && python tools/build_ai.py --onnx /tmp/onnx/model_quantized.onnx --tokenizer /tmp/onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt --fp32 jhgan/ko-sroberta-multitask
       - name: 브라우저용 라이브러리
         run: |
           mkdir -p /tmp/npm && cd /tmp/npm
