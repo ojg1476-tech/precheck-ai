@@ -35,6 +35,16 @@ MFDS = re.compile(r"식약처|식품의약품안전처")
 MAX_ITEMS = 40
 
 
+import os
+
+
+def log(msg):
+    """Actions에서는 주석(annotation)으로도 남겨 API로 결과를 볼 수 있게 한다."""
+    print(msg)
+    if os.environ.get("GITHUB_ACTIONS"):
+        print("::notice::" + msg.replace("\n", " ")[:900])
+
+
 def fetch(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (moonguradar news bot)"})
     with urllib.request.urlopen(req, timeout=30) as r:
@@ -77,10 +87,10 @@ def main(dry=False):
         try:
             items = list(parse(fetch(url)))
         except Exception as e:  # 피드가 바뀌거나 막히면 다음 후보로
-            print(f"[skip] {url}: {e}")
+            log(f"[skip] {url}: {e}")
             continue
         used = url
-        print(f"[ok] {url}: {len(items)}건")
+        log(f"[ok] {url}: {len(items)}건")
         for title, link, desc, d in items:
             cats = pick(title, desc, require_mfds=url.endswith("pressrelease.xml"))
             if not cats or link in known or re.sub(r"\W", "", title) in known:
@@ -91,12 +101,12 @@ def main(dry=False):
             known |= {link, re.sub(r"\W", "", title)}
         break
     if used is None:
-        print("읽을 수 있는 피드가 없어요. news.json은 그대로 둡니다.")
+        log("읽을 수 있는 피드가 없어요. news.json은 그대로 둡니다.")
         return 0
     for a in added:
-        print(f"[new] {a['date']} {a['cats']} {a['title']}")
+        log(f"[new] {a['date']} {a['cats']} {a['title']}")
     if dry or not added:
-        print(f"새 항목 {len(added)}건 (저장 안 함)" if dry else "새 항목 없음")
+        log(f"새 항목 {len(added)}건 (저장 안 함)" if dry else "새 항목 없음")
         return 0
     data["items"] = sorted(data["items"] + added, key=lambda i: i["date"], reverse=True)
     manual = [i for i in data["items"] if i.get("origin") != "auto"]
@@ -104,7 +114,7 @@ def main(dry=False):
     data["items"] = sorted(manual + auto, key=lambda i: i["date"], reverse=True)
     data["updated"] = datetime.now(KST).strftime("%Y-%m-%d")
     NEWS.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(f"새 항목 {len(added)}건 저장")
+    log(f"새 항목 {len(added)}건 저장")
     return 0
 
 
