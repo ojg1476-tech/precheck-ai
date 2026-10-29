@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import build_ai as B  # noqa: E402
 
 HELD = ["test3", "test4", "test5", "test6", "test7", "test8"]
+FINAL = ["test9"]   # 학습·기준값에 전혀 안 쓰는 최종 시험 세트 (build_ai.load 에 넣지 않는다)
 DOM = {"cos": "cos", "fcos": "cos", "food": "food", "hfood": "food"}
 
 
@@ -105,6 +106,19 @@ def main():
     wemb(probe)
     (ROOT / "web/ai/probe.json").write_text(json.dumps({x: {"lr": round(float(text_max(x, f)), 4)} for x in probe}, ensure_ascii=False) + "\n", encoding="utf-8")
     B.log(f"최종: 기준값 화장품 {th_cos:.4f} · 식품 {th_food:.4f} · 측정용 리뷰 새 표시 화장품 {oc}/{nc} · 식품 {of}/{nf}")
+
+    # 최종 시험(학습에 안 쓴 세트): 위 최종 모델로 채점만 한다 → eval/report/ai_final.json
+    import csv
+    fin = {}
+    for name in FINAL:
+        rows = [r for r in csv.DictReader(open(ROOT / f"data/{name}.csv", encoding="utf-8")) if r["label"] in ("violation", "allowed")]
+        wemb([r["text"] for r in rows])
+        th = {"cos": th_cos, "food": th_food}
+        fin[name] = [{"type": r["product_type"], "label": r["label"], "text": r["text"], "rule": bool(rule(r["product_type"], r["text"])),
+                      "ai": bool(r["product_type"] != "hfood" and text_max(r["text"], f) > th[DOM[r["product_type"]]])} for r in rows]
+        v = [x for x in fin[name] if x["label"] == "violation"]; al = [x for x in fin[name] if x["label"] == "allowed"]
+        B.log(f"최종 시험 {name}: 규칙 {sum(x['rule'] for x in v)} → 규칙+AI {sum(x['rule'] or x['ai'] for x in v)} / {len(v)} · 허용 오탐 규칙+AI {sum(x['rule'] or x['ai'] for x in al)}/{len(al)}")
+    (ROOT / "eval/report/ai_final.json").write_text(json.dumps(fin, ensure_ascii=False, indent=0), encoding="utf-8")
 
 
 if __name__ == "__main__":

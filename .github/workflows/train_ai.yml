@@ -24,4 +24,4 @@ jobs:
       - name: 커밋
         run: |
           git config user.name github-actions; git config user.email actions@github.com
-          git add eval/report/ai_lobo.json web/ai/kb.json web/ai/probe.json && git commit -m "정확도 보고서: 규칙+AI 묶음별 판정 (train-ai 자동 생성)" && git pull --rebase && git push || echo "변경 없음"
+          git add eval/report/ai_lobo.json eval/report/ai_final.json web/ai/kb.json web/ai/probe.json && git commit -m "정확도 보고서: 규칙+AI 묶음별 판정 (train-ai 자동 생성)" && git pull --rebase && git push || echo "변경 없음"
