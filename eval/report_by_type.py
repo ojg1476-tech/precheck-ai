@@ -133,7 +133,7 @@ def main():
         cell = lambda s: f"{P(d[s]['recall'])} ({d[s]['hit']}개, {d[s]['ci'][0] * 100:.0f}~{d[s]['ci'][1] * 100:.0f}%)" if d["n_violation"] else "-"
         fp = " / ".join(f"{d[s]['fp']}" for s, _ in systems) + f" (총 {d['n_allowed']}개)" if d["n_allowed"] else "-"
         L.append(f"| {d['name']} | {d['n_violation']} | {cell('kw')} | {cell('rule')} | {cell('both')} | {fp} |")
-    L += ["", "## 최종 시험 (처음 보는 적발 문구, 세트를 고정한 뒤 한 번만 잰 값 — 9·10 화장품, 11 식품)", "",
+    L += ["", "## 최종 시험 (처음 보는 적발 문구, 세트를 고정한 뒤 한 번만 잰 값 — 9·10·13 화장품, 11·12 식품)", "",
           "| 세트 | 위반 문구 | 금칙어 목록 | 규칙 (고정 시점) | 규칙 + AI (고정 시점) | 허용 문장 오탐 (규칙+AI) | 지금 규칙 (참고·이미 본 데이터) |", "|---|---|---|---|---|---|---|"]
     for n, d in final.items():
         v, al = d["violation"], d["allowed"]
