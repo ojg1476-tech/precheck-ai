@@ -1,0 +1,27 @@
+name: train-ai
+# AI 판별기 다시 학습(화장품·식품 기준값 따로) + 묶음별 판정 저장. 수동 실행만.
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q onnxruntime tokenizers scikit-learn numpy
+      - name: 모델 합치기·리뷰 코퍼스
+        run: |
+          M=web/ai/model/ko-sroberta-multitask
+          cat $M/onnx/model_quantized.onnx.part* > /tmp/model.onnx
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
+          cd /tmp/corpus && git sparse-checkout set sentiment
+      - name: 묶음 하나씩 빼고 재기
+        run: python tools/train_ai.py --onnx /tmp/model.onnx --tokenizer web/ai/model/ko-sroberta-multitask --reviews /tmp/corpus/sentiment/naver_shopping.txt
+      - name: 커밋
+        run: |
+          git config user.name github-actions; git config user.email actions@github.com
+          git add eval/report/ai_lobo.json web/ai/kb.json web/ai/probe.json && git commit -m "정확도 보고서: 규칙+AI 묶음별 판정 (train-ai 자동 생성)" && git pull --rebase && git push || echo "변경 없음"

@@ -441,7 +441,7 @@
     try {
       if (!MoonguAI.isReady()) { await aiLoad(el); countOnce("ai-load"); }
       el.innerHTML = aiProgress("AI가 문장을 살펴보는 중", 0);
-      const hits = await MoonguAI.check(text, lastFs.map(f => [f.start, f.end]), (i, n) => { el.innerHTML = aiProgress(`AI가 문장을 살펴보는 중 · ${i}/${n}`, i / n); });
+      const hits = await MoonguAI.check(text, lastFs.map(f => [f.start, f.end]), (i, n) => { el.innerHTML = aiProgress(`AI가 문장을 살펴보는 중 · ${i}/${n}`, i / n); }, txtType);
       if (ed.value === text) aiText = { text, hits };
       countOnce("ai-check-text");
     } catch (e) {
@@ -462,7 +462,7 @@
       for (let k = 0; k < todo.length; k++) {
         const [r, i] = todo[k];
         el.innerHTML = aiProgress(`AI가 상품을 살펴보는 중 · ${k + 1}/${todo.length} ${r.name}`, k / todo.length);
-        state.ai.set(i, await MoonguAI.check(r.text, r.findings.map(f => [f.start, f.end])));
+        state.ai.set(i, await MoonguAI.check(r.text, r.findings.map(f => [f.start, f.end]), undefined, r.productType));
       }
       countOnce("ai-check-batch");
     } catch (e) {

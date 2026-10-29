@@ -108,14 +108,19 @@
   }
 
   /* text에서 의심 구절 찾기. skip: 이미 규칙에 걸린 [start,end] 구간들 (겹치는 구절은 뺌) */
-  async function check(text, skip = [], onStep) {
+  /* 기준값: 화장품·식품을 따로 정했다 (tools/train_ai.py). type 이 없으면 식품 기준 */
+  function thresholdFor(type) {
+    const lr = kb.lr || {};
+    return (type === "cos" || type === "fcos") ? (lr.threshold_cos ?? lr.threshold) : (lr.threshold_food ?? lr.threshold);
+  }
+  async function check(text, skip = [], onStep, type = "") {
     await load();
     const ws = windows(text, kb.max_sent_words || 8);
     if (!ws.length) return [];
     const E = await embed(ws.map(w => w.text), onStep);
     const hits = [];
     ws.forEach((w, i) => {
-      const flag = kb.W ? lrScore(E[i]) > kb.lr.threshold : nearest(E[i])[0] >= kb.threshold;
+      const flag = kb.W ? lrScore(E[i]) > thresholdFor(type) : nearest(E[i])[0] >= kb.threshold;
       if (!flag || skip.some(([a, b]) => w.start < b && a < w.end)) return;
       const [s, bi] = nearest(E[i]);
       hits.push({ ...w, score: kb.W ? lrScore(E[i]) : s, sim: s, near: kb.phrases[bi] });

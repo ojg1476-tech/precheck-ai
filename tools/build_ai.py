@@ -75,7 +75,7 @@ def load():
         for r in csv.DictReader(open(path, encoding="utf-8")):
             (V if r["label"] == "violation" else A if r["label"] == "allowed" else []).append((b, r["product_type"], r["text"]))
     add(ROOT / "data/eval_set.csv", "개발용")
-    for f in ["test2", "test3", "test4", "test6", "test7"]:
+    for f in ["test2", "test3", "test4", "test6", "test7", "test8"]:
         add(ROOT / f"data/{f}.csv", f)
     add(ROOT / "data/test5_batches.csv", "test5")
     seen = {re.sub(r"\W", "", t) for _, _, t in V}
