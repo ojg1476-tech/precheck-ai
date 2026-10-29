@@ -1,5 +1,5 @@
 name: fetch-hfood
-# 건강기능식품 원료별 인정 기능성 문구 받기 (식품안전나라 OpenAPI). 수동 실행만. 결과는 data-hfood 브랜치에 커밋.
+# 건강기능식품 원료별 인정 기능성 문구 받기 (식품안전나라 OpenAPI). 수동 실행만. 결과는 data/hfood/raw 에 커밋.
 on:
   workflow_dispatch: {}
 permissions:
@@ -16,16 +16,16 @@ jobs:
           K=${KEY:-sample}; mkdir -p data/hfood/raw
           python3 - "$K" <<'PY'
           import json, sys, time, urllib.request
-          K = sys.argv[1]
+          K = sys.argv[1]; STEP = 5 if K == "sample" else 1000
           for svc in ["I2710", "I-0050", "I-0040"]:
               rows, start, total = [], 1, None
               while total is None or start <= total:
-                  u = f"http://openapi.foodsafetykorea.go.kr/api/{K}/{svc}/json/{start}/{start+999}"
+                  u = f"http://openapi.foodsafetykorea.go.kr/api/{K}/{svc}/json/{start}/{start+STEP-1}"
                   d = json.load(urllib.request.urlopen(u, timeout=120))[svc]
                   total = int(d.get("total_count", 0)); got = d.get("row", [])
-                  print(f"::notice title={svc}::{start} total={total} got={len(got)} {d.get('RESULT')}")
+                  (start == 1 or not got or start % 200 == 1) and print(f"::notice title={svc}::{start} total={total} got={len(got)} {d.get('RESULT')}")
                   if not got: break
-                  rows += got; start += 1000; time.sleep(1)
+                  rows += got; start += STEP; time.sleep(0.3)
               json.dump(rows, open(f"data/hfood/raw/{svc}.json", "w"), ensure_ascii=False, indent=0)
           PY
       - name: 커밋
