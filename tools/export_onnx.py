@@ -21,14 +21,19 @@ try:
 except Exception:
     note("optimum 변환 실패: " + traceback.format_exc()[-1500:])
 if not ok:
-    import torch
-    hf.eval()
-    enc = tok(["피부 재생 크림", "촉촉한 보습 로션입니다"], padding=True, return_tensors="pt")
-    torch.onnx.export(hf, (enc["input_ids"], enc["attention_mask"]), str(out / "model.onnx"),
-                      input_names=["input_ids", "attention_mask"], output_names=["last_hidden_state"],
-                      dynamic_axes={"input_ids": {0: "b", 1: "s"}, "attention_mask": {0: "b", 1: "s"}, "last_hidden_state": {0: "b", 1: "s"}},
-                      opset_version=14, do_constant_folding=True)
-    note("torch.onnx 직접 변환 완료")
+    try:
+        import torch
+        hf.eval(); hf.config.return_dict = False
+        enc = tok(["피부 재생 크림", "촉촉한 보습 로션입니다"], padding=True, return_tensors="pt")
+        kw = {"dynamo": False} if "dynamo" in torch.onnx.export.__code__.co_varnames else {}
+        torch.onnx.export(hf, (enc["input_ids"], enc["attention_mask"]), str(out / "model.onnx"),
+                          input_names=["input_ids", "attention_mask"], output_names=["last_hidden_state", "pooler_output"],
+                          dynamic_axes={"input_ids": {0: "b", 1: "s"}, "attention_mask": {0: "b", 1: "s"}, "last_hidden_state": {0: "b", 1: "s"}},
+                          opset_version=14, do_constant_folding=True, **kw)
+        hf.config.return_dict = True
+        note(f"torch.onnx 직접 변환 완료 (torch {torch.__version__})")
+    except Exception:
+        note("torch.onnx 변환 실패: " + traceback.format_exc()[-1500:]); raise
 hf.config.save_pretrained(out)
 from onnxruntime.quantization import quantize_dynamic, QuantType
 quantize_dynamic(str(out / "model.onnx"), str(out / "model_quantized.onnx"), weight_type=QuantType.QInt8, per_channel=True)
