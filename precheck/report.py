@@ -91,7 +91,7 @@ def build_report(results: list[ProductResult], checker: Checker | None = None, s
     rows, fills = [], []
     for p in results:
         for f in sorted(p.findings, key=lambda x: ({"red": 0, "amber": 1, "blue": 2}[x.grade], x.start)):
-            rows.append([p.name, f.grade_name, f.phrase, f.label, f.why, f.alt,
+            rows.append([p.name, f.grade_name, f.phrase, f.label + (f"\n({f.easy})" if f.easy and f.easy != f.label else ""), f.why, f.alt,
                          "\n".join("□ " + c for c in f.checks), f.penalty, f.law, f.source])
             fills.append(f.grade)
     _table(ws, ["상품명", "등급", "찾은 표현", "쉬운 이름", "왜 문제인가", "대신 이렇게", "쓰기 전에 확인할 것", "이대로 두면", "관련 기준", "출처"],

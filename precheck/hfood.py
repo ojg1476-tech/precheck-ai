@@ -181,11 +181,11 @@ def check_hfood(text: str, kb: dict, penalties: dict, checks: list, products: "P
             if _satisfies(prod, fid, parents):
                 exact = _exact(prod, fid, parents, kb)
                 if claim and not soft:
-                    out.append({**base, "grade": "amber", "rule_id": "H2", "label": "신고 문구보다 세게 말함",
+                    out.append({**base, "grade": "amber", "rule_id": "H2", "label": "신고 범위 초과 표현", "easy": "신고 문구보다 세게 말함",
                                 "why": f"{label}은(는) ‘{fname[fid]}’ 기능성을 신고했지만, 신고 문구는 ‘{exact}’예요. ‘개선’, ‘효과’처럼 단정하면 신고 범위를 넘는 광고가 돼요.",
                                 "alt": exact, "term": "신고한 기능성 범위를 넘는 표시·광고"})
                 else:
-                    out.append({**base, "grade": "blue", "rule_id": "H1", "label": "제품이 신고한 기능성",
+                    out.append({**base, "grade": "blue", "rule_id": "H1", "label": "신고 기능성 표시", "easy": "제품이 신고한 기능성",
                                 "why": f"{label}은(는) ‘{exact}’로 신고된 제품이에요. 이 문구 그대로 쓰고, 협회 심의를 받은 내용인지 확인하세요.",
                                 "alt": exact, "term": "신고한 기능성 표시 (신고 문구 그대로)", "penalty_key": "", "penalty": ""})
             else:
@@ -196,7 +196,8 @@ def check_hfood(text: str, kb: dict, penalties: dict, checks: list, products: "P
                 strong = claim or soft
                 by_name = prod["by"] == "name"   # 상품명으로 찾은 제품은 다른 회사 같은 이름일 수 있어 한 단계 낮춤
                 out.append({**base, "grade": "red" if strong and not by_name else "amber", "rule_id": "H6" if strong else "H7",
-                            "label": "제품이 신고하지 않은 기능성" if strong else "신고하지 않은 기능을 떠올리게 함",
+                            "label": "미신고 기능성 표시" if strong else "미신고 기능성 암시",
+                            "easy": "제품이 신고하지 않은 기능성" if strong else "신고하지 않은 기능을 떠올리게 함",
                             "why": f"{label}이(가) 신고한 기능성은 ‘{_join(have, 4)}’예요. ‘{fname[fid]}’ 기능성은 신고하지 않았어요. 원료에 그 기능이 있어도 제품으로 신고하지 않았으면 광고할 수 없어요."
                                    + (" 상품명으로 찾은 제품이라, 다른 제품이면 신고번호를 넣어 다시 확인하세요." if by_name else ""),
                             "alt": f"(신고한 기능성만: {prod['c'][0]})", "term": "신고하지 않은 기능성 표시·광고"})
@@ -208,18 +209,18 @@ def check_hfood(text: str, kb: dict, penalties: dict, checks: list, products: "P
             exact = _exact(it, fid, parents, kb)
             nm = text[full[0]["start"]:full[0]["end"]]
             if claim and not soft:
-                out.append({**base, "grade": "amber", "rule_id": "H2", "label": "인정 문구보다 세게 말함",
+                out.append({**base, "grade": "amber", "rule_id": "H2", "label": "인정 범위 초과 표현", "easy": "인정 문구보다 세게 말함",
                             "why": f"‘{nm}’은(는) ‘{fname[fid]}’ 기능성을 인정받았지만, 인정 문구는 ‘{exact}’예요. ‘개선’, ‘효과’처럼 단정하면 인정 범위를 넘는 광고가 돼요.",
                             "alt": exact, "term": "인정받은 기능성 범위를 넘는 표시·광고"})
             else:
-                out.append({**base, "grade": "blue", "rule_id": "H1", "label": "원료가 인정받은 기능성",
+                out.append({**base, "grade": "blue", "rule_id": "H1", "label": "인정 기능성 표시", "easy": "원료가 인정받은 기능성",
                             "why": f"‘{nm}’은(는) 식약처에서 ‘{exact}’로 인정받은 원료예요. 이 문구 그대로 쓰고, 협회 심의를 받은 내용인지 확인하세요.",
                             "alt": exact, "term": "인정받은 기능성 표시 (인정 문구 그대로)", "penalty_key": "", "penalty": ""})
         elif part:
             g = part[0]
             nm = text[g["start"]:g["end"]]
             ok_names = _join([items[i]["n"] for i in part_ok])
-            out.append({**base, "grade": "amber", "rule_id": "H3", "label": "원료 종류에 따라 다른 기능성",
+            out.append({**base, "grade": "amber", "rule_id": "H3", "label": "원료별 인정 기능성 상이", "easy": "원료 종류에 따라 다른 기능성",
                         "why": f"‘{nm}’ 원료 중 일부({ok_names})만 ‘{fname[fid]}’ 기능성을 인정받았어요. 제품에 든 원료가 정확히 그 원료인지 원료명(균주·제품 코드까지)으로 확인하세요.",
                         "alt": _exact(items[part_ok[0]], fid, parents, kb), "term": "원료별로 다른 인정 기능성"})
         else:
@@ -232,7 +233,8 @@ def check_hfood(text: str, kb: dict, penalties: dict, checks: list, products: "P
                             have.append(fname[t])
             it0 = items[ings[0]["items"][0]]
             out.append({**base, "grade": "red" if claim else "amber", "rule_id": "H4" if claim else "H5",
-                        "label": "원료가 인정받지 않은 기능성" if claim else "인정받지 않은 기능을 떠올리게 함",
+                        "label": "미인정 기능성 표시" if claim else "미인정 기능성 암시",
+                        "easy": "원료가 인정받지 않은 기능성" if claim else "인정받지 않은 기능을 떠올리게 함",
                         "why": f"원고에서 찾은 원료({_join(names)})가 인정받은 기능성은 ‘{_join(have, 4)}’예요. ‘{fname[fid]}’ 기능성은 인정받지 않았어요. 다른 기능성 원료가 들어 있다면 그 원료의 인정 내용을 확인하세요.",
                         "alt": f"(인정받은 기능성만: {it0['c'][0]})", "term": "인정받지 않은 기능성 표시·광고"})
     found = [{"name": text[g["start"]:g["end"]], "items": [items[i]["n"] for i in g["items"]][:5]} for g in ings]

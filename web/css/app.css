@@ -580,3 +580,4 @@ button.chip:hover, a.chip:hover { background: #fff; }
 .ing-ok span { background: #e5f4e4; color: #1f4d3a; border-radius: 8px; padding: 3px 8px; font-size: 13px; }
 .ed-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .ed-tools .chip { cursor: pointer; font: inherit; font-size: 14px; }
+.fcard .easy { margin: 4px 0 0; font-size: 13px; color: var(--muted); }

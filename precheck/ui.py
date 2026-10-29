@@ -117,6 +117,7 @@ div[data-testid="stExpander"], div[data-testid="stVerticalBlockBorderWrapper"] {
 .mr-card {{ background: #fff; border: 1px solid {LINE}; border-radius: 12px; padding: 16px 18px; margin: 10px 0; }}
 .mr-card .head {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }}
 .mr-grade {{ font-size: 12px; font-weight: 800; color: var(--c); background: var(--b); border-radius: 4px; padding: 2px 7px; }}
+.mr-card .easy {{ font-size: 13px; color: {MUTED}; margin: 2px 0 6px; }}
 .mr-card .label {{ font-weight: 800; color: {INK}; font-size: 15.5px; letter-spacing: -0.01em; }}
 .mr-card .phrase {{ margin: 12px 0 6px; font-size: 16px; color: {INK}; display: flex; flex-wrap: wrap; gap: 6px 14px; }}
 .mr-card .phrase u {{ text-decoration: underline wavy var(--c); text-underline-offset: 5px; text-decoration-thickness: 1.5px; font-weight: 700; }}
@@ -219,7 +220,7 @@ def finding_card(fs) -> str:
         checks = '<div class="mr-checks"><b>쓰기 전에 확인할 것</b>' + "".join(
             f"<div>{escape(x)}</div>" for x in f.checks) + "</div>"
     return f"""<div class="mr-card" style="--c:{c};--b:{b}">
-<div class="head"><span class="mr-grade">{escape(f.grade_name)}</span><span class="label">{escape(f.label)}</span></div>
+<div class="head"><span class="mr-grade">{escape(f.grade_name)}</span><span class="label">{escape(f.label)}</span></div>{f'<div class="easy">쉽게 말하면 ‘{escape(f.easy)}’</div>' if f.easy and f.easy != f.label else ""}
 <div class="phrase">{"".join(f"<u>{escape(p)}</u>" for p in phrases)}</div>
 <div class="why">{escape(f.why)}</div>
 <div class="mr-two">{risk}<div class="mr-box mr-alt"><b>대신 이렇게</b>{escape(f.alt)}</div></div>

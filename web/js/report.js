@@ -76,7 +76,7 @@
     };
     for (const p of results) {
       for (const f of p.findings.slice().sort((a, b) => ORDER[a.grade] - ORDER[b.grade] || a.start - b.start)) {
-        detail.push([p.name, { v: f.gradeName, s: f.grade }, f.phrase, f.label, f.why, f.alt, f.checks.map(c => "□ " + c).join("\n"), f.penalty,
+        detail.push([p.name, { v: f.gradeName, s: f.grade }, f.phrase, f.label + (f.easy && f.easy !== f.label ? `\n(${f.easy})` : ""), f.why, f.alt, f.checks.map(c => "□ " + c).join("\n"), f.penalty,
           ...(E ? [realOf(f, p.productType)] : []), f.law, f.source]);
       }
     }

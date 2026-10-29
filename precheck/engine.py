@@ -35,6 +35,7 @@ class Finding:
     category: str = ""   # 분류 코드 (C1, F3, HF 등)
     checks: list = field(default_factory=list)  # 쓰기 전에 확인할 것
     penalty_key: str = ""  # 처분 키 (cA, f1 등) — 일괄 점검의 위험도 계산용
+    easy: str = ""         # 정식 유형명(label) 아래 보여 줄 쉬운 이름
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -83,7 +84,7 @@ class Checker:
                 found.append(Finding(
                     start=m.start() + lead, end=m.end(), phrase=raw.strip(),
                     grade=r["grade"], grade_name=self.grades[r["grade"]], rule_id=r["id"],
-                    label=r["label"], why=r["why"], alt=r["alt"], term=r["term"],
+                    label=r["label"], easy=r.get("easy", ""), why=r["why"], alt=r["alt"], term=r["term"],
                     law=(r["law_cos"] if is_cos else r["law_food"]) or "-",
                     penalty=self.penalties.get(pen_key, "") if pen_key else "",
                     source=r["source"],
