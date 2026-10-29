@@ -1,0 +1,15 @@
+id,split,product_type,label,category,text,source,source_url
+Q001,test13,cos,violation,,민감성 좁쌀 피부를 위한 케어 솔루션,식약처 처분·법원 판결 보도(2022.8),https://magazine.hankyung.com/business/article/202208153774b
+Q002,test13,cos,violation,,2주 좁쌀 진정 프로젝트,식약처 처분·법원 판결 보도(2022.8),https://magazine.hankyung.com/business/article/202208153774b
+Q003,test13,cos,violation,,즉각적인 좁쌀 케어,식약처 처분·법원 판결 보도(2022.8),https://magazine.hankyung.com/business/article/202208153774b
+Q004,test13,cos,violation,,면포 개수 감소 효과,식약처 처분·법원 판결 보도(2022.8),https://magazine.hankyung.com/business/article/202208153774b
+Q005,test13,cos,violation,,3종 좁쌀 데일리 케어,식약처 처분·법원 판결 보도(2022.8),https://magazine.hankyung.com/business/article/202208153774b
+Q006,test13,cos,violation,,손상 피부(민감성 피부)는 다양한 피부 문제에 노출될 확률이 높아지고 이는 내·외벽 손상으로 이어져 좁쌀을 유발할 수 있다,식약처 처분·법원 판결 보도(2022.8),https://magazine.hankyung.com/business/article/202208153774b
+Q007,test13,cos,allowed,,잠들기 전 듬뿍 바르고 자면 아침까지 촉촉해요,직접 작성(측정 전 고정),
+Q008,test13,cos,allowed,,피부 표면을 매끄럽게 정리해 주는 데일리 필링 토너,직접 작성(측정 전 고정),
+Q009,test13,cos,allowed,,예민한 날에도 편하게 쓰는 무향 수분 크림,직접 작성(측정 전 고정),
+Q010,test13,cos,allowed,,머리를 감은 뒤 두피에 톡톡 뿌려 주는 시원한 토닉,직접 작성(측정 전 고정),
+Q011,test13,cos,allowed,,잔머리를 깔끔하게 정리해 주는 헤어 스틱,직접 작성(측정 전 고정),
+Q012,test13,cos,allowed,,얼굴에 생기를 더해 주는 크림 블러셔,직접 작성(측정 전 고정),
+Q013,test13,cos,allowed,,촉촉한 광채가 도는 물광 메이크업 베이스,직접 작성(측정 전 고정),
+Q014,test13,cos,allowed,,입술 각질을 부드럽게 정리하는 립 스크럽,직접 작성(측정 전 고정),
