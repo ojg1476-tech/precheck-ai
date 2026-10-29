@@ -2,7 +2,7 @@
 
 바꾼 점 (2026-10-29)
 - 음성(평범한 문장)에 화장품 리뷰를 더 넣는다: 예전에는 리뷰 표본 대부분이 식품이라 화장품 리뷰를 많이 잘못 표시했다.
-- 기준값을 화장품용·식품용으로 따로 정한다: 각 분야의 평범한 리뷰(학습에 안 쓴 것) 중 AI가 새로 표시하는 비율이 1%가 되게.
+- 기준값을 화장품용·식품용으로 따로 정한다: 각 분야의 평범한 리뷰(학습에 안 쓴 것) 중 AI가 새로 표시하는 비율이 식품 1%, 화장품 2%가 되게 (화장품 2%는 2026-10-30 결정).
 - 오탐 비율은 기준값을 정하는 데 쓰지 않은 리뷰로 따로 잰다.
 
 1) 시험 묶음(3~8)을 하나씩 빼고 학습·측정 → eval/report/ai_lobo.json (예전 방식 'old'와 새 방식 'new' 둘 다)
@@ -18,7 +18,8 @@ sys.path.insert(0, str(ROOT / "tools"))
 import build_ai as B  # noqa: E402
 
 HELD = ["test3", "test4", "test5", "test6", "test7", "test8", "test9", "test10"]
-FINAL = ["test11"]   # 학습·기준값에 안 쓰는 최종 시험 세트 (build_ai.load 에 넣지 않는다). 세트 9·10은 최종 시험 뒤 학습에 넣음
+FINAL = ["test11", "test12", "test13"]   # 학습·기준값에 안 쓰는 최종 시험 세트 (build_ai.load 에 넣지 않는다). 세트 9·10은 최종 시험 뒤 학습에 넣음
+FP_COS = 0.02   # 화장품 기준값: 학습에 안 쓴 화장품 리뷰 중 AI가 새로 표시하는 비율 2% (2026-10-30 결정, 식품은 1%)
 DOM = {"cos": "cos", "fcos": "cos", "food": "food", "hfood": "food"}
 
 
@@ -53,7 +54,7 @@ def main():
         return max(f(np.vstack([cache[w] for w in ws]))) if ws else -9
     def q(f, xs, typ):
         free = [text_max(x, f) for x in xs if not rule(typ, x)]
-        return float(np.quantile(free, 1 - B.TARGET_FP)) + 1e-6
+        return float(np.quantile(free, 1 - (FP_COS if typ == "cos" else B.TARGET_FP))) + 1e-6
     def rate(f, xs, typ, th):
         return sum((not rule(typ, x)) and text_max(x, f) > th for x in xs), len(xs)
     def fit(tr, negA, extra):
