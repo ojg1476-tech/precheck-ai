@@ -13,9 +13,10 @@ helpers = ('function catOf(f){return f.cat||(f.rule?(isCos()?f.rule.catC:f.rule.
 a = h.index("const COS=")
 ends = [m.end() for m in re.finditer(r"function lawFor\(f\)\{[^\n]*\n", h)]
 b = ends[-1]
-for fn in ("function catOf(", "function checksFor("):  # 이전 교체 때 넣은 도우미 줄은 같이 바꾼다
-    if h.startswith(fn, b):
-        b = h.index("\n", b) + 1
+# 이전 교체 때 넣은 도우미 줄(catOf·checksFor)이 있으면 그 줄까지 바꾼다 (규칙 파일 끝에 COSPROD 같은 블록이 붙어도)
+k = h.rfind("function checksFor(")
+if k > b:
+    b = h.index("\n", k) + 1
 h = h[:a] + rules + "\n" + helpers + h[b:]
 for name in ("function riskFor(", "function lawFor(", "function catOf(", "function checksFor(", "const COS=", "const RULES="):
     n = h.count(name)
