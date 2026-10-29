@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 import build_ai as B  # noqa: E402
 
-HELD = ["test3", "test4", "test5", "test6", "test7", "test8"]
-FINAL = ["test9", "test10"]   # 학습·기준값에 전혀 안 쓰는 최종 시험 세트 (build_ai.load 에 넣지 않는다)
+HELD = ["test3", "test4", "test5", "test6", "test7", "test8", "test9", "test10"]
+FINAL = []   # 학습·기준값에 전혀 안 쓰는 최종 시험 세트 (build_ai.load 에 넣지 않는다). 세트 9·10은 2026-10-29 최종 시험을 마친 뒤 학습에 넣음 — 그때 결과는 eval/report/ai_final.json
 DOM = {"cos": "cos", "fcos": "cos", "food": "food", "hfood": "food"}
 
 
@@ -118,7 +118,8 @@ def main():
                       "ai": bool(r["product_type"] not in ("hfood", "fcos") and text_max(r["text"], f) > th[DOM[r["product_type"]]])} for r in rows]
         v = [x for x in fin[name] if x["label"] == "violation"]; al = [x for x in fin[name] if x["label"] == "allowed"]
         B.log(f"최종 시험 {name}: 규칙 {sum(x['rule'] for x in v)} → 규칙+AI {sum(x['rule'] or x['ai'] for x in v)} / {len(v)} · 허용 오탐 규칙+AI {sum(x['rule'] or x['ai'] for x in al)}/{len(al)}")
-    (ROOT / "eval/report/ai_final.json").write_text(json.dumps(fin, ensure_ascii=False, indent=0), encoding="utf-8")
+    if FINAL:
+        (ROOT / "eval/report/ai_final.json").write_text(json.dumps(fin, ensure_ascii=False, indent=0), encoding="utf-8")
 
 
 if __name__ == "__main__":
