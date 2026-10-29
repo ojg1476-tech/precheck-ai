@@ -17,6 +17,18 @@ jobs:
           import json, os, urllib.parse, urllib.request
           K = os.environ.get("KEY", "")
           print(f"::notice title=key::{'키 있음' if K else '키 없음'} 길이 {len(K)}")
+          # 공공데이터포털이 공개하는 이 데이터의 명세(swagger)에서 실제 주소·기능 이름을 읽는다
+          try:
+              spec = json.load(urllib.request.urlopen("https://www.data.go.kr/catalog/15095680/openapi.json", timeout=60))
+              host = spec.get("host", ""); bp = spec.get("basePath", ""); servers = [x.get("url") for x in spec.get("servers", [])]
+              paths = list(spec.get("paths", {}).keys())
+              print(f"::notice title=spec::host={host} basePath={bp} servers={servers} paths={paths}")
+              for pth, ops in spec.get("paths", {}).items():
+                  for m, op in ops.items():
+                      params = [q.get("name") for q in op.get("parameters", [])]
+                      print(f"::notice title=op {pth}::{op.get('summary','')} params={params}")
+          except Exception as e:
+              print(f"::notice title=spec error::{e}")
           base = "https://apis.data.go.kr/1471000"
           # 서비스 경로 후보 (식약처 화장품 관련)
           cands = ["FtnltCosmRptPrdlstInfoService/getRptPrdlstInq", "FtnltCosmRptPrdlstInfoService01/getRptPrdlstInq",
