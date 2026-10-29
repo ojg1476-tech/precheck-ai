@@ -1,0 +1,139 @@
+{
+ "note": "세트 9~12를 두 방식 모두 학습에서 뺀 비교. 연습 문장(합성)은 미세조정에만 씀.",
+ "old": {
+  "name": "지금 방식",
+  "threshold": {
+   "cos": 5.035956429077149,
+   "food": 4.398350285125733
+  },
+  "sets": {
+   "test9": {
+    "n": 40,
+    "ai_only": 19,
+    "rule_prefix_plus_ai": 24,
+    "rule_prefix": 17,
+    "missed_by_rule_caught_by_ai": 7,
+    "missed_by_rule": 23,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test10": {
+    "n": 26,
+    "ai_only": 11,
+    "rule_prefix_plus_ai": 18,
+    "rule_prefix": 12,
+    "missed_by_rule_caught_by_ai": 6,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test11": {
+    "n": 34,
+    "ai_only": 20,
+    "rule_prefix_plus_ai": 26,
+    "rule_prefix": 20,
+    "missed_by_rule_caught_by_ai": 6,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test12": {
+    "n": 21,
+    "ai_only": 8,
+    "rule_prefix_plus_ai": 15,
+    "rule_prefix": 13,
+    "missed_by_rule_caught_by_ai": 2,
+    "missed_by_rule": 8,
+    "n_allowed": 15,
+    "allowed_ai_fp": 0
+   }
+  },
+  "reviews": {
+   "cos": {
+    "n": 462,
+    "ai_new": 6
+   },
+   "food": {
+    "n": 3000,
+    "ai_new": 37
+   }
+  },
+  "total": {
+   "n": 121,
+   "rule_prefix": 62,
+   "rule_prefix_plus_ai": 83,
+   "missed_by_rule": 59,
+   "missed_by_rule_caught_by_ai": 21,
+   "n_allowed": 75,
+   "allowed_ai_fp": 0
+  }
+ },
+ "new": {
+  "name": "미세조정",
+  "threshold": {
+   "cos": 6.960201786590576,
+   "food": 6.8862181173095705
+  },
+  "sets": {
+   "test9": {
+    "n": 40,
+    "ai_only": 10,
+    "rule_prefix_plus_ai": 21,
+    "rule_prefix": 17,
+    "missed_by_rule_caught_by_ai": 4,
+    "missed_by_rule": 23,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test10": {
+    "n": 26,
+    "ai_only": 7,
+    "rule_prefix_plus_ai": 15,
+    "rule_prefix": 12,
+    "missed_by_rule_caught_by_ai": 3,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 1
+   },
+   "test11": {
+    "n": 34,
+    "ai_only": 17,
+    "rule_prefix_plus_ai": 26,
+    "rule_prefix": 20,
+    "missed_by_rule_caught_by_ai": 6,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 2
+   },
+   "test12": {
+    "n": 21,
+    "ai_only": 10,
+    "rule_prefix_plus_ai": 17,
+    "rule_prefix": 13,
+    "missed_by_rule_caught_by_ai": 4,
+    "missed_by_rule": 8,
+    "n_allowed": 15,
+    "allowed_ai_fp": 0
+   }
+  },
+  "reviews": {
+   "cos": {
+    "n": 462,
+    "ai_new": 3
+   },
+   "food": {
+    "n": 3000,
+    "ai_new": 32
+   }
+  },
+  "total": {
+   "n": 121,
+   "rule_prefix": 62,
+   "rule_prefix_plus_ai": 79,
+   "missed_by_rule": 59,
+   "missed_by_rule_caught_by_ai": 17,
+   "n_allowed": 75,
+   "allowed_ai_fp": 3
+  }
+ }
+}
