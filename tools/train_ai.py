@@ -115,7 +115,7 @@ def main():
         wemb([r["text"] for r in rows])
         th = {"cos": th_cos, "food": th_food}
         fin[name] = [{"type": r["product_type"], "label": r["label"], "text": r["text"], "rule": bool(rule(r["product_type"], r["text"])),
-                      "ai": bool(r["product_type"] != "hfood" and text_max(r["text"], f) > th[DOM[r["product_type"]]])} for r in rows]
+                      "ai": bool(r["product_type"] not in ("hfood", "fcos") and text_max(r["text"], f) > th[DOM[r["product_type"]]])} for r in rows]
         v = [x for x in fin[name] if x["label"] == "violation"]; al = [x for x in fin[name] if x["label"] == "allowed"]
         B.log(f"최종 시험 {name}: 규칙 {sum(x['rule'] for x in v)} → 규칙+AI {sum(x['rule'] or x['ai'] for x in v)} / {len(v)} · 허용 오탐 규칙+AI {sum(x['rule'] or x['ai'] for x in al)}/{len(al)}")
     (ROOT / "eval/report/ai_final.json").write_text(json.dumps(fin, ensure_ascii=False, indent=0), encoding="utf-8")

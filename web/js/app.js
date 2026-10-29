@@ -396,6 +396,9 @@
     count("report-download");
   }
 
+  /* AI 확인을 쓰지 않는 종류: 건강기능식품·기능성 화장품은 인정·심사받은 기능 문구를 그대로 쓸 수 있어서,
+   * AI가 그 문구를 위반처럼 표시함 (기능성 화장품: 처음 보는 허용 문장 6개 중 4개 오표시, 더 잡은 위반 0개 — eval/history.md) */
+  const NO_AI = new Set(["hfood", "fcos"]);
   /* ── 문구 하나 검사 ──────────────────── */
   let txtType = "cos", lastFs = [];
   function checkText() {
@@ -405,7 +408,7 @@
     if (txtType !== "hfood" && txtType !== "food" && ctx.name && !state.ck.cosProducts && state.ck.cosprod) ensureCos().then(() => { if (state.ck.cosProducts) checkText(); });
     lastFs = text.trim() ? state.ck.check(text, txtType, ctx) : [];
     if (text.trim()) countOnce("check-text");
-    const aiHits = aiText.text === text && txtType !== "hfood" ? aiText.hits : [];
+    const aiHits = aiText.text === text && !NO_AI.has(txtType) ? aiText.hits : [];
     $("#ed-hl").innerHTML = marked(text, withAI(lastFs, aiHits)) + "\n";
     $("#ed-count").textContent = `${text.length.toLocaleString("ko-KR")}자`;
     const c = M.summarize(lastFs);
@@ -446,6 +449,10 @@
       el.innerHTML = `<div class="ai-box"><span>건강기능식품은 식약처가 인정한 기능 문구를 쓸 수 있어서 AI 확인은 하지 않아요. 대신 원고 속 원료가 그 기능성을 인정받았는지 아래 ‘원료 대조’로 확인해요.</span></div>`;
       return;
     }
+    if (where === "text" && txtType === "fcos") {
+      el.innerHTML = `<div class="ai-box"><span>기능성 화장품은 심사·보고받은 기능 문구를 그대로 쓸 수 있어서 AI 확인은 하지 않아요. 상품명을 넣으면 보고한 기능과 원고를 ‘보고 품목 대조’로 맞춰 봐요.</span></div>`;
+      return;
+    }
     if (done) {
       el.innerHTML = `<div class="ai-box done"><span class="ai-dot"></span><span>AI 확인 완료 · ${done.hits.length ? `뜻이 비슷한 표현 <b>${done.hits.length}곳</b>` : "더 찾은 표현이 없어요"}</span></div>`;
       return;
@@ -462,7 +469,7 @@
   }
   async function runAIText() {
     const ed = $("#ed"), text = ed.value, el = $("#ed-ai");
-    if (!text.trim() || aiBusy || txtType === "hfood") return;
+    if (!text.trim() || aiBusy || NO_AI.has(txtType)) return;
     aiBusy = true;
     try {
       if (!MoonguAI.isReady()) { await aiLoad(el); countOnce("ai-load"); }
@@ -483,7 +490,7 @@
     try {
       if (!MoonguAI.isReady()) { await aiLoad(el); countOnce("ai-load"); }
       // 건강기능식품은 인정받은 기능 문구를 쓸 수 있어 AI 확인에서 뺀다 (AI는 '기능을 말하는 표현'을 찾도록 배웠다)
-      const todo = res.map((r, i) => [r, i]).filter(([r]) => r.text && !r.error && r.productType !== "hfood");
+      const todo = res.map((r, i) => [r, i]).filter(([r]) => r.text && !r.error && !NO_AI.has(r.productType));
       state.ai = new Map();
       for (let k = 0; k < todo.length; k++) {
         const [r, i] = todo[k];

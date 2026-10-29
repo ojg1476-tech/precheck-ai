@@ -58,7 +58,7 @@ def main():
                 continue
             t, x = r["product_type"], r["text"]
             kw, ru = kw_flag(x), strong(t, x)
-            aim = (ai_v if r["label"] == "violation" else ai_a).get((b, x), False) and t != "hfood"   # 사이트는 건강기능식품에 AI를 안 씀
+            aim = (ai_v if r["label"] == "violation" else ai_a).get((b, x), False) and t not in ("hfood", "fcos")   # 사이트는 건강기능식품·기능성 화장품에 AI를 안 씀
             rows.append({"batch": b, "type": t, "label": r["label"], "text": x, "kw": kw, "rule": ru, "both": ru or aim})
 
     systems = [("kw", "금칙어 목록"), ("rule", "규칙"), ("both", "규칙 + AI")]
@@ -114,7 +114,7 @@ def main():
         for lab in ("violation", "allowed"):
             xs = [r for r in rs if r["label"] == lab]
             d[lab] = {"n": len(xs), "kw": sum(kw_flag(r["text"]) for r in xs), "rule_prefix": sum(pre[n][r["text"]] for r in xs),
-                      "both_prefix": sum(pre[n][r["text"]] or ais.get(r["text"], False) for r in xs) if ais else None,
+                      "both_prefix": sum(pre[n][r["text"]] or (ais.get(r["text"], False) and r["product_type"] not in ("hfood", "fcos")) for r in xs) if ais else None,
                       "rule_now": sum(strong(r["product_type"], r["text"]) for r in xs)}
         final[n] = d
     out["final"] = final
@@ -134,12 +134,12 @@ def main():
         fp = " / ".join(f"{d[s]['fp']}" for s, _ in systems) + f" (총 {d['n_allowed']}개)" if d["n_allowed"] else "-"
         L.append(f"| {d['name']} | {d['n_violation']} | {cell('kw')} | {cell('rule')} | {cell('both')} | {fp} |")
     L += ["", "## 최종 시험 (처음 보는 화장품 적발 문구, 세트를 고정한 뒤 한 번만 잰 값)", "",
-          "| 세트 | 위반 문구 | 금칙어 목록 | 규칙 (고정 시점) | 규칙 + AI (고정 시점) | 허용 문장 오탐 | 지금 규칙 (참고·이미 본 데이터) |", "|---|---|---|---|---|---|---|"]
+          "| 세트 | 위반 문구 | 금칙어 목록 | 규칙 (고정 시점) | 규칙 + AI (고정 시점) | 허용 문장 오탐 (규칙+AI) | 지금 규칙 (참고·이미 본 데이터) |", "|---|---|---|---|---|---|---|"]
     for n, d in final.items():
         v, al = d["violation"], d["allowed"]
         pc = lambda k: f"{k / v['n'] * 100:.0f}% ({k}개)"
         L.append(f"| {n} | {v['n']} | {pc(v['kw'])} | {pc(v['rule_prefix'])} | {pc(v['both_prefix']) if v['both_prefix'] is not None else '-'} | "
-                 f"{al['rule_prefix']}/{al['n']} | {pc(v['rule_now'])} |")
+                 f"{al['both_prefix'] if al['both_prefix'] is not None else al['rule_prefix']}/{al['n']} | {pc(v['rule_now'])} |")
     if a.reviews:
         L += ["", "| 평범한 쇼핑 리뷰 | 리뷰 수 | 금칙어 목록 | 규칙 | 규칙 + AI |", "|---|---|---|---|---|"]
         for t, nm in (("cos", "화장품 리뷰"), ("food", "식품 리뷰")):
