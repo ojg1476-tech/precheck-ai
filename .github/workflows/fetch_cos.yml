@@ -1,0 +1,36 @@
+name: fetch-cos
+# 화장품 공공데이터(공공데이터포털) 확인·받기. 수동 실행만.
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 어떤 서비스가 열리는지 확인
+        env:
+          KEY: ${{ secrets.DATA_GO_KR_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.parse, urllib.request
+          K = os.environ.get("KEY", "")
+          print(f"::notice title=key::{'키 있음' if K else '키 없음'} 길이 {len(K)}")
+          base = "https://apis.data.go.kr/1471000"
+          # 서비스 경로 후보 (식약처 화장품 관련)
+          cands = ["FtnltCosmRptPrdlstInfoService/getRptPrdlstInq", "FtnltCosmRptPrdlstInfoService01/getRptPrdlstInq",
+                   "FtnltCosmRptPrdlstInfoService02/getRptPrdlstInq", "FtnltCosmRptPrdlstInfoService/getRptPrdlstInfo",
+                   "CsmtcsMtrlInfoService/getCsmtcsMtrlInfo", "CosmeticRegulationInfoService/getCosmeticRegulationInfo"]
+          for c in cands:
+              for k in (K, urllib.parse.quote(K, safe="")):
+                  u = f"{base}/{c}?serviceKey={k}&pageNo=1&numOfRows=3&type=json"
+                  try:
+                      r = urllib.request.urlopen(u, timeout=60); body = r.read().decode("utf-8", "replace")
+                      code = r.status
+                  except Exception as e:
+                      body = getattr(e, "read", lambda: b"")().decode("utf-8", "replace") if hasattr(e, "read") else str(e); code = getattr(e, "code", "ERR")
+                  print(f"::notice title={c} {code}::{body[:1500].replace(chr(10), ' ')}")
+                  if code == 200 and "SERVICE_KEY" not in body:
+                      break
+          PY
