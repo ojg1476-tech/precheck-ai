@@ -55,32 +55,6 @@ jobs:
                       break
           PY
 
-      - name: 칸 의미 살펴보기
-        env:
-          KEY: ${{ secrets.DATA_GO_KR_KEY }}
-        run: |
-          python3 - <<'PY'
-          import json, os, collections, urllib.request
-          K = os.environ["KEY"]; base = "https://apis.data.go.kr/1471000/FtnltCosmRptPrdlstInfoService01/getRptPrdlstInq01"
-          rows = []
-          for page in (1, 300, 900, 1500, 1900):
-              u = f"{base}?serviceKey={K}&pageNo={page}&numOfRows=100&type=json"
-              try:
-                  d = json.load(urllib.request.urlopen(u, timeout=60)); rows += d["body"]["items"]
-              except Exception as e:
-                  print(f"::notice title=err {page}::{e}")
-          print(f"::notice title=n::{len(rows)} keys={list(rows[0].keys()) if rows else []}")
-          for k in ["REPORT_FLAG_NAME", "COSMETIC_TARGET_FLAG_NAME", "COSMETIC_STD_NAME", "EFFECT_YN1", "EFFECT_YN2", "EFFECT_YN3", "EE_CODE", "EE_NAME", "WATER_PROOFING_NAME", "CANCEL_APPROVAL_YN"]:
-              c = collections.Counter(str(r.get(k)) for r in rows)
-              print(f"::notice title={k}::{c.most_common(15)}")
-          combo = collections.Counter((r.get("EFFECT_YN1"), r.get("EFFECT_YN2"), r.get("EFFECT_YN3"), bool(r.get("SPF"))) for r in rows)
-          print(f"::notice title=combo::{combo.most_common(12)}")
-          ex = [{k: r.get(k) for k in ("ITEM_NAME", "EFFECT_YN1", "EFFECT_YN2", "EFFECT_YN3", "SPF", "PA", "EE_NAME", "USAGE_DOSAGE", "EE_DOC_DATA")} for r in rows if r.get("EE_NAME") or r.get("EE_DOC_DATA")][:6]
-          print(f"::notice title=ex::{json.dumps(ex, ensure_ascii=False)[:3500]}")
-          ex2 = [{k: r.get(k) for k in ("ITEM_NAME", "EFFECT_YN1", "EFFECT_YN2", "EFFECT_YN3", "SPF", "PA")} for r in rows][::40]
-          print(f"::notice title=ex2::{json.dumps(ex2, ensure_ascii=False)[:3500]}")
-          PY
-
       - name: 기능성화장품 보고 품목 전체 받기
         env:
           KEY: ${{ secrets.DATA_GO_KR_KEY }}
@@ -92,13 +66,13 @@ jobs:
           KEEP = ("COSMETIC_REPORT_SEQ", "ITEM_NAME", "ENTP_NAME", "REPORT_DATE", "REPORT_FLAG_NAME", "COSMETIC_TARGET_FLAG_NAME",
                   "EFFECT_YN1", "EFFECT_YN2", "EFFECT_YN3", "SPF", "PA", "WATER_PROOFING_NAME", "EE_CODE", "EE_NAME", "USAGE_DOSAGE", "CANCEL_APPROVAL_YN")
           def get(page, n):
-              for t in range(4):
+              for t in range(6):
                   try:
                       return json.load(urllib.request.urlopen(f"{base}?serviceKey={K}&pageNo={page}&numOfRows={n}&type=json", timeout=120))["body"]
                   except Exception as e:
                       err = e; time.sleep(5 * (t + 1))
               raise err
-          N = 1000
+          N = 500
           b = get(1, N); total = int(b["totalCount"]); got = len(b.get("items") or [])
           print(f"::notice title=first::total={total} 한 번에 {got}건")
           if got < N: N = got
