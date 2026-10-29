@@ -71,7 +71,7 @@
   function cards(fs, type = "") {
     const groups = new Map();
     fs.map((f, i) => ({ f, i })).sort((a, b) => ORDER[a.f.grade] - ORDER[b.f.grade] || a.f.start - b.f.start)
-      .forEach(x => { const k = x.f.ruleId + x.f.grade; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(x); });
+      .forEach(x => { const k = x.f.ruleId + x.f.grade + (/^H/.test(x.f.ruleId) ? x.f.why : ""); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(x); });
     return [...groups.values()].map(g => {
       const f = g[0].f, [c, b] = GRADE[f.grade];
       const seen = new Set(), chips = g.filter(x => !seen.has(x.f.phrase) && seen.add(x.f.phrase))
@@ -91,6 +91,16 @@
         <details><summary>근거 보기</summary><p>정확한 용어: ${esc(f.term)}<br>관련 기준: ${esc(f.law)}<br>출처: ${esc(f.source)}</p></details>
       </article>`;
     }).join("");
+  }
+
+  /* 건강기능식품: 원고에서 찾은 원료와 대조 안내 */
+  function ingLine(text, type) {
+    if (type !== "hfood" || !text.trim() || !state.ck.hfood) return "";
+    state.ck.check(text, type);
+    const ings = state.ck.lastIngredients || [];
+    if (!ings.length) return `<div class="ing"><b>원료 대조</b><span>원고에서 기능성 원료 이름을 찾지 못했어요. ‘홍삼’, ‘루테인’, ‘Lactobacillus gasseri BNR17’처럼 원료명을 넣으면 식약처가 그 원료에 인정한 기능성과 맞는지 대조해 드려요.</span></div>`;
+    const names = [...new Set(ings.map(g => g.name))];
+    return `<div class="ing"><b>원료 대조</b><span>찾은 원료 <em>${names.map(esc).join("</em><em>")}</em> — 식약처가 이 원료에 인정한 기능성과 원고의 효능 표현을 하나씩 맞춰 봤어요. <small>식품안전나라 원료 인정 자료 ${state.ck.hfood.items.length.toLocaleString("ko-KR")}종 기준</small></span></div>`;
   }
 
   /* ── 익명 사용 집계 (GoatCounter: 방문·버튼 횟수만, 문구·파일 내용은 보내지 않음) ── */
@@ -319,7 +329,7 @@
       ${(() => { const s = L.worstStop(r.findings, r.productType); return s ? lossHTML(s, s.scope === "store" ? "store" : "p:" + r.name) : ""; })()}
       <div class="copybox"><div class="cap"><span>상세 문구</span><button type="button" id="copy-more">전체 보기</button></div>
         <div class="copytext" id="copytext">${marked(r.text, withAI(r.findings, (state.ai && state.ai.get(state.pick)) || []))}</div></div>
-      ${cards(r.findings, r.productType)}${aiCard((state.ai && state.ai.get(state.pick)) || [])}`;
+      ${ingLine(r.text, r.productType)}${cards(r.findings, r.productType)}${aiCard((state.ai && state.ai.get(state.pick)) || [])}`;
     const ct = $("#copytext");
     if (ct.scrollHeight <= 140) { ct.classList.add("open"); $("#copy-more").hidden = true; }
     $("#pdetail").scrollTop = 0;
@@ -358,7 +368,7 @@
     $("#ed-loss").innerHTML = st ? lossHTML(st, st.scope === "store" ? "store" : "p:text") : "";
     $("#ed-cards").innerHTML = !text.trim()
       ? `<div class="hint"><b>문구를 붙여 넣어 주세요</b>상세페이지 글을 왼쪽에 넣으면 고칠 곳에 물결 밑줄을 긋고, 이유와 대신 쓸 말을 여기에 보여드려요.</div>`
-      : (lastFs.length ? cards(lastFs, txtType) : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`) + aiCard(aiHits);
+      : ingLine(text, txtType) + (lastFs.length ? cards(lastFs, txtType) : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`) + aiCard(aiHits);
     renderAIBox("#ed-ai", text.trim() ? (aiText.text === text ? aiText : null) : null, "text");
     syncScroll();
     if (text.trim() && window.MoonguAI && MoonguAI.isReady() && aiText.text !== text) {
@@ -386,7 +396,7 @@
     const el = $(sel); if (!el) return;
     if (aiBusy) return;
     if (where === "text" && txtType === "hfood") {
-      el.innerHTML = `<div class="ai-box"><span>건강기능식품은 식약처가 인정한 기능 문구를 쓸 수 있어서 AI 확인은 하지 않아요. 인정받은 문구인지는 위 ‘자료 챙기기’로 확인하세요.</span></div>`;
+      el.innerHTML = `<div class="ai-box"><span>건강기능식품은 식약처가 인정한 기능 문구를 쓸 수 있어서 AI 확인은 하지 않아요. 대신 원고 속 원료가 그 기능성을 인정받았는지 아래 ‘원료 대조’로 확인해요.</span></div>`;
       return;
     }
     if (done) {

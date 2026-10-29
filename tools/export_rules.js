@@ -12,6 +12,8 @@ const out={version:"2026-10-29",note:"모든 처분·근거는 법령 원문과 
   grades:{red:"꼭 고치기",amber:"확인 필요",blue:"자료 챙기기"},penalties:PEN,sources:S,categories:CAT,rules};
 fs.writeFileSync(path.join(__dirname,"..","rules","rules.json"),JSON.stringify(out,null,1));
 // 웹 화면(web/)도 같은 규칙 파일과 예시 목록을 쓴다
-fs.writeFileSync(path.join(__dirname,"..","web","rules.json"),JSON.stringify(out));
+// 건강기능식품 원료별 인정 기능성 (tools/build_hfood.py) — Python은 rules/hfood.json을 따로 읽는다
+const hf=path.join(__dirname,"..","rules","hfood.json");
+fs.writeFileSync(path.join(__dirname,"..","web","rules.json"),JSON.stringify(fs.existsSync(hf)?{...out,hfood:JSON.parse(fs.readFileSync(hf,"utf8"))}:out));
 fs.copyFileSync(path.join(__dirname,"..","examples","sample_products.csv"),path.join(__dirname,"..","web","sample_products.csv"));
 console.log(rules.length+" rules, "+Object.keys(PEN).length+" penalty texts");

@@ -19,10 +19,11 @@ jobs:
         run: pip install pandas openpyxl pillow
       - name: 규칙 파일이 웹 버전 규칙과 같은지 확인
         run: |
+          python tools/build_hfood.py
           node tools/export_rules.js
           python tools/build_season.py
           node tools/build_enforced.js
-          git diff --exit-code rules/rules.json web/rules.json web/sample_products.csv web/season.json web/enforced.json
+          git diff --exit-code rules/rules.json rules/hfood.json web/rules.json web/sample_products.csv web/season.json web/enforced.json
       - name: 웹 버전과 Python 엔진 결과 비교
         run: python tests/test_parity.py
       - name: 웹 화면용 JS 엔진과 Python 결과 비교

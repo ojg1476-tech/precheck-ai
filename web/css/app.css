@@ -566,3 +566,8 @@ button.chip:hover, a.chip:hover { background: #fff; }
 .ai-list { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
 .ai-list li { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
 .ai-list li span { font-size: 12.5px; color: var(--muted); }
+/* 건강기능식품 원료 대조 안내 */
+.ing { margin: 12px 0 4px; padding: 12px 16px; border-radius: 14px; background: rgba(39, 89, 168, .07); border: 1px solid rgba(39, 89, 168, .18); font-size: 13.5px; line-height: 1.6; display: grid; gap: 2px; color: var(--ink-2); }
+.ing b { font-size: 12.5px; color: #2759a8; }
+.ing em { font-style: normal; font-weight: 700; color: var(--ink); background: rgba(255,255,255,.75); border-radius: 6px; padding: 1px 7px; margin: 0 4px 0 0; }
+.ing small { display: block; color: var(--muted); font-size: 12px; }

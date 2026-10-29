@@ -29,10 +29,13 @@
       this.penalties = data.penalties;
       this.categories = data.categories || {};
       this.rules = data.rules.map(r => ({ ...r, re: new RegExp(r.pattern, "g" + (r.ignore_case ? "i" : "")) }));
+      this.hfood = data.hfood || null;
+      if (this.hfood) this.hfood.funcs.forEach(f => (f._re = new RegExp(f.re, "g")));
+      this.lastIngredients = [];
     }
     check(text, type = "cos") {
       if (!(type in this.productTypes)) throw new Error("알 수 없는 제품 종류: " + type);
-      const isCos = COS.has(type), found = [];
+      const isCos = COS.has(type); let found = [];
       for (const r of this.rules) {
         if (!r.applies_to.includes(type)) continue;
         r.re.lastIndex = 0;
@@ -51,8 +54,122 @@
           });
         }
       }
+      this.lastIngredients = [];
+      if (type === "hfood" && this.hfood) {
+        const [extra, ings] = checkHfood(text, this.hfood, this.penalties, ((this.categories.HF || {}).checks) || []);
+        this.lastIngredients = ings;
+        if (extra.length) {
+          const ok = extra.filter(e => e.ruleId === "H1" || e.ruleId === "H2");
+          found = found.filter(f => !((f.category === "HF" && extra.some(e => f.start < e.end && e.start < f.end))
+            || (HF_OVERRIDE.has(f.category) && ok.some(e => e._core[0] < f.end && f.start < e._core[1]))));
+          for (const e of extra) { const { _core, ...rest } = e; found.push({ ...rest, gradeName: this.grades[e.grade] }); }
+        }
+      }
       return dedupe(found);
     }
+  }
+
+  /* ── 건강기능식품: 원고 속 원료가 그 기능성을 인정받았는지 (precheck/hfood.py 와 같은 판정) ── */
+  const HF_SKIP = /[\s·․ㆍ・\-_,./®ⓡⓇ™()\[\]{}'"“”‘’:;]/;
+  const HF_CLAIM = /도움|도와|돕|끝|걱정\s?없|해방|싹|쏙|개선|강화|감소|증진|향상|완화|해소|해결|예방|치료|효과|효능|낮춰|낮추|낮아|빠지|빠져|빠졌|줄었|나아|빼|좋아|좋은|튼튼|지켜|책임|확실|보장|회복|잡아|불태|태워|쑥쑥/;
+  const HF_CLAUSE = /[.!?\n,·]/g;
+  const HF_OVERRIDE = new Set(["F1", "F3", "F4", "HF"]);
+  const HF_LAW = "식품표시광고법 제8조 제1항 제4호 (인정받지 않은 기능성), 건강기능식품 기능성 원료 인정 내용";
+  const isAlnumAscii = c => /[a-z0-9]/i.test(c);
+
+  function hfIngredients(text, kb) {
+    let s = ""; const idx = [];
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (HF_SKIP.test(ch)) continue;
+      s += ch.charCodeAt(0) < 128 ? ch.toLowerCase() : ch; idx.push(i);
+    }
+    const taken = [], out = [];
+    for (const [key, items] of kb.keys) {
+      const ascii = /^[\x00-\x7f]*$/.test(key);
+      let from = 0;
+      for (;;) {
+        const j = s.indexOf(key, from);
+        if (j < 0) break;
+        from = j + 1;
+        const e = j + key.length;
+        if (ascii && ((j > 0 && isAlnumAscii(s[j - 1])) || (e < s.length && isAlnumAscii(s[e])))) continue;
+        if (taken.some(([a, b]) => j < b && a < e)) continue;
+        taken.push([j, e]);
+        out.push({ start: idx[j], end: idx[e - 1] + 1, key, items: items.slice() });
+      }
+    }
+    return out.sort((a, b) => a.start - b.start);
+  }
+  function hfFuncs(text, kb) {
+    const taken = [], out = [];
+    for (const f of kb.funcs) {
+      f._re.lastIndex = 0; let m;
+      while ((m = f._re.exec(text))) {
+        const a = m.index, b = a + m[0].length;
+        if (b === a) { f._re.lastIndex++; continue; }
+        if (taken.some(([x, y]) => a < y && x < b)) continue;
+        taken.push([a, b]); out.push({ start: a, end: b, id: f.id });
+      }
+    }
+    return out.sort((a, b) => a.start - b.start);
+  }
+  function hfJoin(names, n = 3) {
+    names = [...new Set(names)];
+    return names.slice(0, n).join(", ") + (names.length > n ? ` 외 ${names.length - n}개` : "");
+  }
+  function checkHfood(text, kb, penalties, checks) {
+    const ings = hfIngredients(text, kb);
+    if (!ings.length) return [[], []];
+    const items = kb.items, fname = {}, parents = {};
+    for (const f of kb.funcs) { fname[f.id] = f.name; parents[f.id] = f.parent.split(",").filter(Boolean); }
+    const tagCache = kb._tags || (kb._tags = new Map());
+    const tagsOf = c => { if (!tagCache.has(c)) tagCache.set(c, hfFuncs(c, kb).map(x => x.id)); return tagCache.get(c); };
+    const sat = (it, fid) => it.f.some(t => t === fid || parents[t].includes(fid));
+    const exactOf = (it, fid) => {
+      const hits = it.c.filter(c => tagsOf(c).some(t => t === fid || parents[t].includes(fid)));
+      return hits.length ? hits.reduce((a, b) => (b.length < a.length ? b : a)) : it.c[0];
+    };
+    const out = [];
+    for (const fm of hfFuncs(text, kb)) {
+      const fid = fm.id;
+      HF_CLAUSE.lastIndex = fm.end; const m = HF_CLAUSE.exec(text);
+      const cend = m ? m.index : text.length;
+      let cstart = 0; for (let i = fm.start - 1; i >= 0; i--) if (/[.!?\n,·]/.test(text[i])) { cstart = i + 1; break; }
+      const clause = text.slice(cstart, cend), end = Math.min(cend, fm.end + 20);
+      const full = [], part = [], partOk = [];
+      for (const g of ings) {
+        const ok = g.items.filter(i => sat(items[i], fid));
+        if (ok.length && ok.length === g.items.length) full.push(g);
+        else if (ok.length) { part.push(g); partOk.push(...ok); }
+      }
+      const claim = HF_CLAIM.test(clause);
+      const base = { start: fm.start, end, phrase: text.slice(fm.start, end).trim(), source: "식품안전나라 건강기능식품 기능성 원료 인정 내용",
+        category: "HF", checks: [...checks], _core: [fm.start, fm.end], term: "", law: HF_LAW, penaltyKey: "f4", penalty: penalties.f4 || "" };
+      if (full.length) {
+        const it = items[full[0].items[0]], exact = exactOf(it, fid), nm = text.slice(full[0].start, full[0].end);
+        if (claim && !/도움|도와|돕/.test(clause)) out.push({ ...base, grade: "amber", ruleId: "H2", label: "인정 문구보다 세게 말함",
+          why: `‘${nm}’은(는) ‘${fname[fid]}’ 기능성을 인정받았지만, 인정 문구는 ‘${exact}’예요. ‘개선’, ‘효과’처럼 단정하면 인정 범위를 넘는 광고가 돼요.`,
+          alt: exact, term: "인정받은 기능성 범위를 넘는 표시·광고" });
+        else out.push({ ...base, grade: "blue", ruleId: "H1", label: "원료가 인정받은 기능성",
+          why: `‘${nm}’은(는) 식약처에서 ‘${exact}’로 인정받은 원료예요. 이 문구 그대로 쓰고, 협회 심의를 받은 내용인지 확인하세요.`,
+          alt: exact, term: "인정받은 기능성 표시 (인정 문구 그대로)", penaltyKey: "", penalty: "" });
+      } else if (part.length) {
+        const g = part[0], nm = text.slice(g.start, g.end);
+        out.push({ ...base, grade: "amber", ruleId: "H3", label: "원료 종류에 따라 다른 기능성",
+          why: `‘${nm}’ 원료 중 일부(${hfJoin(partOk.map(i => items[i].n))})만 ‘${fname[fid]}’ 기능성을 인정받았어요. 제품에 든 원료가 정확히 그 원료인지 원료명(균주·제품 코드까지)으로 확인하세요.`,
+          alt: exactOf(items[partOk[0]], fid), term: "원료별로 다른 인정 기능성" });
+      } else {
+        const names = ings.map(g => text.slice(g.start, g.end)), have = [];
+        for (const g of ings) for (const i of g.items) for (const t of items[i].f) if (!have.includes(fname[t])) have.push(fname[t]);
+        const it0 = items[ings[0].items[0]];
+        out.push({ ...base, grade: claim ? "red" : "amber", ruleId: claim ? "H4" : "H5",
+          label: claim ? "원료가 인정받지 않은 기능성" : "인정받지 않은 기능을 떠올리게 함",
+          why: `원고에서 찾은 원료(${hfJoin(names)})가 인정받은 기능성은 ‘${hfJoin(have, 4)}’예요. ‘${fname[fid]}’ 기능성은 인정받지 않았어요. 다른 기능성 원료가 들어 있다면 그 원료의 인정 내용을 확인하세요.`,
+          alt: `(인정받은 기능성만: ${it0.c[0]})`, term: "인정받지 않은 기능성 표시·광고" });
+      }
+    }
+    return [out, ings.map(g => ({ name: text.slice(g.start, g.end), items: g.items.map(i => items[i].n).slice(0, 5) }))];
   }
 
   function dedupe(items) {
@@ -174,6 +291,6 @@
     return `징역 ${p[0]}년 이하 또는 벌금 ${money} 이하`;
   }
 
-  const api = { Checker, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
+  const api = { Checker, checkHfood, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.Moongu = api;
 })(typeof window !== "undefined" ? window : globalThis);

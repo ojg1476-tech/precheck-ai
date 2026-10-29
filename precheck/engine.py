@@ -10,6 +10,8 @@ import re
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
 
+from .hfood import OVERRIDE, check_hfood
+
 RULES_PATH = Path(__file__).resolve().parent.parent / "rules" / "rules.json"
 ORDER = {"red": 0, "amber": 1, "blue": 2}
 COS_TYPES = {"cos", "fcos"}
@@ -47,6 +49,9 @@ class Checker:
         self.penalties = data["penalties"]
         self.rules = data["rules"]
         self.categories = data.get("categories", {})
+        hf = Path(rules_path).with_name("hfood.json")
+        self.hfood = data.get("hfood") or (json.loads(hf.read_text(encoding="utf-8")) if hf.exists() else None)
+        self.last_ingredients: list = []
         for r in self.rules:
             r["_re"] = re.compile(r["pattern"], re.IGNORECASE if r["ignore_case"] else 0)
 
@@ -75,6 +80,15 @@ class Checker:
                     checks=list(self.categories.get(cat, {}).get("checks", [])),
                     penalty_key=pen_key or "",
                 ))
+        self.last_ingredients = []
+        if product_type == "hfood" and self.hfood:
+            extra, self.last_ingredients = check_hfood(text, self.hfood, self.penalties, self.categories.get("HF", {}).get("checks", []))
+            if extra:
+                ok = [e for e in extra if e["rule_id"] in ("H1", "H2")]
+                found = [f for f in found if not (
+                    (f.category == "HF" and any(f.start < e["end"] and e["start"] < f.end for e in extra))
+                    or (f.category in OVERRIDE and any(e["_core"][0] < f.end and f.start < e["_core"][1] for e in ok)))]
+                found += [Finding(grade_name=self.grades[e["grade"]], **{k: v for k, v in e.items() if k != "_core"}) for e in extra]
         return dedupe(found)
 
 
