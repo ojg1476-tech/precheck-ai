@@ -1,0 +1,1110 @@
+{
+"phrases": [
+{
+"batch": "test3",
+"type": "food",
+"text": "당뇨영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "당뇨개선제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "당뇨약",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "당뇨에 좋은 차",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "혈당약",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "항산화 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "새로운 모발성장 촉진",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "모발굵기 개선",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "탈모예방",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "염증개선·완화",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "피부재생을 도와준다",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "모발을 자라게 하는",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "필러크림",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "피부과전문의가 개발한 제품",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "난임",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "염증치료",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "피부에~좋으니까",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "간 건강이 걱정되거나 피로가 쉽게 누적되는 분",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "갱년기 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "몸이 붓고 얼굴이 자주 붓거나",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "피로회복 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "혈행개선 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "붓기 케어",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "노화방지",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "난소호르몬 증가",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "피부과의원 사용제품",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "보톡스 화장품",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "OO주사",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "집중력 향상",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "ADHD",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "우울증 예방",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "고3 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "섭취 즉시 몰입력과 에너지를 높여주는",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "대치동 영양제",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "청소년 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "수험생 집중력 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "공진단",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "기억력 향상",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "카나비노이드",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "면역강화",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "치매예방",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "올레샷",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "위O비",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "마운OO",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "GLP-1",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "여드름성 피부 완화",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "지방제거·감소",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "셀룰라이트 분해",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "진피층 흡수",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "손상된 피부를 개선한다",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "국소적으로 축적된 지방 연소를 촉진한다",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "흉터 자국 옅어짐",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "근육 이완·피로 회복",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "홍반 감소",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "주름 제거",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "cos",
+"text": "의사가 추천하는 화장품",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "cos",
+"text": "아토피",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "어린이 키성장",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "아이키",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "키성장 영양제, 키크는 영양제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "hfood",
+"text": "어린이 키크는",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "소아비만 및 성조숙증을 예방",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "변비, 감기 등 아이들에게 좋다",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "저희딸 96센치에서 지금 무려 104.8센치 됐거든요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "cos",
+"text": "노폐물 배출",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "cos",
+"text": "부종에 도움",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "cos",
+"text": "피부재생, 염증 개선",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "cos",
+"text": "피부과 전문의 추천 제품",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "심혈관 질환, 고혈압, 당뇨병, 암 등의 질환을 앓고 있는 경우에도 보충이 도움이 될 수 있다",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "cos",
+"text": "세포재생, 지방세포 증식",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "속 편한",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test5",
+"type": "food",
+"text": "소화가 잘되는",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "불면증 완화·수면유도제",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test6",
+"type": "cos",
+"text": "바르는 보톡스·필러 시술",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "탈모에 좋은",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "탈모 개선",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "머리카락 나는 약",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "fcos",
+"text": "눈썹염색",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "fcos",
+"text": "흰 눈썹 염색약",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "fcos",
+"text": "눈썹 탈색제",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "fcos",
+"text": "눈썹 인중 염색약",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "fcos",
+"text": "속눈썹을 염색하는 제품",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "fcos",
+"text": "머리색이랑 똑같은 눈썹을 얻었어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "벌써 체중이 2kg 빠졌어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "Before & After",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "습진",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "아토피 발생 완화효과",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test6",
+"type": "food",
+"text": "성인병 예방",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test6",
+"type": "cos",
+"text": "이마가 봉긋하게 채워져요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "cos",
+"text": "여드름 흉터가 없어졌어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "cos",
+"text": "피부 재생까지 케어하네요",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "밤 사이 촉촉하게 채워 생기있고",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "얼굴이 푸석푸석한 분",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "피부 탄력, 피부 보습을 지키고 싶은신 분",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "콜라겐은 피부지탱 역할, 피부의 수분을 유지하고 단단하게 하는 역할",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "셀럽들이 몰래 먹는 탱탱피부 비밀",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "피부개선",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "모유촉진",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "골다공증",
+"rule": true,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "생리통",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "질염",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "부종",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "이뇨제",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "hfood",
+"text": "100% 천연원료비타민",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "hfood",
+"text": "모유에서 찾은 한국인 맞춤 유산균",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "hfood",
+"text": "無화학첨가물",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "hfood",
+"text": "화학적 첨가물을 0.1%도 사용하지 않았습니다",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "cos",
+"text": "소염작용",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "cos",
+"text": "염증완화에 도움",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "cos",
+"text": "피부(세포) 재생",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "cos",
+"text": "진피층 침투",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "cos",
+"text": "피부 내 근막 성분 전달",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "체지방감소·변비개선",
+"rule": true,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "대한민국 모델들의 몸매 관리 비법",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "뛰어난 지방 분해력",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "하체 지방 감소효과",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "뛰어난 지방 분해",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test7",
+"type": "food",
+"text": "8일 토털 프로그램",
+"rule": false,
+"ai": false
+}
+],
+"allowed": [
+{
+"batch": "test3",
+"type": "cos",
+"text": "촉촉한 보습감이 오래 유지되는 크림",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "피부 결을 매끈하게 정돈해 주는 토너",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "산뜻하게 흡수되는 가벼운 로션 제형",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "은은한 장미 향의 핸드크림",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "펌프형 용기로 위생적으로 사용할 수 있어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "메이크업 전 피부 컨디션을 정돈해요",
+"rule": false,
+"ai": true
+},
+{
+"batch": "test3",
+"type": "cos",
+"text": "손등에 먼저 소량을 발라 보세요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "따뜻한 차 한 잔으로 시작하는 아침",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "약과처럼 달콤한 전통 간식",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "국내산 현미로 지은 누룽지",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "포장이 꼼꼼해서 선물하기 좋았어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "아이 간식으로 잘 먹어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "개별 포장이라 들고 다니기 편해요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "주사위 모양으로 썬 과일 젤리",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "food",
+"text": "유통기한은 제조일로부터 12개월이에요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "hfood",
+"text": "1일 1회 2정을 물과 함께 섭취하세요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test3",
+"type": "hfood",
+"text": "직사광선을 피해 서늘한 곳에 보관하세요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "촉촉하게 채워 주는 보습감",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "피부결을 매끄럽게 정돈해 주는 토너",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "산뜻하게 마무리되는 선크림",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "아이와 함께 자라는 브랜드",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "더 좋아진 패키지로 새로 나왔어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "하루 종일 편안한 사용감",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "순한 성분으로 매일 쓰기 좋아요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "건조한 겨울에 딱 맞는 크림",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "향이 오래 남는 바디로션",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "cos",
+"text": "피부에 부드럽게 발리는 텍스처",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "새싹이 자라는 농장에서 직접 키웠어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "아침을 든든하게 채워 주는 그래놀라",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "온 가족이 즐기는 따뜻한 차",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "바삭하게 구워 고소한 맛",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "국내산 원료로 정직하게 만들었어요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "공부하다 출출할 때 먹기 좋은 간식",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "에너지 가득한 하루를 응원해요",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "설탕을 줄여 담백한 맛",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "시험 기간 선물로 인기 많은 세트",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test4",
+"type": "food",
+"text": "잠들기 전 마시기 좋은 따뜻한 우유",
+"rule": false,
+"ai": false
+},
+{
+"batch": "test6",
+"type": "hfood",
+"text": "식후 혈당상승 억제에 도움을 줄 수 있음",
+"rule": false,
+"ai": true
+}
+],
+"reviews": {
+"cos": {
+"n": 66,
+"rule": 3,
+"ai_new": 6
+},
+"food": {
+"n": 934,
+"rule": 50,
+"ai_new": 4
+}
+}
+}
