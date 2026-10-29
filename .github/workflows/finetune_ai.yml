@@ -9,8 +9,12 @@ on:
       epochs:
         description: "반복 횟수"
         default: "2"
+      reuse_run:
+        description: "학습을 건너뛰고 이 실행 번호의 학습 모델을 씀 (비워 두면 새로 학습)"
+        default: ""
 permissions:
   contents: write
+  actions: read
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -30,16 +34,25 @@ jobs:
           cat $M/onnx/model_quantized.onnx.part* > /tmp/model.onnx
           git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
           cd /tmp/corpus && git sparse-checkout set sentiment
+      - name: 이전 실행의 학습 모델 받기
+        if: ${{ inputs.reuse_run != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ft-model-${{ inputs.mode }}
+          path: /tmp/ft
+          run-id: ${{ inputs.reuse_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: 미세조정
+        if: ${{ inputs.reuse_run == '' }}
         run: python tools/finetune_ai.py --mode ${{ inputs.mode }} --stage train --save /tmp/ft --epochs ${{ inputs.epochs }} --reviews /tmp/corpus/sentiment/naver_shopping.txt
+      - name: 학습한 모델 보관 (변환이 실패해도 다시 쓰도록)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ft-model-${{ inputs.mode }}
+          path: /tmp/ft
+          retention-days: 7
       - name: ONNX로 바꾸고 8비트로 줄이기 (지금 모델과 같은 방식)
-        run: |
-          optimum-cli export onnx --model /tmp/ft --task feature-extraction --library-name transformers /tmp/ft_onnx
-          python - <<'PY'
-          from onnxruntime.quantization import quantize_dynamic, QuantType
-          quantize_dynamic("/tmp/ft_onnx/model.onnx", "/tmp/ft_onnx/model_quantized.onnx", weight_type=QuantType.QInt8, per_channel=True)
-          PY
-          ls -la /tmp/ft_onnx
+        run: python tools/export_onnx.py /tmp/ft /tmp/ft_onnx && ls -la /tmp/ft_onnx
       - name: 비교 (세트 9~12를 둘 다 학습에서 뺌)
         if: ${{ inputs.mode == 'ab' }}
         run: python tools/finetune_ai.py --mode ab --stage eval --old-onnx /tmp/model.onnx --old-tok web/ai/model/ko-sroberta-multitask --new-onnx /tmp/ft_onnx/model_quantized.onnx --new-tok /tmp/ft_onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt
