@@ -1,0 +1,47 @@
+id,split,product_type,label,category,text,source,source_url
+M001,test10,cos,violation,,기미 싹 빠진다,문제 광고 보도(2026.7),https://supple.kr/news/cmrdvx0v600251kn32m2hh68v
+M002,test10,cos,violation,,좁쌀 여드름·뾰루지 완화,식약처 적발 보도(2020.8),https://www.kukinews.com/article/view/kuk202008200058
+M003,test10,cos,violation,,홍조개선,식약처 적발 보도(2020.8),https://www.kukinews.com/article/view/kuk202008200058
+M004,test10,cos,violation,,화이트닝,식약처 적발 보도(2020.8),https://www.kukinews.com/article/view/kuk202008200058
+M005,test10,cos,violation,,진피 층 각질정리,식약처 적발 보도(2020.8),https://www.kukinews.com/article/view/kuk202008200058
+M006,test10,cos,violation,,"여드름, 피부염, 무좀 등에 효과",식약처 적발 보도(2020.7),https://medigatenews.com/news/2416843161
+M007,test10,cos,violation,,항균작용,식약처 적발 보도(2020.7),https://medigatenews.com/news/2416843161
+M008,test10,cos,violation,,"상처, 염증 치료",식약처 적발 보도(2020.7),https://medigatenews.com/news/2416843161
+M009,test10,cos,violation,,여드름 완화와 피부 진정에 도움이 되는 블루 멜로우가 부리는 마술로 매끈 촉촉 보디 피부가 되어 볼까요?,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M010,test10,cos,violation,,동종 업계 최초,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M011,test10,cos,violation,,뾰루지가 났지만 피부과를 방문하기 힘들 때 어쩔 수 없는 피부트러블도 스팟으로 이젠 안녕,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M012,test10,cos,violation,,저자극 트러블케어 솔루션,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M013,test10,cos,violation,,흔적솔루션,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M014,test10,cos,violation,,피부 자생 강화,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M015,test10,cos,violation,,흔적관리 OK,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M016,test10,cos,violation,,"붓기완화, 붓기진정 필수템",식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M017,test10,cos,violation,,몸의 신진대사와 혈액순환을 원활하게 해준다,식약처 행정처분 보도(2017.6),https://cosmorning.com/news/article_print.html?no=15823
+M018,test10,cos,violation,,신박템 발견! 주름개선에도 좋고 리프팅 효과도 볼 수 있어 관리실 부럽지 않아요!,공정위 제재 보도(2019.11),https://www.inews24.com/view/1224680
+M019,test10,cos,violation,,무자극,식약처 적발 보도(2024.12),https://www.cncnews.co.kr/news/article.html?no=9755
+M020,test10,cos,violation,,여드름 감소 –26.2%,식약처 행정처분 보도(2025.11),https://cosinkorea.com/mobile/article.html?no=56411
+M021,test10,cos,violation,,여드름 피부 완화 기능성 화장품,식약처 행정처분 보도(2025.11),https://cosinkorea.com/mobile/article.html?no=56411
+M022,test10,cos,violation,,"천연유래 세정성분, 천연샴푸, 비듬케어",식약처 행정처분 보도(2023.12),https://www.cosinkorea.com/news/article.html?no=50556
+M023,test10,cos,violation,,"근휴식, 심신안정, 멘탈케어, 몸의 염증을 줄이거나 근육통 감소, 몸&마음의 스트레스 예방",식약처 행정처분 보도(2023.12),https://www.cosinkorea.com/news/article.html?no=50556
+M024,test10,cos,violation,,"근육의 열을 식혀, 30초 쿨링",식약처 행정처분 보도(2023.12),https://www.cosinkorea.com/news/article.html?no=50556
+M025,test10,cos,violation,,"아토피, 침독, 태열케어, 두드러기",식약처 행정처분 보도(2023.12),https://www.cosinkorea.com/news/article.html?no=50556
+M026,test10,cos,violation,,"강화된 의약품제조및품질관리기준, 무스테로이드",식약처 행정처분 보도(2023.12),https://www.cosinkorea.com/news/article.html?no=50556
+M027,test10,cos,allowed,,샤워 후 물기가 남아 있을 때 발라 주면 피부가 오래 촉촉해요,직접 작성(측정 전 고정),
+M028,test10,cos,allowed,,붉어 보이는 피부를 커버해 주는 그린 컬러 베이스,직접 작성(측정 전 고정),
+M029,test10,cos,allowed,,트러블 걱정 없이 쓰기 좋은 가벼운 젤 타입 수분 크림,직접 작성(측정 전 고정),
+M030,test10,cos,allowed,,세안 후 피부결을 정돈해 주는 산뜻한 토너 패드,직접 작성(측정 전 고정),
+M031,test10,cos,allowed,,건조한 두피에 수분을 더해 주는 두피 에센스,직접 작성(측정 전 고정),
+M032,test10,cos,allowed,,땀 냄새를 상쾌한 향으로 감싸 주는 바디 스프레이,직접 작성(측정 전 고정),
+M033,test10,cos,allowed,,가볍게 펴 발리고 끈적임 없이 흡수되는 핸드크림,직접 작성(측정 전 고정),
+M034,test10,cos,allowed,,피부 표면의 각질을 부드럽게 정리해 주는 필링 젤,직접 작성(측정 전 고정),
+M035,test10,cos,allowed,,은은한 펄로 생기 있는 눈매를 연출하는 아이섀도우,직접 작성(측정 전 고정),
+M036,test10,cos,allowed,,유기농 인증을 받은 원료를 담은 샴푸 (인증기관: ○○),직접 작성(측정 전 고정),
+M037,test10,cos,allowed,,손상되어 푸석한 모발에 윤기를 더해 주는 헤어 오일,직접 작성(측정 전 고정),
+M038,test10,cos,allowed,,물에 잘 씻기는 순한 아기 바디워시,직접 작성(측정 전 고정),
+M039,test10,fcos,allowed,,피부의 주름 개선과 미백에 도움을 주는 이중 기능성 앰플,직접 작성(측정 전 고정),
+M040,test10,fcos,allowed,,자외선 차단 지수 SPF50+ PA++++로 일상 속 자외선으로부터 피부를 보호해요,직접 작성(측정 전 고정),
+M041,test10,fcos,allowed,,여드름성 피부 완화에 도움을 주는 기능성 스팟 젤,직접 작성(측정 전 고정),
+M042,test10,fcos,allowed,,탈모 증상 완화에 도움을 주는 기능성 두피 토닉,직접 작성(측정 전 고정),
+M043,test10,fcos,allowed,,체모를 제거하는 기능을 가진 제모 크림,직접 작성(측정 전 고정),
+M044,test10,fcos,allowed,,피부의 미백에 도움을 주는 기능성 패드로 칙칙한 피부에 맑은 느낌을 더해요,직접 작성(측정 전 고정),
+M045,test10,cos,allowed,,바닷가 휴가철에도 땀과 물에 잘 지워지지 않는 워터프루프 마스카라,직접 작성(측정 전 고정),
+M046,test10,cos,allowed,,냄새를 잡아 주는 상쾌한 데오드란트 향,직접 작성(측정 전 고정),
