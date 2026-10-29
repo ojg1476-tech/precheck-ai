@@ -94,8 +94,23 @@
     }).join("");
   }
 
+  /* 화장품: 기능성화장품 보고 품목 대조 안내 */
+  function cosLine(text, type, ctx = {}) {
+    if (!text.trim() || !state.ck.cosprod) return "";
+    const name = (ctx.name || "").trim();
+    if (!name) return type === "fcos" ? `<div class="ing"><b>보고 품목 대조</b><span>오른쪽 위 칸에 상품명을 넣으면, 식약처에 보고된 기능성 화장품 19만여 개 중 그 제품을 찾아 원고의 미백·주름·자외선 차단·염모 표현이 보고한 기능 안에 있는지 맞춰 봐요.</span></div>` : "";
+    if (!state.ck.cosProducts) return `<div class="ing"><b>보고 품목 대조</b><span>보고 품목 목록을 불러오는 중이에요…</span></div>`;
+    state.ck.check(text, type, ctx);
+    const p = state.ck.lastCos;
+    if (!p) return `<div class="ing"><b>보고 품목 대조</b><span>‘${esc(name)}’을(를) 기능성화장품 보고 품목에서 찾지 못했어요. 보고 품목 이름 그대로(브랜드 포함) 넣어 보세요. 심사 품목(탈모·여드름·튼살 등)이나 짧고 흔한 이름은 대조하지 않아요.</span></div>`;
+    if (!p.m) return `<div class="ing"><b>보고 품목 대조</b><span>찾은 제품 <em>${esc(p.n)}</em> — 보고 자료에 기능이 적혀 있지 않아 대조하지 않았어요.</span></div>`;
+    return `<div class="ing"><b>보고 품목 대조</b><span>찾은 제품 <em>${esc(p.n)}</em> — 식약처에 <b>${esc(p.have)}</b> 기능성 화장품으로 보고돼 있어요. 원고의 기능 표현을 이 범위와 맞춰 봤어요.${type === "cos" ? " 제품 종류를 ‘기능성 화장품’으로 바꾸면 보고 내용 기준으로 검사해요." : ""}</span>
+      <small>공공데이터포털 식품의약품안전처 기능성화장품 보고품목정보 기준. 다른 제품이면 정확한 상품명을 넣어 주세요.</small></div>`;
+  }
+
   /* 건강기능식품: 원고에서 찾은 원료와 대조 안내 */
   function ingLine(text, type, ctx = {}) {
+    if (type === "cos" || type === "fcos") return cosLine(text, type, ctx);
     if (type !== "hfood" || !text.trim() || !state.ck.hfood) return "";
     state.ck.check(text, type, ctx);
     const ings = state.ck.lastIngredients || [], prod = state.ck.lastProduct;
@@ -218,10 +233,20 @@
     if (!productsP) productsP = fetch("hfood_products.json").then(r => r.json()).then(d => state.ck.setProducts(d)).catch(() => { productsP = null; });
     return productsP;
   }
+  /* 기능성화장품 보고 품목 표(약 1.7MB)는 화장품에 상품명이 있을 때만 받는다 */
+  let cosP = null;
+  function ensureCos() {
+    if (!state.ck.cosprod || state.ck.cosProducts) return Promise.resolve();
+    if (!cosP) cosP = fetch("cos_products.json").then(r => r.json()).then(d => state.ck.setCosProducts(d)).catch(() => { cosP = null; });
+    return cosP;
+  }
+  const hasNamedCos = items => items.some(it => { try { return ["cos", "fcos"].includes(M.normalizeType(it.type)) && (it.name || "").trim(); } catch (e) { return false; } });
   const hasHfood = items => items.some(it => { try { return M.normalizeType(it.type) === "hfood"; } catch (e) { return false; } });
 
   function run(items, source, ocr = null) {
     if (hasHfood(items) && !state.ck.products && state.ck.hfood) { ensureProducts().then(() => run(items, source, ocr)); return; }
+    if (hasNamedCos(items) && !state.ck.cosProducts && state.ck.cosprod && !run.cosTried) { run.cosTried = true; ensureCos().then(() => run(items, source, ocr)); return; }
+    run.cosTried = false;
     state.results = M.checkProducts(items, state.ck); state.ai = null;
     state.source = source; state.ocr = ocr; state.imgFiles = [];
     state.pick = Math.max(0, state.results.findIndex(r => r.findings.length));
@@ -375,8 +400,9 @@
   let txtType = "cos", lastFs = [];
   function checkText() {
     const ed = $("#ed"), text = ed.value;
-    const ctx = txtType === "hfood" ? { name: $("#ed-prod-in").value.trim() } : {};
+    const ctx = { name: $("#ed-prod-in").value.trim() };
     if (txtType === "hfood" && !state.ck.products && state.ck.hfood) ensureProducts().then(() => { if (state.ck.products) checkText(); });
+    if (txtType !== "hfood" && txtType !== "food" && ctx.name && !state.ck.cosProducts && state.ck.cosprod) ensureCos().then(() => { if (state.ck.cosProducts) checkText(); });
     lastFs = text.trim() ? state.ck.check(text, txtType, ctx) : [];
     if (text.trim()) countOnce("check-text");
     const aiHits = aiText.text === text && txtType !== "hfood" ? aiText.hits : [];
@@ -604,7 +630,7 @@
       if (!ex.length) return;
       const x = ex[Math.floor(Math.random() * ex.length)];
       $("#ed").value = x.text;
-      if (txtType === "hfood") $("#ed-prod-in").value = "";
+      $("#ed-prod-in").value = "";
       checkText(); count("text-example");
     });
 
@@ -631,7 +657,14 @@
       const b = e.target.closest(".ai-go"); if (!b) return;
       b.dataset.where === "batch" ? runAIBatch() : runAIText();
     });
-    seg($("#txt-type"), "txt-type", txtType, v => { txtType = v; $("#ed-prod").hidden = v !== "hfood"; checkText(); });
+    const prodLabel = v => {
+      $("#ed-prod").hidden = v === "food";
+      $("#ed-prod-t").innerHTML = v === "hfood" ? "제품명 또는 품목제조신고번호 <small>(선택 · 넣으면 그 제품이 신고한 기능성과 대조해요)</small>"
+        : "상품명 <small>(선택 · 넣으면 식약처에 보고된 기능성 화장품과 대조해요)</small>";
+      $("#ed-prod-in").placeholder = v === "hfood" ? "예: 상품명 그대로, 또는 신고번호 12~15자리" : "예: 브랜드를 포함한 상품명 그대로";
+    };
+    prodLabel(txtType);
+    seg($("#txt-type"), "txt-type", txtType, v => { txtType = v; prodLabel(v); checkText(); });
     $("#ed-prod-in").addEventListener("input", () => { clearTimeout(checkText.p); checkText.p = setTimeout(checkText, 200); });
     const ed = $("#ed"); let t;
     ed.addEventListener("input", () => { clearTimeout(t); t = setTimeout(checkText, 120); $("#ed-hl").innerHTML = esc(ed.value) + "\n"; });

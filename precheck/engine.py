@@ -10,6 +10,7 @@ import re
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
 
+from .cosprod import CosProducts, check_cosprod
 from .hfood import OVERRIDE, Products, check_hfood
 
 RULES_PATH = Path(__file__).resolve().parent.parent / "rules" / "rules.json"
@@ -56,6 +57,9 @@ class Checker:
         self.last_product: dict | None = None
         self._products_path = Path(rules_path).with_name("hfood_products.json")
         self._products: Products | None = None
+        self.cosprod = data.get("cosprod")
+        self._cos_path = Path(rules_path).with_name("cos_products.json")
+        self._cos: CosProducts | None = None
         for r in self.rules:
             r["_re"] = re.compile(r["pattern"], re.IGNORECASE if r["ignore_case"] else 0)
 
@@ -66,8 +70,15 @@ class Checker:
             self._products = Products(json.loads(self._products_path.read_text(encoding="utf-8")), self.hfood)
         return self._products
 
+    @property
+    def cos_products(self) -> "CosProducts | None":
+        """기능성화장품 보고 품목 표는 화장품에 상품명이 있을 때 처음 읽는다 (19만여 개라 무거움)."""
+        if self._cos is None and self.cosprod and self._cos_path.exists():
+            self._cos = CosProducts(json.loads(self._cos_path.read_text(encoding="utf-8")))
+        return self._cos
+
     def check(self, text: str, product_type: str = "cos", name: str = "", report_no: str = "") -> list[Finding]:
-        """name·report_no: 건강기능식품일 때 상품명·품목제조신고번호 (있으면 그 제품이 신고한 기능성으로 대조)"""
+        """name: 상품명 — 건강기능식품은 신고 제품, 화장품은 기능성화장품 보고 품목과 대조. report_no: 건강기능식품 품목제조신고번호"""
         if product_type not in self.product_types:
             raise ValueError(f"product_type은 {list(self.product_types)} 중 하나여야 해요")
         is_cos = product_type in COS_TYPES
@@ -92,7 +103,13 @@ class Checker:
                     checks=list(self.categories.get(cat, {}).get("checks", [])),
                     penalty_key=pen_key or "",
                 ))
-        self.last_ingredients, self.last_product = [], None
+        self.last_ingredients, self.last_product, self.last_cos = [], None, None
+        if is_cos and name and self.cosprod:
+            extra, self.last_cos = check_cosprod(text, product_type, self.cosprod, self.penalties, self.categories, self.cos_products, name)
+            if extra:
+                k2 = [e for e in extra if e["rule_id"] == "K2"]   # 보고된 기능: '심사받아야 쓰는 표현'(C2)을 바꿔 보여 줌
+                found = [f for f in found if not (f.category == "C2" and any(f.start < e["end"] and e["start"] < f.end for e in k2))]
+                found += [Finding(grade_name=self.grades[e["grade"]], **e) for e in extra]
         if product_type == "hfood" and self.hfood:
             extra, self.last_ingredients, self.last_product = check_hfood(
                 text, self.hfood, self.penalties, self.categories.get("HF", {}).get("checks", []), self.products, name, report_no)

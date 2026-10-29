@@ -1,7 +1,9 @@
 name: fetch-cos
-# 화장품 공공데이터(공공데이터포털) 확인·받기. 수동 실행만.
+# 기능성화장품 보고 품목(공공데이터포털)을 매주 다시 받아 대조 표를 새로 만든다.
 on:
   workflow_dispatch: {}
+  schedule:
+    - cron: "23 19 * * 0"   # 매주 월요일 04:23 (한국 시간)
 permissions:
   contents: write
 jobs:
@@ -53,7 +55,9 @@ jobs:
               print(f"::notice title={k}::{collections.Counter(str(r.get(k)) for r in slim).most_common(25)}")
           print(f"::notice title=saved::{len(slim)}건 (호출 {page}번)")
           PY
+      - name: 대조 표 만들기
+        run: python3 tools/build_cos_products.py
       - name: 커밋
         run: |
           git config user.name github-actions; git config user.email actions@github.com
-          git add data/cos/raw && git commit -m "기능성화장품 보고 품목 원본 받기 (공공데이터포털)" && git pull --rebase && git push || echo "변경 없음"
+          git add data/cos/raw rules/cos_products.json web/cos_products.json && git commit -m "기능성화장품 보고 품목 다시 받기 (공공데이터포털, 매주)" && git pull --rebase && git push || echo "변경 없음"

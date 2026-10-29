@@ -21,16 +21,19 @@ jobs:
         run: |
           python tools/build_hfood.py
           python tools/build_hfood_products.py
+          python tools/build_cos_products.py
           node tools/export_rules.js
           python tools/build_season.py
           node tools/build_enforced.js
-          git diff --exit-code rules/rules.json rules/hfood.json rules/hfood_products.json web/hfood_products.json web/rules.json web/sample_products.csv web/season.json web/enforced.json
+          git diff --exit-code rules/rules.json rules/hfood.json rules/hfood_products.json web/hfood_products.json rules/cos_products.json web/cos_products.json web/rules.json web/sample_products.csv web/season.json web/enforced.json
       - name: 웹 버전과 Python 엔진 결과 비교
         run: python tests/test_parity.py
       - name: 웹 화면용 JS 엔진과 Python 결과 비교
         run: python tests/test_web_parity.py
       - name: 건강기능식품 원료 대조
         run: python tests/test_hfood.py
+      - name: 기능성화장품 보고 품목 대조
+        run: python tests/test_cosprod.py
       - name: 대안 문구 재검사
         run: python tests/test_alternatives.py
       - name: 손실 계산·시즌 예보

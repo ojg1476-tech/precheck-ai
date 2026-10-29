@@ -1,7 +1,7 @@
 // 웹 검사기의 rules.js → rules/rules.json (웹과 Python이 같은 기준을 쓰도록)
 const fs=require("fs"),path=require("path");
 const src=fs.readFileSync(path.join(__dirname,"rules_web.js"),"utf8");
-const {R,PEN,S,CAT,RCAT,PRO,EXPLAIN}=new Function(src+";return {R,PEN,S,CAT,RCAT,PRO,EXPLAIN};")();
+const {R,PEN,S,CAT,RCAT,PRO,EXPLAIN,COSPROD}=new Function(src+";return {R,PEN,S,CAT,RCAT,PRO,EXPLAIN,COSPROD};")();
 const explain=t=>{if(!EXPLAIN[t])throw new Error("풀어 쓴 설명 없음: "+t);return EXPLAIN[t];};
 const pro=t=>{if(!PRO[t])throw new Error("정식 유형명 없음: "+t);return PRO[t];};
 const CATX=Object.fromEntries(Object.entries(CAT).map(([k,v])=>[k,{...v,name:pro(v.name),easy:v.name}]));
@@ -12,7 +12,8 @@ const rules=R.map(([re,g,t,why,alt,term,lawC,lawF,penC,penF,f,src],i)=>({
   penalty_cos:penKey(penC),penalty_food:penKey(penF),category_cos:RCAT[i][0]||null,category_food:RCAT[i][1]||null,applies_to:f,source:src}));
 const out={version:"2026-10-29",note:"모든 처분·근거는 법령 원문과 KCIA 해설서(2025)에서 확인한 것만 씀. 기준표: https://claude.ai/artifact/8HRdhmVBaGQhDZA8AW4Psm",
   product_types:{cos:"일반 화장품",fcos:"기능성 화장품",food:"일반 식품",hfood:"건강기능식품"},
-  grades:{red:"꼭 고치기",amber:"확인 필요",blue:"자료 챙기기"},penalties:PEN,sources:S,categories:CATX,rules};
+  grades:{red:"꼭 고치기",amber:"확인 필요",blue:"자료 챙기기"},penalties:PEN,sources:S,categories:CATX,rules,
+  cosprod:{bits:COSPROD.bits,claims:COSPROD.claims.map(([b,re])=>({bit:b,pattern:re.source})),k1:COSPROD.k1,k2:COSPROD.k2}};
 fs.writeFileSync(path.join(__dirname,"..","rules","rules.json"),JSON.stringify(out,null,1));
 // 웹 화면(web/)도 같은 규칙 파일과 예시 목록을 쓴다
 // 건강기능식품 원료별 인정 기능성 (tools/build_hfood.py) — Python은 rules/hfood.json을 따로 읽는다

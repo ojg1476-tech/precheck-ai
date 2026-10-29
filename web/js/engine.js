@@ -32,7 +32,11 @@
       this.hfood = data.hfood || null;
       if (this.hfood) this.hfood.funcs.forEach(f => (f._re = new RegExp(f.re, "g")));
       this.lastIngredients = []; this.lastProduct = null; this.products = null;
+      this.cosprod = data.cosprod || null; this.cosProducts = null; this.lastCos = null;
+      if (this.cosprod) this.cosprod.claims.forEach(c => (c._re = new RegExp(c.pattern, "g")));
     }
+    /* 기능성화장품 보고 품목 표(cos_products.json): 화장품에 상품명이 있을 때만 받아서 넣는다 */
+    setCosProducts(data) { this.cosProducts = data ? new CosProducts(data) : null; }
     /* 신고 제품 표(hfood_products.json): 건강기능식품을 검사할 때만 받아서 넣는다 */
     setProducts(data) { this.products = data && this.hfood ? new HfProducts(data, this.hfood) : null; }
     /* ctx: { name: 상품명, no: 품목제조신고번호 } — 건강기능식품일 때 그 제품이 신고한 기능성으로 대조 */
@@ -57,7 +61,16 @@
           });
         }
       }
-      this.lastIngredients = []; this.lastProduct = null;
+      this.lastIngredients = []; this.lastProduct = null; this.lastCos = null;
+      if (isCos && ctx && ctx.name && this.cosprod) {
+        const [extra, prod] = checkCosProd(text, type, this.cosprod, this.penalties, this.categories, this.cosProducts, ctx.name);
+        this.lastCos = prod;
+        if (extra.length) {
+          const k2 = extra.filter(e => e.ruleId === "K2");   // 보고된 기능: '심사받아야 쓰는 표현'(C2)을 바꿔 보여 줌
+          found = found.filter(f => !(f.category === "C2" && k2.some(e => f.start < e.end && e.start < f.end)));
+          for (const e of extra) found.push({ ...e, gradeName: this.grades[e.grade] });
+        }
+      }
       if (type === "hfood" && this.hfood) {
         const [extra, ings, prod] = checkHfood(text, this.hfood, this.penalties, ((this.categories.HF || {}).checks) || [], this.products, (ctx && ctx.name) || "", (ctx && ctx.no) || "");
         this.lastIngredients = ings; this.lastProduct = prod;
@@ -158,6 +171,50 @@
       }
       return [[], ""];
     }
+  }
+
+  /* ── 기능성화장품 보고 품목 대조 (precheck/cosprod.py 와 같은 판정) ── */
+  class CosProducts {
+    constructor(data) {
+      this.byName = new Map();
+      for (const [name, m] of data.p) { const k = hfNorm(hfCleanListing(name)); if (k.length >= 4) this.byName.set(k, [name, m]); }
+      this.names = [...this.byName.keys()].filter(k => k.length >= 9).sort((a, b) => b.length - a.length || (a < b ? -1 : a > b ? 1 : 0));
+    }
+    find(name) {
+      const k = hfNorm(hfCleanListing(name || ""));
+      if (k.length < 8) return null;   // 짧고 흔한 이름은 다른 회사 제품과 겹칠 수 있어 대조하지 않음
+      if (this.byName.has(k)) return this.byName.get(k);
+      for (const nk of this.names) if (nk.length * 2 >= k.length && k.includes(nk)) return this.byName.get(nk);
+      return null;
+    }
+  }
+  function checkCosProd(text, type, cfg, penalties, categories, products, name) {
+    if (!products || !name) return [[], null];
+    const hit = products.find(name);
+    if (!hit) return [[], null];
+    const [pname, m] = hit;
+    const have = Object.keys(cfg.bits).map(Number).sort((a, b) => a - b).filter(b => m & b).map(b => cfg.bits[b]).join("·");
+    const prod = { n: pname, m, have };
+    if (!m) return [[], prod];
+    const out = [];
+    for (const c of cfg.claims) {
+      c._re.lastIndex = 0; let mt;
+      while ((mt = c._re.exec(text))) {
+        const p = mt[0].trim();
+        if (!p) { c._re.lastIndex++; continue; }
+        const want = cfg.bits[c.bit];
+        let k, grade, rid;
+        if (type === "fcos" && !(m & c.bit)) { k = cfg.k1; grade = "red"; rid = "K1"; }
+        else if (type === "cos" && (m & c.bit)) { k = cfg.k2; grade = "amber"; rid = "K2"; }
+        else continue;
+        const fill = s => s.split("{prod}").join(pname).split("{have}").join(have).split("{want}").join(want);
+        out.push({ start: mt.index, end: mt.index + mt[0].length, phrase: p, grade, ruleId: rid, label: k.label,
+          easy: k.explain.split("{p}").join(p), why: fill(k.why), alt: fill(k.alt), term: k.term, law: k.law,
+          penalty: k.pen ? (penalties[k.pen] || "") : "", source: k.source, category: k.category,
+          checks: [...((categories[k.category] || {}).checks || [])], penaltyKey: k.pen || "" });
+      }
+    }
+    return [out, prod];
   }
 
   function checkHfood(text, kb, penalties, checks, products = null, name = "", no = "") {
@@ -369,6 +426,6 @@
     return `징역 ${p[0]}년 이하 또는 벌금 ${money} 이하`;
   }
 
-  const api = { Checker, checkHfood, HfProducts, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
+  const api = { Checker, checkHfood, HfProducts, CosProducts, checkCosProd, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.Moongu = api;
 })(typeof window !== "undefined" ? window : globalThis);
