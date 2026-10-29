@@ -39,7 +39,7 @@ jobs:
               print(f"::notice title=spec error::{e}")
           base = "https://apis.data.go.kr/1471000"
           # 서비스 경로 후보 (식약처 화장품 관련)
-          cands = ["FtnltCosmRptPrdlstInfoService/getRptPrdlstInq", "FtnltCosmRptPrdlstInfoService01/getRptPrdlstInq",
+          cands = ["FtnltCosmRptPrdlstInfoService01/getRptPrdlstInq01", "FtnltCosmRptPrdlstInfoService01/getRptEntpInq01", "FtnltCosmRptPrdlstInfoService/getRptPrdlstInq", "FtnltCosmRptPrdlstInfoService01/getRptPrdlstInq",
                    "FtnltCosmRptPrdlstInfoService02/getRptPrdlstInq", "FtnltCosmRptPrdlstInfoService/getRptPrdlstInfo",
                    "CsmtcsMtrlInfoService/getCsmtcsMtrlInfo", "CosmeticRegulationInfoService/getCosmeticRegulationInfo"]
           for c in cands:
