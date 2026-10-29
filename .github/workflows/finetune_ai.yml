@@ -1,0 +1,58 @@
+name: finetune-ai
+# AI 문장 모델 미세조정 + 지금 방식과 공정 비교(ab) / 최종 모델 만들기(final). 수동 실행만.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "ab = 비교만, final = 최종 모델 만들어 저장"
+        default: "ab"
+      epochs:
+        description: "반복 횟수"
+        default: "2"
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: 패키지
+        run: |
+          pip install -q torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -q sentence-transformers "optimum[onnxruntime]" onnxruntime tokenizers scikit-learn numpy
+      - name: 지금 모델·리뷰 코퍼스
+        run: |
+          M=web/ai/model/ko-sroberta-multitask
+          cat $M/onnx/model_quantized.onnx.part* > /tmp/model.onnx
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
+          cd /tmp/corpus && git sparse-checkout set sentiment
+      - name: 미세조정
+        run: python tools/finetune_ai.py --mode ${{ inputs.mode }} --stage train --save /tmp/ft --epochs ${{ inputs.epochs }} --reviews /tmp/corpus/sentiment/naver_shopping.txt
+      - name: ONNX로 바꾸고 8비트로 줄이기 (지금 모델과 같은 방식)
+        run: |
+          optimum-cli export onnx --model /tmp/ft --task feature-extraction --library-name transformers /tmp/ft_onnx
+          python - <<'PY'
+          from onnxruntime.quantization import quantize_dynamic, QuantType
+          quantize_dynamic("/tmp/ft_onnx/model.onnx", "/tmp/ft_onnx/model_quantized.onnx", weight_type=QuantType.QInt8, per_channel=True)
+          PY
+          ls -la /tmp/ft_onnx
+      - name: 비교 (세트 9~12를 둘 다 학습에서 뺌)
+        if: ${{ inputs.mode == 'ab' }}
+        run: python tools/finetune_ai.py --mode ab --stage eval --old-onnx /tmp/model.onnx --old-tok web/ai/model/ko-sroberta-multitask --new-onnx /tmp/ft_onnx/model_quantized.onnx --new-tok /tmp/ft_onnx --reviews /tmp/corpus/sentiment/naver_shopping.txt
+      - name: 최종 모델을 브라우저 폴더에 넣고 판별기 다시 학습
+        if: ${{ inputs.mode == 'final' }}
+        run: |
+          M=web/ai/model/ko-sroberta-multitask
+          rm -f $M/onnx/model_quantized.onnx.part*
+          split -b 94371840 -d -a 1 /tmp/ft_onnx/model_quantized.onnx $M/onnx/model_quantized.onnx.part
+          ls $M/onnx/model_quantized.onnx.part* | wc -l | tr -d ' ' > $M/onnx/parts.txt
+          for f in tokenizer.json tokenizer_config.json special_tokens_map.json config.json; do [ -f /tmp/ft_onnx/$f ] && cp /tmp/ft_onnx/$f $M/; done
+          python tools/train_ai.py --onnx /tmp/ft_onnx/model_quantized.onnx --tokenizer $M --reviews /tmp/corpus/sentiment/naver_shopping.txt
+      - name: 커밋
+        run: |
+          git config user.name github-actions; git config user.email actions@github.com
+          git add eval/report/ai_finetune_ab.json eval/report/ai_lobo.json eval/report/ai_final.json web/ai 2>/dev/null; git commit -m "AI 미세조정 (${{ inputs.mode }}, finetune-ai 자동 생성)" && git pull --rebase && git push || echo "변경 없음"
