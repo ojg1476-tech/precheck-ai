@@ -74,6 +74,7 @@
   const HF_CLAIM = /도움|도와|돕|끝|걱정\s?없|해방|싹|쏙|개선|강화|감소|증진|향상|완화|해소|해결|예방|치료|효과|효능|낮춰|낮추|낮아|빠지|빠져|빠졌|줄었|나아|빼|좋아|좋은|튼튼|지켜|책임|확실|보장|회복|잡아|불태|태워|쑥쑥/;
   const HF_CLAUSE = /[.!?\n,·]/g;
   const HF_OVERRIDE = new Set(["F1", "F3", "F4", "HF"]);
+  const HF_EXCIPIENT = ["스테아린산", "셀룰로스", "셀룰로오스", "글리세린", "카복시메틸"];
   const HF_LAW = "식품표시광고법 제8조 제1항 제4호 (인정받지 않은 기능성), 건강기능식품 기능성 원료 인정 내용";
   const isAlnumAscii = c => /[a-z0-9]/i.test(c);
 
@@ -93,7 +94,10 @@
         if (j < 0) break;
         from = j + 1;
         const e = j + key.length;
-        if (ascii && ((j > 0 && isAlnumAscii(s[j - 1])) || (e < s.length && isAlnumAscii(s[e])))) continue;
+        const before = s.slice(Math.max(0, j - 6), j);
+        if (HF_EXCIPIENT.some(x => before.endsWith(x))) continue;   // 스테아린산마그네슘·카복시메틸셀룰로스칼슘 같은 첨가물
+        const a0 = idx[j], b0 = idx[e - 1] + 1;   // 영문 원료명은 원문에서 앞뒤가 영문·숫자로 이어지면 다른 낱말
+        if (ascii && ((a0 > 0 && isAlnumAscii(text[a0 - 1])) || (b0 < text.length && isAlnumAscii(text[b0])))) continue;
         if (taken.some(([a, b]) => j < b && a < e)) continue;
         taken.push([j, e]);
         out.push({ start: idx[j], end: idx[e - 1] + 1, key, items: items.slice() });
@@ -148,7 +152,7 @@
         category: "HF", checks: [...checks], _core: [fm.start, fm.end], term: "", law: HF_LAW, penaltyKey: "f4", penalty: penalties.f4 || "" };
       if (full.length) {
         const it = items[full[0].items[0]], exact = exactOf(it, fid), nm = text.slice(full[0].start, full[0].end);
-        if (claim && !/도움|도와|돕/.test(clause)) out.push({ ...base, grade: "amber", ruleId: "H2", label: "인정 문구보다 세게 말함",
+        if (claim && !/도움|도와|돕|필요/.test(clause)) out.push({ ...base, grade: "amber", ruleId: "H2", label: "인정 문구보다 세게 말함",
           why: `‘${nm}’은(는) ‘${fname[fid]}’ 기능성을 인정받았지만, 인정 문구는 ‘${exact}’예요. ‘개선’, ‘효과’처럼 단정하면 인정 범위를 넘는 광고가 돼요.`,
           alt: exact, term: "인정받은 기능성 범위를 넘는 표시·광고" });
         else out.push({ ...base, grade: "blue", ruleId: "H1", label: "원료가 인정받은 기능성",

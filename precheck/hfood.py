@@ -17,7 +17,8 @@ import re
 SKIP = re.compile(r"[\s·․ㆍ・\-_,./®ⓡⓇ™()\[\]{}'\"“”‘’:;]")
 CLAUSE_END = re.compile(r"[.!?\n,·]")
 CLAIM = re.compile(r"도움|도와|돕|끝|걱정\s?없|해방|싹|쏙|개선|강화|감소|증진|향상|완화|해소|해결|예방|치료|효과|효능|낮춰|낮추|낮아|빠지|빠져|빠졌|줄었|나아|빼|좋아|좋은|튼튼|지켜|책임|확실|보장|회복|잡아|불태|태워|쑥쑥")
-SOFT = re.compile(r"도움|도와|돕")
+SOFT = re.compile(r"도움|도와|돕|필요")
+EXCIPIENT = ("스테아린산", "셀룰로스", "셀룰로오스", "글리세린", "카복시메틸")
 LAW = "식품표시광고법 제8조 제1항 제4호 (인정받지 않은 기능성), 건강기능식품 기능성 원료 인정 내용"
 
 
@@ -42,7 +43,10 @@ def find_ingredients(text: str, kb: dict) -> list[dict]:
                 break
             start = j + 1
             e = j + len(key)
-            if key.isascii() and ((j > 0 and s[j - 1].isascii() and s[j - 1].isalnum()) or (e < len(s) and s[e].isascii() and s[e].isalnum())):
+            if s[max(0, j - 6):j].endswith(EXCIPIENT):   # 스테아린산마그네슘·카복시메틸셀룰로스칼슘 같은 첨가물
+                continue
+            a, b = idx[j], idx[e - 1] + 1   # 영문 원료명은 원문에서 앞뒤가 영문·숫자로 이어지면 다른 낱말
+            if key.isascii() and ((a > 0 and text[a - 1].isascii() and text[a - 1].isalnum()) or (b < len(text) and text[b].isascii() and text[b].isalnum())):
                 continue
             if any(j < b and a < e for a, b in taken):
                 continue

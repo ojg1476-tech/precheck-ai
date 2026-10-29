@@ -28,6 +28,8 @@ jobs:
         run: python tests/test_parity.py
       - name: 웹 화면용 JS 엔진과 Python 결과 비교
         run: python tests/test_web_parity.py
+      - name: 건강기능식품 원료 대조
+        run: python tests/test_hfood.py
       - name: 대안 문구 재검사
         run: python tests/test_alternatives.py
       - name: 손실 계산·시즌 예보
