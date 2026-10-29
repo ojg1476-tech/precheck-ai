@@ -3,11 +3,12 @@
  "own_claims": 7417,
  "own_fp": 0,
  "own_fp_rate": 0.0,
+ "own_strong_rate": 0.0039099366320614806,
  "other_claims": 2979,
  "other_red": 2979,
  "other_red_rate": 1.0,
  "other_any_rate": 1.0,
  "name_ok_rate": 0.9660960053709299,
- "name_wrong_rate": 0.000671366230278617,
- "name_none_rate": 0.03323262839879154
+ "name_wrong_rate": 0.0003356831151393085,
+ "name_none_rate": 0.03356831151393085
 }

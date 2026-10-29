@@ -205,6 +205,11 @@
     catch (e) { showError("파일을 읽지 못했어요. " + e.message); }
   }
 
+  /* 예시 상품 (examples/examples.json, 가상의 상품들) */
+  let exP = null;
+  const examples = () => (exP = exP || fetch("examples.json").then(r => r.json()).then(d => d.items).catch(e => { exP = null; throw e; }));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
   /* 신고 제품 표(약 0.8MB)는 건강기능식품을 검사할 때만 받는다 */
   let productsP = null;
   function ensureProducts() {
@@ -382,7 +387,7 @@
     const st = text.trim() ? L.worstStop(lastFs, txtType) : null;
     $("#ed-loss").innerHTML = st ? lossHTML(st, st.scope === "store" ? "store" : "p:text") : "";
     $("#ed-cards").innerHTML = !text.trim()
-      ? `<div class="hint"><b>문구를 붙여 넣어 주세요</b>상세페이지 글을 왼쪽에 넣으면 고칠 곳에 물결 밑줄을 긋고, 이유와 대신 쓸 말을 여기에 보여드려요.</div>`
+      ? `<div class="hint"><b>문구를 붙여 넣어 주세요</b>상세페이지 글을 왼쪽에 넣으면 고칠 곳에 물결 밑줄을 긋고, 이유와 대신 쓸 말을 여기에 보여드려요. 처음이라면 위의 ‘예시 넣기’를 눌러 보세요. 누를 때마다 다른 예시가 나와요.</div>`
       : ingLine(text, txtType, ctx) + (lastFs.length ? cards(lastFs, txtType) : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`) + aiCard(aiHits);
     renderAIBox("#ed-ai", text.trim() ? (aiText.text === text ? aiText : null) : null, "text");
     syncScroll();
@@ -582,9 +587,24 @@
     start.addEventListener("dragleave", () => { if (--depth <= 0) { depth = 0; ask.classList.remove("over"); } });
     start.addEventListener("drop", e => { e.preventDefault(); depth = 0; ask.classList.remove("over"); onFiles(e.dataTransfer.files); });
     $("#try-sample").addEventListener("click", async () => {
-      const t = await (await fetch("sample_products.csv")).text();
-      run(M.readRows(M.parseCSV(t.replace(/^﻿/, ""))), "예시 목록");
+      try {
+        const ex = await examples();
+        // 누를 때마다 다른 조합: 화장품 3 · 기능성 화장품 1 · 식품 3 · 건강기능식품 3
+        const pick = [["cos", 3], ["fcos", 1], ["food", 3], ["hfood", 3]].flatMap(([t, n]) => shuffle(ex.filter(x => x.type === t)).slice(0, n));
+        run(shuffle(pick).map((x, i) => ({ row: i + 1, name: x.name, type: x.type, text: x.text })), "예시 목록");
+      } catch (e) {
+        const t = await (await fetch("sample_products.csv")).text();
+        run(M.readRows(M.parseCSV(t.replace(/^﻿/, ""))), "예시 목록");
+      }
       count("check-sample");
+    });
+    $("#ed-example").addEventListener("click", async () => {
+      const ex = (await examples()).filter(x => x.type === txtType && x.text !== $("#ed").value);
+      if (!ex.length) return;
+      const x = ex[Math.floor(Math.random() * ex.length)];
+      $("#ed").value = x.text;
+      if (txtType === "hfood") $("#ed-prod-in").value = "";
+      checkText(); count("text-example");
     });
 
     seg($("#img-type"), "img-type", imgType, v => (imgType = v));

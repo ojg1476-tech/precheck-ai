@@ -16,4 +16,6 @@ fs.writeFileSync(path.join(__dirname,"..","rules","rules.json"),JSON.stringify(o
 const hf=path.join(__dirname,"..","rules","hfood.json");
 fs.writeFileSync(path.join(__dirname,"..","web","rules.json"),JSON.stringify(fs.existsSync(hf)?{...out,hfood:JSON.parse(fs.readFileSync(hf,"utf8"))}:out));
 fs.copyFileSync(path.join(__dirname,"..","examples","sample_products.csv"),path.join(__dirname,"..","web","sample_products.csv"));
+// '예시로 해보기'·'예시 넣기'에 쓰는 가상 상품들
+fs.copyFileSync(path.join(__dirname,"..","examples","examples.json"),path.join(__dirname,"..","web","examples.json"));
 console.log(rules.length+" rules, "+Object.keys(PEN).length+" penalty texts");

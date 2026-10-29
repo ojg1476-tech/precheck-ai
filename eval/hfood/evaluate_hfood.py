@@ -48,7 +48,7 @@ for r in rows:
     if cs and raw:
         prods.append({"name": r["PRDLST_NM"], "raw": raw, "claims": cs, "tags": set().union(*(tags(c) for c in cs))})
 rnd = random.Random(1)
-recog = b_fp = b_n = c_hit = c_n = c_any = b_any = 0
+recog = b_h2 = b_fp = b_n = c_hit = c_n = c_any = b_any = 0
 fp_ex, miss_ex, unk, by_form = [], [], Counter(), {}
 pool = [c for p in prods for c in p["claims"]]
 for p in prods:
@@ -63,6 +63,7 @@ for p in prods:
         fs = ck.check(p["raw"] + ". " + c, "hfood")
         bad = [f for f in fs if f.rule_id == "H4"]
         b_any += any(f.rule_id in ("H3", "H4", "H5") for f in fs)
+        b_h2 += any(f.rule_id == "H2" for f in fs)
         if bad:
             b_fp += 1
             if len(fp_ex) < 25:
@@ -89,7 +90,7 @@ for p in prods:
 
 n = len(prods)
 res = {"products": n, "recognized": recog, "recog_rate": recog / n, "b_n": b_n, "b_fp": b_fp, "b_fp_rate": b_fp / max(b_n, 1),
-       "b_any_rate": b_any / max(b_n, 1),
+       "b_any_rate": b_any / max(b_n, 1), "b_strong_rate": b_h2 / max(b_n, 1),
        "c_n": c_n, "c_hit": c_hit, "c_recall": c_hit / max(c_n, 1), "c_any_rate": c_any / max(c_n, 1),
        "c_by_form": {k: dict(v) for k, v in by_form.items()}}
 (ROOT / "eval/hfood/results.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")

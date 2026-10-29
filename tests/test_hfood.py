@@ -37,7 +37,19 @@ def test_report_no_and_name():
     print(f"신고번호 대조: 신고 문구 오탐 {r['own_fp_rate']:.2%}, 신고 안 한 기능 적발 {r['other_any_rate']:.1%} · 상품명으로 찾기 {r['name_ok_rate']:.1%} (다른 제품 {r['name_wrong_rate']:.2%})")
 
 
+def test_examples_are_fictional():
+    """예시 상품은 가상의 이름이라 실제 신고 제품과 이어지면 안 됨"""
+    ck = Checker()
+    items = json.loads((ROOT / "examples/examples.json").read_text(encoding="utf-8"))["items"]
+    for it in items:
+        assert it["type"] in ("cos", "fcos", "food", "hfood"), it
+        ck.check(it["text"], it["type"], name=it["name"])
+        assert ck.last_product is None, (it["name"], ck.last_product)
+    print(f"예시 상품 {len(items)}개: 실제 제품과 이어지지 않음")
+
+
 if __name__ == "__main__":
+    test_examples_are_fictional()
     test_hand_cases()
     test_real_products()
     test_report_no_and_name()

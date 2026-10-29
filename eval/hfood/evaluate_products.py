@@ -34,12 +34,14 @@ def tags(t):
 
 prods = [P.items[P.by_no[re.sub(r"\D", "", r["PRDLST_REPORT_NO"])]] for r in rows if re.sub(r"\D", "", r["PRDLST_REPORT_NO"]) in P.by_no]
 pool = [c for p in prods for c in p["c"] if "도움" in c]
-own_n = own_fp = oth_n = oth_red = oth_any = 0
+own_n = own_fp = own_h2 = oth_n = oth_red = oth_any = 0
 for p in prods:
     tail = f". 품목제조신고번호 {p['no']}"
     for c in p["c"][:3]:
         own_n += 1
-        own_fp += any(f.rule_id == "H6" for f in ck.check(c + tail, "hfood"))
+        fs = ck.check(c + tail, "hfood")
+        own_fp += any(f.rule_id == "H6" for f in fs)
+        own_h2 += any(f.rule_id == "H2" for f in fs)
     ptags = set().union(*(tags(c) for c in p["c"])) if p["c"] else set()
     for _ in range(50):
         c = rnd.choice(pool)
@@ -57,7 +59,7 @@ name_ok = name_wrong = name_none = 0
 wrong_ex, none_ex = [], []
 for p in prods:
     a, b = rnd.choice(DECOR)
-    hit = P.find("", a + p["n"] + b)
+    hit = P.find("", a + p["n"] + b)[0]
     if not hit:
         name_none += 1
         if len(none_ex) < 15:
@@ -69,7 +71,7 @@ for p in prods:
         if len(wrong_ex) < 15:
             wrong_ex.append((a + p["n"] + b, [P.items[i]["n"] for i in hit][:2]))
 n = len(prods)
-res = {"products": n, "own_claims": own_n, "own_fp": own_fp, "own_fp_rate": own_fp / own_n,
+res = {"products": n, "own_claims": own_n, "own_fp": own_fp, "own_fp_rate": own_fp / own_n, "own_strong_rate": own_h2 / own_n,
        "other_claims": oth_n, "other_red": oth_red, "other_red_rate": oth_red / oth_n, "other_any_rate": oth_any / oth_n,
        "name_ok_rate": name_ok / n, "name_wrong_rate": name_wrong / n, "name_none_rate": name_none / n}
 (ROOT / "eval/hfood/results_products.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")

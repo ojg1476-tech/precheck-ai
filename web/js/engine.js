@@ -75,7 +75,8 @@
   /* ── 건강기능식품: 원고 속 원료가 그 기능성을 인정받았는지 (precheck/hfood.py 와 같은 판정) ── */
   const HF_SKIP = /[\s·․ㆍ・\-_,./®ⓡⓇ™()\[\]{}'"“”‘’:;]/;
   const HF_CLAIM = /도움|도와|돕|끝|걱정\s?없|해방|싹|쏙|개선|강화|감소|증진|향상|완화|해소|해결|예방|치료|효과|효능|낮춰|낮추|낮아|빠지|빠져|빠졌|줄었|나아|빼|좋아|좋은|튼튼|지켜|책임|확실|보장|회복|잡아|불태|태워|쑥쑥/;
-  const HF_CLAUSE = /[.!?\n,·]/g;
+  const HF_SENT = /[.!?\n]/g;
+  const HF_CLAUSE = /[.!?\n,]/g;   // 가운뎃점(·)은 기능 나열이라 끊지 않음
   const HF_OVERRIDE = new Set(["F1", "F3", "F4", "HF"]);
   const HF_EXCIPIENT = ["스테아린산", "셀룰로스", "셀룰로오스", "글리세린", "카복시메틸"];
   const HF_LAW = "식품표시광고법 제8조 제1항 제4호 (인정받지 않은 기능성), 건강기능식품 기능성 원료 인정 내용";
@@ -147,24 +148,24 @@
     }
     find(text, name = "", no = "") {
       const cands = (no ? [String(no).replace(/\D/g, "")] : []).concat(text.match(HF_NO) || []);
-      for (const c of cands) if (this.byNo.has(c)) return [this.byNo.get(c)];
+      for (const c of cands) if (this.byNo.has(c)) return [[this.byNo.get(c)], "no"];
       const k = hfNorm(hfCleanListing(name || ""));
       if (k.length >= 4) {
-        if (this.byName.has(k)) return this.byName.get(k).slice();
-        for (const nk of this.names) if (nk.length >= 6 && nk.length * 2 >= k.length && k.includes(nk)) return this.byName.get(nk).slice();
+        if (this.byName.has(k)) return [this.byName.get(k).slice(), "name"];
+        for (const nk of this.names) if (nk.length >= 9 && nk.length * 2 >= k.length && k.includes(nk)) return [this.byName.get(nk).slice(), "name"];
       }
-      return [];
+      return [[], ""];
     }
   }
 
   function checkHfood(text, kb, penalties, checks, products = null, name = "", no = "") {
     const ings = hfIngredients(text, kb);
-    const pids = products ? products.find(text, name, no) : [];
+    const [pids, how] = products ? products.find(text, name, no) : [[], ""];
     let prod = null;
     if (pids.length) {
       const ps = pids.map(i => products.items[i]), f = [], c = [];
       for (const p of ps) { for (const t of p.f) if (!f.includes(t)) f.push(t); for (const x of p.c) if (!c.includes(x)) c.push(x); }
-      prod = { no: ps[0].no, n: ps[0].n, c, f, count: ps.length };
+      prod = { no: ps[0].no, n: ps[0].n, c, f, count: ps.length, by: how };
     }
     if (!ings.length && !prod) return [[], [], null];
     const items = kb.items, fname = {}, parents = {};
@@ -181,8 +182,10 @@
       const fid = fm.id;
       HF_CLAUSE.lastIndex = fm.end; const m = HF_CLAUSE.exec(text);
       const cend = m ? m.index : text.length;
-      let cstart = 0; for (let i = fm.start - 1; i >= 0; i--) if (/[.!?\n,·]/.test(text[i])) { cstart = i + 1; break; }
+      let cstart = 0; for (let i = fm.start - 1; i >= 0; i--) if (/[.!?\n,]/.test(text[i])) { cstart = i + 1; break; }
       const clause = text.slice(cstart, cend), end = Math.min(cend, fm.end + 20);
+      HF_SENT.lastIndex = fm.end; const ms = HF_SENT.exec(text);
+      const soft = /도움|도와|돕|필요/.test(text.slice(cstart, ms ? ms.index : text.length));   // 'A 개선, B 개선에 도움'처럼 쉼표로 나열한 것도 부드러운 말로 봄
       const full = [], part = [], partOk = [];
       for (const g of ings) {
         const ok = g.items.filter(i => sat(items[i], fid));
@@ -196,7 +199,7 @@
         const label = `‘${prod.n}’(신고번호 ${prod.no})` + (prod.count > 1 ? ` 등 같은 이름 제품 ${prod.count}개` : "");
         if (sat(prod, fid)) {
           const exact = exactOf(prod, fid);
-          if (claim && !/도움|도와|돕|필요/.test(clause)) out.push({ ...base, grade: "amber", ruleId: "H2", label: "신고 문구보다 세게 말함",
+          if (claim && !soft) out.push({ ...base, grade: "amber", ruleId: "H2", label: "신고 문구보다 세게 말함",
             why: `${label}은(는) ‘${fname[fid]}’ 기능성을 신고했지만, 신고 문구는 ‘${exact}’예요. ‘개선’, ‘효과’처럼 단정하면 신고 범위를 넘는 광고가 돼요.`,
             alt: exact, term: "신고한 기능성 범위를 넘는 표시·광고" });
           else out.push({ ...base, grade: "blue", ruleId: "H1", label: "제품이 신고한 기능성",
@@ -205,10 +208,12 @@
         } else {
           const have = [];
           for (const t of prod.f) if (!have.includes(fname[t])) have.push(fname[t]);
-          const strong = claim || /도움|도와|돕|필요/.test(clause);
-          out.push({ ...base, grade: strong ? "red" : "amber", ruleId: strong ? "H6" : "H7",
+          const strong = claim || soft;
+          const byName = prod.by === "name";   // 상품명으로 찾은 제품은 다른 회사 같은 이름일 수 있어 한 단계 낮춤
+          out.push({ ...base, grade: strong && !byName ? "red" : "amber", ruleId: strong ? "H6" : "H7",
             label: strong ? "제품이 신고하지 않은 기능성" : "신고하지 않은 기능을 떠올리게 함",
-            why: `${label}이(가) 신고한 기능성은 ‘${hfJoin(have, 4)}’예요. ‘${fname[fid]}’ 기능성은 신고하지 않았어요. 원료에 그 기능이 있어도 제품으로 신고하지 않았으면 광고할 수 없어요.`,
+            why: `${label}이(가) 신고한 기능성은 ‘${hfJoin(have, 4)}’예요. ‘${fname[fid]}’ 기능성은 신고하지 않았어요. 원료에 그 기능이 있어도 제품으로 신고하지 않았으면 광고할 수 없어요.`
+              + (byName ? " 상품명으로 찾은 제품이라, 다른 제품이면 신고번호를 넣어 다시 확인하세요." : ""),
             alt: `(신고한 기능성만: ${prod.c[0]})`, term: "신고하지 않은 기능성 표시·광고" });
         }
         continue;
@@ -217,7 +222,7 @@
         category: "HF", checks: [...checks], _core: [fm.start, fm.end], term: "", law: HF_LAW, penaltyKey: "f4", penalty: penalties.f4 || "" };
       if (full.length) {
         const it = items[full[0].items[0]], exact = exactOf(it, fid), nm = text.slice(full[0].start, full[0].end);
-        if (claim && !/도움|도와|돕|필요/.test(clause)) out.push({ ...base, grade: "amber", ruleId: "H2", label: "인정 문구보다 세게 말함",
+        if (claim && !soft) out.push({ ...base, grade: "amber", ruleId: "H2", label: "인정 문구보다 세게 말함",
           why: `‘${nm}’은(는) ‘${fname[fid]}’ 기능성을 인정받았지만, 인정 문구는 ‘${exact}’예요. ‘개선’, ‘효과’처럼 단정하면 인정 범위를 넘는 광고가 돼요.`,
           alt: exact, term: "인정받은 기능성 범위를 넘는 표시·광고" });
         else out.push({ ...base, grade: "blue", ruleId: "H1", label: "원료가 인정받은 기능성",
@@ -239,7 +244,7 @@
       }
     }
     return [out, ings.map(g => ({ name: text.slice(g.start, g.end), items: g.items.map(i => items[i].n).slice(0, 5) })),
-      prod ? { no: prod.no, name: prod.n, count: prod.count, claims: prod.c.slice(0, 12) } : null];
+      prod ? { no: prod.no, name: prod.n, count: prod.count, by: prod.by, claims: prod.c.slice(0, 12) } : null];
   }
 
   function dedupe(items) {
