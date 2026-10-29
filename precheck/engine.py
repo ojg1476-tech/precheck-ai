@@ -84,7 +84,7 @@ class Checker:
                 found.append(Finding(
                     start=m.start() + lead, end=m.end(), phrase=raw.strip(),
                     grade=r["grade"], grade_name=self.grades[r["grade"]], rule_id=r["id"],
-                    label=r["label"], easy=r.get("easy", ""), why=r["why"], alt=r["alt"], term=r["term"],
+                    label=r["label"], easy=(r.get("explain") or r.get("easy", "")).replace("{p}", raw.strip()), why=r["why"], alt=r["alt"], term=r["term"],
                     law=(r["law_cos"] if is_cos else r["law_food"]) or "-",
                     penalty=self.penalties.get(pen_key, "") if pen_key else "",
                     source=r["source"],

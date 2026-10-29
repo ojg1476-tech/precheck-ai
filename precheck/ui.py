@@ -117,7 +117,7 @@ div[data-testid="stExpander"], div[data-testid="stVerticalBlockBorderWrapper"] {
 .mr-card {{ background: #fff; border: 1px solid {LINE}; border-radius: 12px; padding: 16px 18px; margin: 10px 0; }}
 .mr-card .head {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }}
 .mr-grade {{ font-size: 12px; font-weight: 800; color: var(--c); background: var(--b); border-radius: 4px; padding: 2px 7px; }}
-.mr-card .easy {{ font-size: 13px; color: {MUTED}; margin: 2px 0 6px; }}
+.mr-card .easy {{ font-size: 14px; line-height: 1.6; color: {INK}; margin: 4px 0 8px; }}
 .mr-card .label {{ font-weight: 800; color: {INK}; font-size: 15.5px; letter-spacing: -0.01em; }}
 .mr-card .phrase {{ margin: 12px 0 6px; font-size: 16px; color: {INK}; display: flex; flex-wrap: wrap; gap: 6px 14px; }}
 .mr-card .phrase u {{ text-decoration: underline wavy var(--c); text-underline-offset: 5px; text-decoration-thickness: 1.5px; font-weight: 700; }}

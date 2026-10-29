@@ -1,13 +1,14 @@
 // 웹 검사기의 rules.js → rules/rules.json (웹과 Python이 같은 기준을 쓰도록)
 const fs=require("fs"),path=require("path");
 const src=fs.readFileSync(path.join(__dirname,"rules_web.js"),"utf8");
-const {R,PEN,S,CAT,RCAT,PRO}=new Function(src+";return {R,PEN,S,CAT,RCAT,PRO};")();
+const {R,PEN,S,CAT,RCAT,PRO,EXPLAIN}=new Function(src+";return {R,PEN,S,CAT,RCAT,PRO,EXPLAIN};")();
+const explain=t=>{if(!EXPLAIN[t])throw new Error("풀어 쓴 설명 없음: "+t);return EXPLAIN[t];};
 const pro=t=>{if(!PRO[t])throw new Error("정식 유형명 없음: "+t);return PRO[t];};
 const CATX=Object.fromEntries(Object.entries(CAT).map(([k,v])=>[k,{...v,name:pro(v.name),easy:v.name}]));
 const penKey=v=>v?Object.keys(PEN).find(k=>PEN[k]===v):null;
 const rules=R.map(([re,g,t,why,alt,term,lawC,lawF,penC,penF,f,src],i)=>({
   id:"R"+String(i+1).padStart(2,"0"),pattern:re.source,ignore_case:re.flags.includes("i"),
-  grade:g,label:pro(t),easy:t,why,alt,term,law_cos:lawC||null,law_food:lawF||null,
+  grade:g,label:pro(t),easy:t,explain:explain(t),why,alt,term,law_cos:lawC||null,law_food:lawF||null,
   penalty_cos:penKey(penC),penalty_food:penKey(penF),category_cos:RCAT[i][0]||null,category_food:RCAT[i][1]||null,applies_to:f,source:src}));
 const out={version:"2026-10-29",note:"모든 처분·근거는 법령 원문과 KCIA 해설서(2025)에서 확인한 것만 씀. 기준표: https://claude.ai/artifact/8HRdhmVBaGQhDZA8AW4Psm",
   product_types:{cos:"일반 화장품",fcos:"기능성 화장품",food:"일반 식품",hfood:"건강기능식품"},

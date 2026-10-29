@@ -51,7 +51,7 @@
           const cat = (isCos ? r.category_cos : r.category_food) || "";
           found.push({
             start: m.index + lead, end: m.index + raw.length, phrase: raw.trim(), grade: r.grade,
-            gradeName: this.grades[r.grade], ruleId: r.id, label: r.label, easy: r.easy || "", why: r.why, alt: r.alt, term: r.term,
+            gradeName: this.grades[r.grade], ruleId: r.id, label: r.label, easy: (r.explain || r.easy || "").split("{p}").join(raw.trim()), why: r.why, alt: r.alt, term: r.term,
             law: (isCos ? r.law_cos : r.law_food) || "-", penalty: pen ? (this.penalties[pen] || "") : "",
             source: r.source, category: cat, checks: [...((this.categories[cat] || {}).checks || [])], penaltyKey: pen || "",
           });
@@ -75,6 +75,8 @@
   /* ── 건강기능식품: 원고 속 원료가 그 기능성을 인정받았는지 (precheck/hfood.py 와 같은 판정) ── */
   const HF_SKIP = /[\s·․ㆍ・\-_,./®ⓡⓇ™()\[\]{}'"“”‘’:;]/;
   const HF_CLAIM = /도움|도와|돕|끝|걱정\s?없|해방|싹|쏙|개선|강화|감소|증진|향상|완화|해소|해결|예방|치료|효과|효능|낮춰|낮추|낮아|빠지|빠져|빠졌|줄었|나아|빼|좋아|좋은|튼튼|지켜|책임|확실|보장|회복|잡아|불태|태워|쑥쑥/;
+  /* 카드 제목 아래 한 줄 (precheck/hfood.py HF_EXPLAIN 과 같음) */
+  const HF_EXPLAIN = {"제품이 신고한 기능성": "‘{p}’ 같은 표현은 이 제품이 식약처에 신고한 기능이라 쓸 수 있어요. 다만 신고 문구를 바꾸지 말고 그대로 써야 해요.", "원료가 인정받은 기능성": "‘{p}’ 같은 표현은 이 원료가 식약처에서 인정받은 기능이라 쓸 수 있어요. 다만 인정 문구를 바꾸지 말고 그대로 써야 해요.", "신고 문구보다 세게 말함": "‘{p}’ 같은 표현처럼 단정하면 신고한 것보다 효과가 크다고 오해할 수 있어요. 쓸 수 있는 말은 ‘~에 도움을 줄 수 있음’까지예요.", "인정 문구보다 세게 말함": "‘{p}’ 같은 표현처럼 단정하면 인정받은 것보다 효과가 크다고 오해할 수 있어요. 쓸 수 있는 말은 ‘~에 도움을 줄 수 있음’까지예요.", "원료 종류에 따라 다른 기능성": "‘{p}’ 같은 기능은 같은 이름의 원료라도 제품마다 인정받은 내용이 달라서, 이 제품에 든 원료가 그 기능을 인정받았는지 확인해야 해요.", "제품이 신고하지 않은 기능성": "‘{p}’ 같은 표현을 쓰면 이 제품에 신고하지 않은 효과까지 있다고 오해할 수 있어요.", "원료가 인정받지 않은 기능성": "‘{p}’ 같은 표현을 쓰면 이 제품에 식약처가 인정하지 않은 효과까지 있다고 오해할 수 있어요.", "신고하지 않은 기능을 떠올리게 함": "‘{p}’ 같은 표현은 효과를 직접 말하지 않아도, 신고하지 않은 효과를 기대하게 만들 수 있어요.", "인정받지 않은 기능을 떠올리게 함": "‘{p}’ 같은 표현은 효과를 직접 말하지 않아도, 인정받지 않은 효과를 기대하게 만들 수 있어요."};
   const HF_SENT = /[.!?\n]/g;
   const HF_CLAUSE = /[.!?\n,]/g;   // 가운뎃점(·)은 기능 나열이라 끊지 않음
   const HF_OVERRIDE = new Set(["F1", "F3", "F4", "HF"]);
@@ -243,6 +245,7 @@
           alt: `(인정받은 기능성만: ${it0.c[0]})`, term: "인정받지 않은 기능성 표시·광고" });
       }
     }
+    for (const o of out) o.easy = (HF_EXPLAIN[o.easy] || o.easy).split("{p}").join(o.phrase);
     return [out, ings.map(g => ({ name: text.slice(g.start, g.end), items: g.items.map(i => items[i].n).slice(0, 5) })),
       prod ? { no: prod.no, name: prod.n, count: prod.count, by: prod.by, claims: prod.c.slice(0, 12) } : null];
   }
