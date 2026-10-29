@@ -49,15 +49,15 @@ def main():
         th = float(np.quantile(free, 1 - B.TARGET_FP)) + 1e-6
         for i in ti:
             _, t, x = V[i]
-            out["phrases"].append({"batch": hb, "type": t, "text": x, "rule": rule(t, x), "ai": bool(text_max(x, f) > th)})
+            out["phrases"].append({"batch": hb, "type": t, "text": x, "rule": bool(rule(t, x)), "ai": bool(text_max(x, f) > th)})
         for b, t, x in A:
             if b == hb:   # 빼 둔 묶음의 허용 문장 (학습에 안 씀)
-                out["allowed"].append({"batch": hb, "type": t, "text": x, "rule": rule(t, x), "ai": bool(text_max(x, f) > th)})
+                out["allowed"].append({"batch": hb, "type": t, "text": x, "rule": bool(rule(t, x)), "ai": bool(text_max(x, f) > th)})
         if hb == "test3":   # 평범한 리뷰(학습에 안 쓴 뒤쪽 절반) — 종류별로 규칙·AI가 새로 표시한 비율
             for typ in ("cos", "food"):
                 rs = [x for t, x in RB if t == typ]
-                out["reviews"][typ] = {"n": len(rs), "rule": sum(rule(typ, x) for x in rs),
-                                       "ai_new": sum((not rule(typ, x)) and text_max(x, f) > th for x in rs)}
+                out["reviews"][typ] = {"n": len(rs), "rule": int(sum(bool(rule(typ, x)) for x in rs)),
+                                       "ai_new": int(sum(bool((not rule(typ, x)) and text_max(x, f) > th) for x in rs))}
         B.log(f"{hb}: 처음 보는 위반 {len(ti)}개 처리")
     p = ROOT / "eval/report/ai_lobo.json"; p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
