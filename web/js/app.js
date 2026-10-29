@@ -94,10 +94,13 @@
   }
 
   /* 건강기능식품: 원고에서 찾은 원료와 대조 안내 */
-  function ingLine(text, type) {
+  function ingLine(text, type, ctx = {}) {
     if (type !== "hfood" || !text.trim() || !state.ck.hfood) return "";
-    state.ck.check(text, type);
-    const ings = state.ck.lastIngredients || [];
+    state.ck.check(text, type, ctx);
+    const ings = state.ck.lastIngredients || [], prod = state.ck.lastProduct;
+    if (prod) return `<div class="ing"><b>신고 제품 대조</b><span>찾은 제품 <em>${esc(prod.name)}</em> 품목제조신고번호 ${esc(prod.no)}${prod.count > 1 ? ` (같은 이름 제품 ${prod.count}개)` : ""} — 이 제품이 식약처에 신고한 기능성과 원고의 효능 표현을 하나씩 맞춰 봤어요.</span>
+      <div class="ing-ok"><b>이 제품이 쓸 수 있는 기능성 문구</b>${prod.claims.map(c => `<span>${esc(c)}</span>`).join("")}</div>
+      <small>식품안전나라 건강기능식품 품목제조 신고사항 기준. 다른 제품이면 오른쪽 위 칸에 정확한 제품명이나 신고번호를 넣어 주세요.</small></div>`;
     if (!ings.length) return `<div class="ing"><b>원료 대조</b><span>원고에서 기능성 원료 이름을 찾지 못했어요. ‘홍삼’, ‘루테인’, ‘Lactobacillus gasseri BNR17’처럼 원료명을 넣으면 식약처가 그 원료에 인정한 기능성과 맞는지 대조해 드려요.</span></div>`;
     const names = [...new Set(ings.map(g => g.name))];
     return `<div class="ing"><b>원료 대조</b><span>찾은 원료 <em>${names.map(esc).join("</em><em>")}</em> — 식약처가 이 원료에 인정한 기능성과 원고의 효능 표현을 하나씩 맞춰 봤어요. <small>식품안전나라 원료 인정 자료 ${state.ck.hfood.items.length.toLocaleString("ko-KR")}종 기준</small></span></div>`;
@@ -202,7 +205,17 @@
     catch (e) { showError("파일을 읽지 못했어요. " + e.message); }
   }
 
+  /* 신고 제품 표(약 0.8MB)는 건강기능식품을 검사할 때만 받는다 */
+  let productsP = null;
+  function ensureProducts() {
+    if (!state.ck.hfood || state.ck.products) return Promise.resolve();
+    if (!productsP) productsP = fetch("hfood_products.json").then(r => r.json()).then(d => state.ck.setProducts(d)).catch(() => { productsP = null; });
+    return productsP;
+  }
+  const hasHfood = items => items.some(it => { try { return M.normalizeType(it.type) === "hfood"; } catch (e) { return false; } });
+
   function run(items, source, ocr = null) {
+    if (hasHfood(items) && !state.ck.products && state.ck.hfood) { ensureProducts().then(() => run(items, source, ocr)); return; }
     state.results = M.checkProducts(items, state.ck); state.ai = null;
     state.source = source; state.ocr = ocr; state.imgFiles = [];
     state.pick = Math.max(0, state.results.findIndex(r => r.findings.length));
@@ -329,7 +342,7 @@
       ${(() => { const s = L.worstStop(r.findings, r.productType); return s ? lossHTML(s, s.scope === "store" ? "store" : "p:" + r.name) : ""; })()}
       <div class="copybox"><div class="cap"><span>상세 문구</span><button type="button" id="copy-more">전체 보기</button></div>
         <div class="copytext" id="copytext">${marked(r.text, withAI(r.findings, (state.ai && state.ai.get(state.pick)) || []))}</div></div>
-      ${ingLine(r.text, r.productType)}${cards(r.findings, r.productType)}${aiCard((state.ai && state.ai.get(state.pick)) || [])}`;
+      ${ingLine(r.text, r.productType, { name: r.name })}${cards(r.findings, r.productType)}${aiCard((state.ai && state.ai.get(state.pick)) || [])}`;
     const ct = $("#copytext");
     if (ct.scrollHeight <= 140) { ct.classList.add("open"); $("#copy-more").hidden = true; }
     $("#pdetail").scrollTop = 0;
@@ -356,7 +369,9 @@
   let txtType = "cos", lastFs = [];
   function checkText() {
     const ed = $("#ed"), text = ed.value;
-    lastFs = text.trim() ? state.ck.check(text, txtType) : [];
+    const ctx = txtType === "hfood" ? { name: $("#ed-prod-in").value.trim() } : {};
+    if (txtType === "hfood" && !state.ck.products && state.ck.hfood) ensureProducts().then(() => { if (state.ck.products) checkText(); });
+    lastFs = text.trim() ? state.ck.check(text, txtType, ctx) : [];
     if (text.trim()) countOnce("check-text");
     const aiHits = aiText.text === text && txtType !== "hfood" ? aiText.hits : [];
     $("#ed-hl").innerHTML = marked(text, withAI(lastFs, aiHits)) + "\n";
@@ -368,7 +383,7 @@
     $("#ed-loss").innerHTML = st ? lossHTML(st, st.scope === "store" ? "store" : "p:text") : "";
     $("#ed-cards").innerHTML = !text.trim()
       ? `<div class="hint"><b>문구를 붙여 넣어 주세요</b>상세페이지 글을 왼쪽에 넣으면 고칠 곳에 물결 밑줄을 긋고, 이유와 대신 쓸 말을 여기에 보여드려요.</div>`
-      : ingLine(text, txtType) + (lastFs.length ? cards(lastFs, txtType) : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`) + aiCard(aiHits);
+      : ingLine(text, txtType, ctx) + (lastFs.length ? cards(lastFs, txtType) : `<div class="hint"><b>걸린 표현이 없어요</b>기본 검사를 통과했어요. 중요한 광고는 협회 심의도 받아 보세요.</div>`) + aiCard(aiHits);
     renderAIBox("#ed-ai", text.trim() ? (aiText.text === text ? aiText : null) : null, "text");
     syncScroll();
     if (text.trim() && window.MoonguAI && MoonguAI.isReady() && aiText.text !== text) {
@@ -595,7 +610,8 @@
       const b = e.target.closest(".ai-go"); if (!b) return;
       b.dataset.where === "batch" ? runAIBatch() : runAIText();
     });
-    seg($("#txt-type"), "txt-type", txtType, v => { txtType = v; checkText(); });
+    seg($("#txt-type"), "txt-type", txtType, v => { txtType = v; $("#ed-prod").hidden = v !== "hfood"; checkText(); });
+    $("#ed-prod-in").addEventListener("input", () => { clearTimeout(checkText.p); checkText.p = setTimeout(checkText, 200); });
     const ed = $("#ed"); let t;
     ed.addEventListener("input", () => { clearTimeout(t); t = setTimeout(checkText, 120); $("#ed-hl").innerHTML = esc(ed.value) + "\n"; });
     ed.addEventListener("scroll", syncScroll);

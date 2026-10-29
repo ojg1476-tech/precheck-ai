@@ -138,7 +138,7 @@ def check_products(items: list[dict], checker: Checker | None = None) -> list[Pr
         pr = ProductResult(row=it["row"], name=it["name"], product_type="", text=it.get("text", ""))
         try:
             pr.product_type = normalize_type(it.get("type", ""))
-            pr.findings = ck.check(pr.text, pr.product_type) if pr.text else []
+            pr.findings = ck.check(pr.text, pr.product_type, name=pr.name) if pr.text else []
             if it.get("_err"):
                 pr.error = f"이미지 읽기 실패: {it['_err'][:80]}"
             elif not pr.text:

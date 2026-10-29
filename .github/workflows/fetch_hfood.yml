@@ -2,6 +2,8 @@ name: fetch-hfood
 # 건강기능식품 원료별 인정 기능성 문구 받기 (식품안전나라 OpenAPI). 수동 실행만. 결과는 data/hfood/raw 에 커밋.
 on:
   workflow_dispatch: {}
+  schedule:
+    - cron: "17 19 * * 0"   # 매주 월요일 04:17 (한국 시간) — 새로 신고된 제품 반영
 permissions:
   contents: write
 jobs:
@@ -52,7 +54,15 @@ jobs:
           random.Random(7).shuffle(recent)
           if recent: json.dump(recent[:3000], open("data/hfood/raw/C003_sample.json", "w"), ensure_ascii=False, indent=0)
           PY
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 대조용 표 다시 만들기
+        run: |
+          python3 tools/build_hfood.py
+          python3 tools/build_hfood_products.py
+          node tools/export_rules.js
       - name: 커밋
         run: |
           git config user.name github-actions; git config user.email actions@github.com
-          git add data/hfood/raw && git commit -m "건기식 인정 문구 원본 받기 (식품안전나라 OpenAPI)" && git push || echo "변경 없음"
+          git add data/hfood/raw rules/hfood.json rules/hfood_products.json web/hfood_products.json web/rules.json && git commit -m "건기식 인정 문구 원본 받기 (식품안전나라 OpenAPI)" && git push || echo "변경 없음"

@@ -571,3 +571,10 @@ button.chip:hover, a.chip:hover { background: #fff; }
 .ing b { font-size: 12.5px; color: #2759a8; }
 .ing em { font-style: normal; font-weight: 700; color: var(--ink); background: rgba(255,255,255,.75); border-radius: 6px; padding: 1px 7px; margin: 0 4px 0 0; }
 .ing small { display: block; color: var(--muted); font-size: 12px; }
+.ed-prod { display: grid; gap: 6px; margin-bottom: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.7); border: 1px solid rgba(39, 89, 168, .18); font-size: 13px; color: var(--ink-2); }
+.ed-prod small { color: var(--muted); font-weight: 400; }
+.ed-prod input { font: inherit; font-size: 14px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line, #dde2df); background: #fff; color: var(--ink); }
+.ed-prod[hidden] { display: none; }
+.ing-ok { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.ing-ok b { width: 100%; font-size: 12.5px; color: #1f5c4a; }
+.ing-ok span { background: #e5f4e4; color: #1f4d3a; border-radius: 8px; padding: 3px 8px; font-size: 13px; }

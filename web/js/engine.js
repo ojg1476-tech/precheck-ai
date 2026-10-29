@@ -31,9 +31,12 @@
       this.rules = data.rules.map(r => ({ ...r, re: new RegExp(r.pattern, "g" + (r.ignore_case ? "i" : "")) }));
       this.hfood = data.hfood || null;
       if (this.hfood) this.hfood.funcs.forEach(f => (f._re = new RegExp(f.re, "g")));
-      this.lastIngredients = [];
+      this.lastIngredients = []; this.lastProduct = null; this.products = null;
     }
-    check(text, type = "cos") {
+    /* 신고 제품 표(hfood_products.json): 건강기능식품을 검사할 때만 받아서 넣는다 */
+    setProducts(data) { this.products = data && this.hfood ? new HfProducts(data, this.hfood) : null; }
+    /* ctx: { name: 상품명, no: 품목제조신고번호 } — 건강기능식품일 때 그 제품이 신고한 기능성으로 대조 */
+    check(text, type = "cos", ctx = {}) {
       if (!(type in this.productTypes)) throw new Error("알 수 없는 제품 종류: " + type);
       const isCos = COS.has(type); let found = [];
       for (const r of this.rules) {
@@ -54,10 +57,10 @@
           });
         }
       }
-      this.lastIngredients = [];
+      this.lastIngredients = []; this.lastProduct = null;
       if (type === "hfood" && this.hfood) {
-        const [extra, ings] = checkHfood(text, this.hfood, this.penalties, ((this.categories.HF || {}).checks) || []);
-        this.lastIngredients = ings;
+        const [extra, ings, prod] = checkHfood(text, this.hfood, this.penalties, ((this.categories.HF || {}).checks) || [], this.products, (ctx && ctx.name) || "", (ctx && ctx.no) || "");
+        this.lastIngredients = ings; this.lastProduct = prod;
         if (extra.length) {
           const ok = extra.filter(e => e.ruleId === "H1" || e.ruleId === "H2");
           found = found.filter(f => !((f.category === "HF" && extra.some(e => f.start < e.end && e.start < f.end))
@@ -122,9 +125,48 @@
     names = [...new Set(names)];
     return names.slice(0, n).join(", ") + (names.length > n ? ` 외 ${names.length - n}개` : "");
   }
-  function checkHfood(text, kb, penalties, checks) {
+  const HF_NO = /(?<!\d)(?:19|20)\d{10,13}(?!\d)/g;
+  const HF_LAW_P = "식품표시광고법 제8조 제1항 제4호 (신고하지 않은 기능성), 건강기능식품 품목제조 신고 내용";
+  const hfNorm = t => { let s = ""; for (const ch of t) { if (HF_SKIP.test(ch)) continue; s += ch.charCodeAt(0) < 128 ? ch.toLowerCase() : ch; } return s; };
+  /* 쇼핑몰 상품명에서 꾸밈말(대괄호, 1+1, 60정, 2박스 …)을 뺀다 (precheck/hfood.py clean_listing 과 같음) */
+  const HF_DECOR = /\[[^\]]*\]|\([^)]*\)|【[^】]*】|무료\s?배송|당일\s?발송|선물\s?세트|기획\s?세트|정품|\d+\s?\+\s?\d+|[x×*]\s?\d+|\d+(\.\d+)?\s?(정|포|캡슐|알|병|개월분?|일분|박스|box|개입?|팩|통|세트|ml|mg|g|kg|l)(?![가-힣a-z])/gi;
+  const hfCleanListing = n => n.replace(HF_DECOR, " ");
+  class HfProducts {
+    constructor(data, kb) {
+      const tags = data.claims.map(c => hfFuncs(c, kb).map(x => x.id));
+      this.items = []; this.byNo = new Map(); this.byName = new Map();
+      for (const [no, name, ids] of data.p) {
+        const f = [];
+        for (const i of ids) for (const t of tags[i]) if (!f.includes(t)) f.push(t);
+        this.byNo.set(no, this.items.length);
+        const k = hfNorm(hfCleanListing(name));
+        if (k.length >= 4) { if (!this.byName.has(k)) this.byName.set(k, []); this.byName.get(k).push(this.items.length); }
+        this.items.push({ no, n: name, c: ids.map(i => data.claims[i]), f });
+      }
+      this.names = [...this.byName.keys()].sort((a, b) => b.length - a.length || (a < b ? -1 : a > b ? 1 : 0));
+    }
+    find(text, name = "", no = "") {
+      const cands = (no ? [String(no).replace(/\D/g, "")] : []).concat(text.match(HF_NO) || []);
+      for (const c of cands) if (this.byNo.has(c)) return [this.byNo.get(c)];
+      const k = hfNorm(hfCleanListing(name || ""));
+      if (k.length >= 4) {
+        if (this.byName.has(k)) return this.byName.get(k).slice();
+        for (const nk of this.names) if (nk.length >= 6 && nk.length * 2 >= k.length && k.includes(nk)) return this.byName.get(nk).slice();
+      }
+      return [];
+    }
+  }
+
+  function checkHfood(text, kb, penalties, checks, products = null, name = "", no = "") {
     const ings = hfIngredients(text, kb);
-    if (!ings.length) return [[], []];
+    const pids = products ? products.find(text, name, no) : [];
+    let prod = null;
+    if (pids.length) {
+      const ps = pids.map(i => products.items[i]), f = [], c = [];
+      for (const p of ps) { for (const t of p.f) if (!f.includes(t)) f.push(t); for (const x of p.c) if (!c.includes(x)) c.push(x); }
+      prod = { no: ps[0].no, n: ps[0].n, c, f, count: ps.length };
+    }
+    if (!ings.length && !prod) return [[], [], null];
     const items = kb.items, fname = {}, parents = {};
     for (const f of kb.funcs) { fname[f.id] = f.name; parents[f.id] = f.parent.split(",").filter(Boolean); }
     const tagCache = kb._tags || (kb._tags = new Map());
@@ -148,6 +190,29 @@
         else if (ok.length) { part.push(g); partOk.push(...ok); }
       }
       const claim = HF_CLAIM.test(clause);
+      if (prod) {
+        const base = { start: fm.start, end, phrase: text.slice(fm.start, end).trim(), source: "식품안전나라 건강기능식품 품목제조 신고사항",
+          category: "HF", checks: [...checks], _core: [fm.start, fm.end], term: "", law: HF_LAW_P, penaltyKey: "f4", penalty: penalties.f4 || "" };
+        const label = `‘${prod.n}’(신고번호 ${prod.no})` + (prod.count > 1 ? ` 등 같은 이름 제품 ${prod.count}개` : "");
+        if (sat(prod, fid)) {
+          const exact = exactOf(prod, fid);
+          if (claim && !/도움|도와|돕|필요/.test(clause)) out.push({ ...base, grade: "amber", ruleId: "H2", label: "신고 문구보다 세게 말함",
+            why: `${label}은(는) ‘${fname[fid]}’ 기능성을 신고했지만, 신고 문구는 ‘${exact}’예요. ‘개선’, ‘효과’처럼 단정하면 신고 범위를 넘는 광고가 돼요.`,
+            alt: exact, term: "신고한 기능성 범위를 넘는 표시·광고" });
+          else out.push({ ...base, grade: "blue", ruleId: "H1", label: "제품이 신고한 기능성",
+            why: `${label}은(는) ‘${exact}’로 신고된 제품이에요. 이 문구 그대로 쓰고, 협회 심의를 받은 내용인지 확인하세요.`,
+            alt: exact, term: "신고한 기능성 표시 (신고 문구 그대로)", penaltyKey: "", penalty: "" });
+        } else {
+          const have = [];
+          for (const t of prod.f) if (!have.includes(fname[t])) have.push(fname[t]);
+          const strong = claim || /도움|도와|돕|필요/.test(clause);
+          out.push({ ...base, grade: strong ? "red" : "amber", ruleId: strong ? "H6" : "H7",
+            label: strong ? "제품이 신고하지 않은 기능성" : "신고하지 않은 기능을 떠올리게 함",
+            why: `${label}이(가) 신고한 기능성은 ‘${hfJoin(have, 4)}’예요. ‘${fname[fid]}’ 기능성은 신고하지 않았어요. 원료에 그 기능이 있어도 제품으로 신고하지 않았으면 광고할 수 없어요.`,
+            alt: `(신고한 기능성만: ${prod.c[0]})`, term: "신고하지 않은 기능성 표시·광고" });
+        }
+        continue;
+      }
       const base = { start: fm.start, end, phrase: text.slice(fm.start, end).trim(), source: "식품안전나라 건강기능식품 기능성 원료 인정 내용",
         category: "HF", checks: [...checks], _core: [fm.start, fm.end], term: "", law: HF_LAW, penaltyKey: "f4", penalty: penalties.f4 || "" };
       if (full.length) {
@@ -173,7 +238,8 @@
           alt: `(인정받은 기능성만: ${it0.c[0]})`, term: "인정받지 않은 기능성 표시·광고" });
       }
     }
-    return [out, ings.map(g => ({ name: text.slice(g.start, g.end), items: g.items.map(i => items[i].n).slice(0, 5) }))];
+    return [out, ings.map(g => ({ name: text.slice(g.start, g.end), items: g.items.map(i => items[i].n).slice(0, 5) })),
+      prod ? { no: prod.no, name: prod.n, count: prod.count, claims: prod.c.slice(0, 12) } : null];
   }
 
   function dedupe(items) {
@@ -263,7 +329,7 @@
       const pr = new ProductResult(it.row, it.name, "", it.text || "");
       try {
         pr.productType = normalizeType(it.type);
-        pr.findings = pr.text ? checker.check(pr.text, pr.productType) : [];
+        pr.findings = pr.text ? checker.check(pr.text, pr.productType, { name: pr.name }) : [];
         if (it._err) pr.error = "이미지 읽기 실패: " + String(it._err).slice(0, 80);
         else if (!pr.text) pr.error = "상세 문구가 비어 있어요.";
       } catch (e) { pr.error = e.message; }
@@ -295,6 +361,6 @@
     return `징역 ${p[0]}년 이하 또는 벌금 ${money} 이하`;
   }
 
-  const api = { Checker, checkHfood, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
+  const api = { Checker, checkHfood, HfProducts, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.Moongu = api;
 })(typeof window !== "undefined" ? window : globalThis);

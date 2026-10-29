@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
 
-from .hfood import OVERRIDE, check_hfood
+from .hfood import OVERRIDE, Products, check_hfood
 
 RULES_PATH = Path(__file__).resolve().parent.parent / "rules" / "rules.json"
 ORDER = {"red": 0, "amber": 1, "blue": 2}
@@ -52,10 +52,21 @@ class Checker:
         hf = Path(rules_path).with_name("hfood.json")
         self.hfood = data.get("hfood") or (json.loads(hf.read_text(encoding="utf-8")) if hf.exists() else None)
         self.last_ingredients: list = []
+        self.last_product: dict | None = None
+        self._products_path = Path(rules_path).with_name("hfood_products.json")
+        self._products: Products | None = None
         for r in self.rules:
             r["_re"] = re.compile(r["pattern"], re.IGNORECASE if r["ignore_case"] else 0)
 
-    def check(self, text: str, product_type: str = "cos") -> list[Finding]:
+    @property
+    def products(self) -> "Products | None":
+        """신고 제품 표는 건강기능식품을 처음 검사할 때 읽는다 (4만여 개라 무거움)."""
+        if self._products is None and self.hfood and self._products_path.exists():
+            self._products = Products(json.loads(self._products_path.read_text(encoding="utf-8")), self.hfood)
+        return self._products
+
+    def check(self, text: str, product_type: str = "cos", name: str = "", report_no: str = "") -> list[Finding]:
+        """name·report_no: 건강기능식품일 때 상품명·품목제조신고번호 (있으면 그 제품이 신고한 기능성으로 대조)"""
         if product_type not in self.product_types:
             raise ValueError(f"product_type은 {list(self.product_types)} 중 하나여야 해요")
         is_cos = product_type in COS_TYPES
@@ -80,11 +91,12 @@ class Checker:
                     checks=list(self.categories.get(cat, {}).get("checks", [])),
                     penalty_key=pen_key or "",
                 ))
-        self.last_ingredients = []
+        self.last_ingredients, self.last_product = [], None
         if product_type == "hfood" and self.hfood:
-            extra, self.last_ingredients = check_hfood(text, self.hfood, self.penalties, self.categories.get("HF", {}).get("checks", []))
+            extra, self.last_ingredients, self.last_product = check_hfood(
+                text, self.hfood, self.penalties, self.categories.get("HF", {}).get("checks", []), self.products, name, report_no)
             if extra:
-                ok = [e for e in extra if e["rule_id"] in ("H1", "H2")]
+                ok = [e for e in extra if e["rule_id"] in ("H1", "H2")]   # 인정·신고된 기능
                 found = [f for f in found if not (
                     (f.category == "HF" and any(f.start < e["end"] and e["start"] < f.end for e in extra))
                     or (f.category in OVERRIDE and any(e["_core"][0] < f.end and f.start < e["_core"][1] for e in ok)))]

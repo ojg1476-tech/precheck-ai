@@ -9,6 +9,8 @@ web/js/engine.js 의 checkHfood 와 같은 순서·같은 결과를 낸다 (test
   · 찾은 원료 중 하나가 그 기능을 인정받음 → 자료 챙기기(인정 문구 그대로 쓰기) / 문구가 '도움' 없이 세면 확인 필요
   · 같은 이름의 원료 일부만 인정받음(예: 콜라겐 제품마다 다름) → 확인 필요
   · 아무 원료도 인정받지 않음 → 효과를 말하면 꼭 고치기, 떠올리게만 하면 확인 필요
+- 신고번호(원고 속 12~15자리 번호) 또는 제품명으로 '신고된 제품'을 찾으면 원료 대신 그 제품이 신고한 기능성으로 판정한다.
+  · 신고한 기능 → H1/H2 (신고 문구 원문을 대신 쓸 말로) · 신고하지 않은 기능 → H6 꼭 고치기 / H7 확인 필요
 """
 from __future__ import annotations
 
@@ -19,6 +21,7 @@ CLAUSE_END = re.compile(r"[.!?\n,·]")
 CLAIM = re.compile(r"도움|도와|돕|끝|걱정\s?없|해방|싹|쏙|개선|강화|감소|증진|향상|완화|해소|해결|예방|치료|효과|효능|낮춰|낮추|낮아|빠지|빠져|빠졌|줄었|나아|빼|좋아|좋은|튼튼|지켜|책임|확실|보장|회복|잡아|불태|태워|쑥쑥")
 SOFT = re.compile(r"도움|도와|돕|필요")
 EXCIPIENT = ("스테아린산", "셀룰로스", "셀룰로오스", "글리세린", "카복시메틸")
+LAW_P = "식품표시광고법 제8조 제1항 제4호 (신고하지 않은 기능성), 건강기능식품 품목제조 신고 내용"
 LAW = "식품표시광고법 제8조 제1항 제4호 (인정받지 않은 기능성), 건강기능식품 기능성 원료 인정 내용"
 
 
@@ -84,11 +87,70 @@ def _join(names: list[str], n: int = 3) -> str:
 OVERRIDE = {"F1", "F3", "F4", "HF"}
 
 
-def check_hfood(text: str, kb: dict, penalties: dict, checks: list) -> tuple[list[dict], list[dict]]:
-    """(새 결과들, 찾은 원료들). 결과는 engine.Finding 필드와 같은 키의 dict."""
+NO_RE = re.compile(r"(?<!\d)(?:19|20)\d{10,13}(?!\d)")
+
+
+DECOR_RE = re.compile(r"\[[^\]]*\]|\([^)]*\)|【[^】]*】|무료\s?배송|당일\s?발송|선물\s?세트|기획\s?세트|정품|\d+\s?\+\s?\d+|"
+                      r"[x×*]\s?\d+|\d+(\.\d+)?\s?(정|포|캡슐|알|병|개월분?|일분|박스|box|개입?|팩|통|세트|ml|mg|g|kg|l)(?![가-힣a-z])", re.I)
+
+
+def clean_listing(name: str) -> str:
+    """쇼핑몰 상품명에서 꾸밈말(대괄호, 1+1, 60정, 2박스 …)을 뺀다"""
+    return DECOR_RE.sub(" ", name)
+
+
+class Products:
+    """신고 제품 표 (rules/hfood_products.json). 기능 분류는 읽을 때 kb 정규식으로 붙인다."""
+
+    def __init__(self, data: dict, kb: dict):
+        tags = [[f["id"] for f in find_funcs(c, kb)] for c in data["claims"]]
+        self.items = []
+        self.by_no = {}
+        self.by_name = {}
+        for no, name, ids in data["p"]:
+            f = []
+            for i in ids:
+                for t in tags[i]:
+                    if t not in f:
+                        f.append(t)
+            it = {"no": no, "n": name, "c": [data["claims"][i] for i in ids], "f": f}
+            self.by_no[no] = len(self.items)
+            k = _norm_map(clean_listing(name))[0]
+            if len(k) >= 4:
+                self.by_name.setdefault(k, []).append(len(self.items))
+            self.items.append(it)
+        self.names = sorted(self.by_name, key=lambda k: (-len(k), k))
+
+    def find(self, text: str, name: str = "", no: str = "") -> list[int]:
+        """신고번호(입력값 → 원고 속 번호) → 제품명 순서로 찾는다. 이름이 같은 제품이 여럿이면 모두."""
+        for cand in ([re.sub(r"\D", "", no)] if no else []) + NO_RE.findall(text):
+            if cand in self.by_no:
+                return [self.by_no[cand]]
+        k = _norm_map(clean_listing(name or ""))[0]
+        if len(k) >= 4:
+            if k in self.by_name:
+                return list(self.by_name[k])
+            for nk in self.names:   # 등록 이름이 상품명 안에 들어 있으면 (가장 긴 것). 너무 짧은 이름은 쓰지 않음
+                if len(nk) >= 6 and len(nk) * 2 >= len(k) and nk in k:
+                    return list(self.by_name[nk])
+        return []
+
+
+def check_hfood(text: str, kb: dict, penalties: dict, checks: list, products: "Products | None" = None,
+                name: str = "", no: str = "") -> tuple[list[dict], list[dict], dict | None]:
+    """(새 결과들, 찾은 원료들, 찾은 신고 제품). 결과는 engine.Finding 필드와 같은 키의 dict."""
     ings = find_ingredients(text, kb)
-    if not ings:
-        return [], []
+    pids = products.find(text, name, no) if products else []
+    prod = None
+    if pids:
+        ps = [products.items[i] for i in pids]
+        f, c = [], []
+        for p in ps:
+            f += [t for t in p["f"] if t not in f]
+            c += [x for x in p["c"] if x not in c]
+        prod = {"no": ps[0]["no"], "n": ps[0]["n"], "c": c, "f": f, "count": len(ps)}
+    if not ings and not prod:
+        return [], [], None
     items = kb["items"]
     fname = {f["id"]: f["name"] for f in kb["funcs"]}
     parents = {f["id"]: [p for p in f["parent"].split(",") if p] for f in kb["funcs"]}
@@ -109,6 +171,31 @@ def check_hfood(text: str, kb: dict, penalties: dict, checks: list) -> tuple[lis
                 part.append(g)
                 part_ok += ok
         claim = bool(CLAIM.search(clause))
+        if prod:
+            base = {"start": fm["start"], "end": end, "phrase": text[fm["start"]:end].strip(), "source": "식품안전나라 건강기능식품 품목제조 신고사항",
+                    "category": "HF", "checks": list(checks), "_core": (fm["start"], fm["end"]), "term": "", "law": LAW_P, "penalty_key": "f4", "penalty": penalties.get("f4", "")}
+            label = f"‘{prod['n']}’(신고번호 {prod['no']})" + (f" 등 같은 이름 제품 {prod['count']}개" if prod["count"] > 1 else "")
+            if _satisfies(prod, fid, parents):
+                exact = _exact(prod, fid, parents, kb)
+                if claim and not SOFT.search(clause):
+                    out.append({**base, "grade": "amber", "rule_id": "H2", "label": "신고 문구보다 세게 말함",
+                                "why": f"{label}은(는) ‘{fname[fid]}’ 기능성을 신고했지만, 신고 문구는 ‘{exact}’예요. ‘개선’, ‘효과’처럼 단정하면 신고 범위를 넘는 광고가 돼요.",
+                                "alt": exact, "term": "신고한 기능성 범위를 넘는 표시·광고"})
+                else:
+                    out.append({**base, "grade": "blue", "rule_id": "H1", "label": "제품이 신고한 기능성",
+                                "why": f"{label}은(는) ‘{exact}’로 신고된 제품이에요. 이 문구 그대로 쓰고, 협회 심의를 받은 내용인지 확인하세요.",
+                                "alt": exact, "term": "신고한 기능성 표시 (신고 문구 그대로)", "penalty_key": "", "penalty": ""})
+            else:
+                have = []
+                for t in prod["f"]:
+                    if fname[t] not in have:
+                        have.append(fname[t])
+                strong = claim or bool(SOFT.search(clause))
+                out.append({**base, "grade": "red" if strong else "amber", "rule_id": "H6" if strong else "H7",
+                            "label": "제품이 신고하지 않은 기능성" if strong else "신고하지 않은 기능을 떠올리게 함",
+                            "why": f"{label}이(가) 신고한 기능성은 ‘{_join(have, 4)}’예요. ‘{fname[fid]}’ 기능성은 신고하지 않았어요. 원료에 그 기능이 있어도 제품으로 신고하지 않았으면 광고할 수 없어요.",
+                            "alt": f"(신고한 기능성만: {prod['c'][0]})", "term": "신고하지 않은 기능성 표시·광고"})
+            continue
         base = {"start": fm["start"], "end": end, "phrase": text[fm["start"]:end].strip(), "source": "식품안전나라 건강기능식품 기능성 원료 인정 내용",
                 "category": "HF", "checks": list(checks), "_core": (fm["start"], fm["end"]), "term": "", "law": LAW, "penalty_key": "f4", "penalty": penalties.get("f4", "")}
         if full:
@@ -144,7 +231,8 @@ def check_hfood(text: str, kb: dict, penalties: dict, checks: list) -> tuple[lis
                         "why": f"원고에서 찾은 원료({_join(names)})가 인정받은 기능성은 ‘{_join(have, 4)}’예요. ‘{fname[fid]}’ 기능성은 인정받지 않았어요. 다른 기능성 원료가 들어 있다면 그 원료의 인정 내용을 확인하세요.",
                         "alt": f"(인정받은 기능성만: {it0['c'][0]})", "term": "인정받지 않은 기능성 표시·광고"})
     found = [{"name": text[g["start"]:g["end"]], "items": [items[i]["n"] for i in g["items"]][:5]} for g in ings]
-    return out, found
+    pinfo = {"no": prod["no"], "name": prod["n"], "count": prod["count"], "claims": prod["c"][:12]} if prod else None
+    return out, found, pinfo
 
 
 def _exact(item: dict, fid: str, parents: dict, kb: dict) -> str:
