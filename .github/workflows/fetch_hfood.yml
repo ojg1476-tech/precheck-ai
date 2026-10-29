@@ -1,0 +1,31 @@
+name: fetch-hfood
+# 건강기능식품 원료별 인정 기능성 문구 받기 (식품안전나라 OpenAPI). 수동 실행만. 결과는 data-hfood 브랜치에 커밋.
+on:
+  workflow_dispatch:
+    inputs:
+      probe:
+        description: "어떤 주소가 열리는지만 확인"
+        type: boolean
+        default: true
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 받기
+        env:
+          KEY: ${{ secrets.FOODSAFETY_KEY }}
+          PROBE: ${{ inputs.probe }}
+        run: |
+          mkdir -p /tmp/out; K=${KEY:-sample}
+          for svc in I-0040 I-0050 I2710 C003 I0760 I-0030; do
+            u="http://openapi.foodsafetykorea.go.kr/api/$K/$svc/json/1/5"
+            code=$(curl -s -m 60 -o /tmp/out/$svc.json -w '%{http_code}' "$u" || echo ERR)
+            echo "::notice title=$svc $code::$(head -c 3000 /tmp/out/$svc.json | tr '\n' ' ')"
+          done
+          for u in "https://www.data.go.kr/data/15058359/openapi.do" "https://www.foodsafetykorea.go.kr/portal/healthyfoodlife/functionality.do?menu_grp=MENU_NEW01&menu_no=2657"; do
+            code=$(curl -s -m 60 -o /tmp/out/p.html -w '%{http_code}' "$u" || echo ERR)
+            echo "::notice title=page $code::$(grep -oiE '(href|url)[=:] *["'"'"'][^"'"'"']*(ajax|\.do|down|json)[^"'"'"']*' /tmp/out/p.html | sort -u | head -40 | tr '\n' ' ')"
+          done
