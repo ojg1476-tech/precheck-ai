@@ -32,6 +32,19 @@ jobs:
                   if not got: break
                   rows += got; start += STEP; time.sleep(0.5)
               if rows: json.dump(rows, open(f"data/hfood/raw/{svc}.json", "w"), ensure_ascii=False, indent=0)
+          # 실제 신고된 제품(C003): 원재료 목록 + 제품의 기능성 — 대조 기능 평가용으로 2020년 이후 신고 제품 일부만 저장
+          import random
+          rows, start, total = [], 1, None
+          while K != "sample" and (total is None or start <= total):
+              d = get(f"http://openapi.foodsafetykorea.go.kr/api/{K}/C003/json/{start}/{start+999}").get("C003", {})
+              total = int(d.get("total_count", 0) or 0); got = d.get("row", [])
+              if not got: break
+              rows += [{k: r.get(k, "") for k in ("PRDLST_REPORT_NO", "PRDLST_NM", "PRMS_DT", "RAWMTRL_NM", "PRIMARY_FNCLTY")} for r in got]
+              start += 1000; time.sleep(0.5)
+          print(f"::notice title=C003::total={total} got={len(rows)}")
+          recent = [r for r in rows if r["PRMS_DT"] >= "20200101" and r["PRIMARY_FNCLTY"].strip()]
+          random.Random(7).shuffle(recent)
+          if recent: json.dump(recent[:3000], open("data/hfood/raw/C003_sample.json", "w"), ensure_ascii=False, indent=0)
           PY
       - name: 커밋
         run: |
