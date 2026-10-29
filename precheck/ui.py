@@ -220,7 +220,7 @@ def finding_card(fs) -> str:
         checks = '<div class="mr-checks"><b>쓰기 전에 확인할 것</b>' + "".join(
             f"<div>{escape(x)}</div>" for x in f.checks) + "</div>"
     return f"""<div class="mr-card" style="--c:{c};--b:{b}">
-<div class="head"><span class="mr-grade">{escape(f.grade_name)}</span><span class="label">{escape(f.label)}</span></div>{f'<div class="easy">쉽게 말하면 ‘{escape(f.easy)}’</div>' if f.easy and f.easy != f.label else ""}
+<div class="head"><span class="mr-grade">{escape(f.grade_name)}</span><span class="label">{escape(f.label)}</span></div>{f'<div class="easy">{escape(f.easy)}</div>' if f.easy and f.easy != f.label else ""}
 <div class="phrase">{"".join(f"<u>{escape(p)}</u>" for p in phrases)}</div>
 <div class="why">{escape(f.why)}</div>
 <div class="mr-two">{risk}<div class="mr-box mr-alt"><b>대신 이렇게</b>{escape(f.alt)}</div></div>

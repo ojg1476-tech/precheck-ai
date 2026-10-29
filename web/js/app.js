@@ -83,7 +83,7 @@
         `<label><input type="checkbox"><span>${esc(t)}</span></label>`).join("")}</div>` : "";
       return `<article class="fcard" style="--c:${c};--b:${b}">
         <div class="hd"><span class="grade">${esc(f.gradeName)}</span><span class="lb">${esc(f.label)}</span></div>
-        ${f.easy && f.easy !== f.label ? `<p class="easy">쉽게 말하면 ‘${esc(f.easy)}’</p>` : ""}
+        ${f.easy && f.easy !== f.label ? `<p class="easy">${esc(f.easy)}</p>` : ""}
         <div class="phs">${chips}</div>
         <p class="why">${esc(f.why)}</p>
         <div class="two">${f.penalty ? `<div class="risk"><b>이대로 두면</b>${esc(f.penalty)}</div>` : ""}<div class="alt"><b>대신 이렇게</b>${esc(f.alt)}</div></div>
