@@ -1,0 +1,37 @@
+id,split,product_type,label,category,text,source,source_url
+P001,test12,food,violation,,혈당,식약처 라이브커머스 적발 보도(2025.6),https://dailypharm.com/user/news/4925
+P002,test12,food,violation,,방광염 완치,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P003,test12,food,violation,,전립선 비대증 회복 가능,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P004,test12,food,violation,,위고비와 같은 작용 기전,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P005,test12,food,violation,,염증성 지방부터 먼저 녹여,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P006,test12,food,violation,,세포 자체 회복 능력을 올려줌,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P007,test12,food,violation,,피부가 깨끗해짐,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P008,test12,food,violation,,GLP-1 자극,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P009,test12,food,violation,,몰입도 증가,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P010,test12,food,violation,,두뇌 활성,식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P011,test12,food,violation,,"포 아크네(for acne, 여드름용)",식약처 AI 의사 광고 적발 보도(2025.12),https://dailypharm.com/user/news/333954
+P012,test12,food,violation,,한 달 7kg 감량,식약처 인플루언서 적발 보도(2025.8),https://www.nocutnews.co.kr/news/6387595
+P013,test12,food,violation,,초강력 식욕억제,식약처 인플루언서 적발 보도(2025.8),https://www.nocutnews.co.kr/news/6387595
+P014,test12,food,violation,,위고비와 같은 원리,식약처 인플루언서 적발 보도(2025.8),https://www.nocutnews.co.kr/news/6387595
+P015,test12,food,violation,,#변비 #쾌변 #다이어트 #항산화,식약처 인플루언서 적발 보도(2020.7),https://kidd.co.kr/news/217603
+P016,test12,food,violation,,나도 이걸로 다이어트나 해볼까?,식약처 인플루언서 적발 보도(2020.7),https://kidd.co.kr/news/217603
+P017,test12,food,violation,,"다이어트 간식, 음식",식약처 인플루언서 적발 보도(2020.7),https://kidd.co.kr/news/217603
+P018,test12,food,violation,,위고비 촉진제,식약처 적발 보도(2026.2),https://medicaldaily.co.kr/news/18137
+P019,test12,food,violation,,마시는 나비정,식약처 적발 보도(2026.2),https://medicaldaily.co.kr/news/18137
+P020,test12,food,violation,,포만감 유지,식약처 적발 보도(2026.2),https://medicaldaily.co.kr/news/18137
+P021,test12,food,violation,,살이 빠지는 원리,식약처 적발 보도(2026.2),https://medicaldaily.co.kr/news/18137
+P022,test12,food,allowed,,식이섬유가 들어 있어 씹을수록 고소한 현미 누룽지,직접 작성(측정 전 고정),
+P023,test12,food,allowed,,물 대신 가볍게 마시기 좋은 무가당 옥수수수염차,직접 작성(측정 전 고정),
+P024,test12,food,allowed,,"하루 견과 한 봉, 아몬드·호두·캐슈너트를 골고루 담았어요",직접 작성(측정 전 고정),
+P025,test12,food,allowed,,"국내산 사과를 껍질째 갈아 만든 100% 사과즙, 한 포 100ml",직접 작성(측정 전 고정),
+P026,test12,food,allowed,,"매일 아침 간편하게, 우유에 말아 먹는 오트밀",직접 작성(측정 전 고정),
+P027,test12,food,allowed,,"단백질 15g, 당류 2g (1회 제공량 기준 영양성분표 참고)",직접 작성(측정 전 고정),
+P028,test12,food,allowed,,꿀에 재운 생강을 얇게 썰어 차로 즐겨요,직접 작성(측정 전 고정),
+P029,test12,food,allowed,,"유통기한 넉넉한 개별 포장 곤약 쌀, 밥 짓듯 섞어 지으세요",직접 작성(측정 전 고정),
+P030,test12,food,allowed,,칼로리가 낮아 야식으로 부담 없는 닭가슴살 소시지,직접 작성(측정 전 고정),
+P031,test12,food,allowed,,흑마늘을 21일 숙성해 단맛이 깊어요,직접 작성(측정 전 고정),
+P032,test12,food,allowed,,"식사 대용으로 한 끼 든든한 쉐이크, 우유 200ml와 함께 흔들어 드세요",직접 작성(측정 전 고정),
+P033,test12,food,allowed,,따뜻한 물에 우려 마시는 국산 둥굴레차,직접 작성(측정 전 고정),
+P034,test12,food,allowed,,"제철 딸기를 그대로 얼린 냉동 딸기, 스무디용으로 좋아요",직접 작성(측정 전 고정),
+P035,test12,food,allowed,,"아이들도 좋아하는 달콤한 고구마 말랭이, 고구마 100%",직접 작성(측정 전 고정),
+P036,test12,food,allowed,,생강·대추·계피를 넣고 푹 달인 쌍화차 맛 음료,직접 작성(측정 전 고정),
