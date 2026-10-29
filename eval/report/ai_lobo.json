@@ -94,7 +94,7 @@
 "text": "모발을 자라게 하는",
 "rule": false,
 "ai_old": true,
-"ai_new": false
+"ai_new": true
 },
 {
 "batch": "test3",
@@ -116,7 +116,7 @@
 "batch": "test3",
 "type": "food",
 "text": "난임",
-"rule": false,
+"rule": true,
 "ai_old": false,
 "ai_new": false
 },
@@ -214,7 +214,7 @@
 "text": "보톡스 화장품",
 "rule": true,
 "ai_old": true,
-"ai_new": false
+"ai_new": true
 },
 {
 "batch": "test3",
@@ -236,7 +236,7 @@
 "batch": "test4",
 "type": "food",
 "text": "ADHD",
-"rule": false,
+"rule": true,
 "ai_old": false,
 "ai_new": false
 },
@@ -253,7 +253,7 @@
 "type": "food",
 "text": "고3 영양제",
 "rule": true,
-"ai_old": true,
+"ai_old": false,
 "ai_new": false
 },
 {
@@ -405,7 +405,7 @@
 "type": "cos",
 "text": "국소적으로 축적된 지방 연소를 촉진한다",
 "rule": true,
-"ai_old": true,
+"ai_old": false,
 "ai_new": true
 },
 {
@@ -668,7 +668,7 @@
 "batch": "test6",
 "type": "food",
 "text": "벌써 체중이 2kg 빠졌어요",
-"rule": false,
+"rule": true,
 "ai_old": false,
 "ai_new": false
 },
@@ -700,7 +700,7 @@
 "batch": "test6",
 "type": "food",
 "text": "성인병 예방",
-"rule": false,
+"rule": true,
 "ai_old": true,
 "ai_new": true
 },
@@ -717,8 +717,8 @@
 "type": "cos",
 "text": "여드름 흉터가 없어졌어요",
 "rule": true,
-"ai_old": false,
-"ai_new": false
+"ai_old": true,
+"ai_new": true
 },
 {
 "batch": "test6",
@@ -758,7 +758,7 @@
 "text": "콜라겐은 피부지탱 역할, 피부의 수분을 유지하고 단단하게 하는 역할",
 "rule": false,
 "ai_old": true,
-"ai_new": true
+"ai_new": false
 },
 {
 "batch": "test7",
@@ -796,7 +796,7 @@
 "batch": "test7",
 "type": "food",
 "text": "생리통",
-"rule": false,
+"rule": true,
 "ai_old": true,
 "ai_new": true
 },
@@ -974,7 +974,7 @@
 "text": "○○의사 추천",
 "rule": true,
 "ai_old": false,
-"ai_new": false
+"ai_new": true
 },
 {
 "batch": "test8",
@@ -1214,7 +1214,7 @@
 "text": "승모 피부 볼륨 2주 사용 후 최대 84.47% 감소",
 "rule": true,
 "ai_old": true,
-"ai_new": false
+"ai_new": true
 },
 {
 "batch": "test8",
@@ -1238,7 +1238,7 @@
 "text": "10년 넘은 묵은 기미도 개선하는 강력함",
 "rule": true,
 "ai_old": true,
-"ai_new": false
+"ai_new": true
 },
 {
 "batch": "test8",
@@ -1318,7 +1318,7 @@
 "text": "피부과에서도 의사가 추천",
 "rule": true,
 "ai_old": true,
-"ai_new": false
+"ai_new": true
 },
 {
 "batch": "test9",
@@ -1373,7 +1373,7 @@
 "type": "cos",
 "text": "혈액순환 증진",
 "rule": true,
-"ai_old": false,
+"ai_old": true,
 "ai_new": false
 },
 {
@@ -1413,7 +1413,7 @@
 "type": "cos",
 "text": "바를수록 녹아 없어지는 피부 속 기미 잡티",
 "rule": true,
-"ai_old": false,
+"ai_old": true,
 "ai_new": false
 },
 {
@@ -1461,7 +1461,7 @@
 "type": "cos",
 "text": "부상 방지·회복",
 "rule": true,
-"ai_old": false,
+"ai_old": true,
 "ai_new": false
 },
 {
@@ -1758,7 +1758,7 @@
 "text": "붓기완화, 붓기진정 필수템",
 "rule": true,
 "ai_old": true,
-"ai_new": false
+"ai_new": true
 },
 {
 "batch": "test10",
@@ -2623,7 +2623,7 @@
 "type": "fcos",
 "text": "피부의 미백에 도움을 주는 기능성 패드로 칙칙한 피부에 맑은 느낌을 더해요",
 "rule": false,
-"ai_old": false,
+"ai_old": true,
 "ai_new": true
 },
 {
@@ -2647,14 +2647,14 @@
 "cos": {
 "n": 462,
 "rule": 26,
-"ai_new_old": 14,
-"ai_new_new": 5
+"ai_new_old": 13,
+"ai_new_new": 8
 },
 "food": {
 "n": 3000,
-"rule": 169,
-"ai_new_old": 39,
-"ai_new_new": 33
+"rule": 170,
+"ai_new_old": 37,
+"ai_new_new": 38
 }
 }
 }

@@ -750,7 +750,7 @@
 "type": "food",
 "label": "violation",
 "text": "ADHD 예방",
-"rule": false,
+"rule": true,
 "ai": true
 },
 {
@@ -799,14 +799,14 @@
 "type": "food",
 "label": "violation",
 "text": "관절통 호르몬제",
-"rule": false,
+"rule": true,
 "ai": true
 },
 {
 "type": "food",
 "label": "violation",
 "text": "갱년기약",
-"rule": false,
+"rule": true,
 "ai": true
 },
 {
@@ -834,7 +834,7 @@
 "type": "food",
 "label": "violation",
 "text": "소화가 안 돼서 불편하신 분",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
@@ -869,7 +869,7 @@
 "type": "food",
 "label": "violation",
 "text": "벌써 체중이 2㎏ 빠졌어요",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
@@ -883,7 +883,7 @@
 "type": "food",
 "label": "violation",
 "text": "실제 1주만에 5.3㎏ 감량",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
@@ -918,49 +918,49 @@
 "type": "food",
 "label": "violation",
 "text": "면역력 개선",
-"rule": false,
+"rule": true,
 "ai": true
 },
 {
 "type": "food",
 "label": "violation",
 "text": "7일에 7㎏가 빠집니다.",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
 "type": "food",
 "label": "violation",
 "text": "자면서 살이 빠집니다.",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
 "type": "food",
 "label": "violation",
 "text": "배고프지 않게 먹으면서 살을 뺍시다.",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
 "type": "food",
 "label": "violation",
 "text": "7일에 마이너스 7㎏, 14일에 마이너스 15㎏",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
 "type": "food",
 "label": "violation",
 "text": "요요현상 없이 배고프지 않고 뺀다",
-"rule": false,
+"rule": true,
 "ai": false
 },
 {
 "type": "food",
 "label": "violation",
 "text": "체질개선을 통해 몸의 대사기능 높여준다",
-"rule": false,
+"rule": true,
 "ai": true
 },
 {
@@ -974,7 +974,7 @@
 "type": "food",
 "label": "violation",
 "text": "면역 활성 증강효과",
-"rule": false,
+"rule": true,
 "ai": true
 },
 {
@@ -1121,6 +1121,360 @@
 "type": "food",
 "label": "allowed",
 "text": "아침마다 간편하게 챙기는 검은콩 두유",
+"rule": false,
+"ai": false
+}
+],
+"test12": [
+{
+"type": "food",
+"label": "violation",
+"text": "혈당",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "방광염 완치",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "전립선 비대증 회복 가능",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "위고비와 같은 작용 기전",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "염증성 지방부터 먼저 녹여",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "세포 자체 회복 능력을 올려줌",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "피부가 깨끗해짐",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "GLP-1 자극",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "몰입도 증가",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "두뇌 활성",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "포 아크네(for acne, 여드름용)",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "한 달 7kg 감량",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "초강력 식욕억제",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "위고비와 같은 원리",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "#변비 #쾌변 #다이어트 #항산화",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "나도 이걸로 다이어트나 해볼까?",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "다이어트 간식, 음식",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "위고비 촉진제",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "마시는 나비정",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "포만감 유지",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "살이 빠지는 원리",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "식이섬유가 들어 있어 씹을수록 고소한 현미 누룽지",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "물 대신 가볍게 마시기 좋은 무가당 옥수수수염차",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "하루 견과 한 봉, 아몬드·호두·캐슈너트를 골고루 담았어요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "국내산 사과를 껍질째 갈아 만든 100% 사과즙, 한 포 100ml",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "매일 아침 간편하게, 우유에 말아 먹는 오트밀",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "단백질 15g, 당류 2g (1회 제공량 기준 영양성분표 참고)",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "꿀에 재운 생강을 얇게 썰어 차로 즐겨요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "유통기한 넉넉한 개별 포장 곤약 쌀, 밥 짓듯 섞어 지으세요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "칼로리가 낮아 야식으로 부담 없는 닭가슴살 소시지",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "흑마늘을 21일 숙성해 단맛이 깊어요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "식사 대용으로 한 끼 든든한 쉐이크, 우유 200ml와 함께 흔들어 드세요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "따뜻한 물에 우려 마시는 국산 둥굴레차",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "제철 딸기를 그대로 얼린 냉동 딸기, 스무디용으로 좋아요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "아이들도 좋아하는 달콤한 고구마 말랭이, 고구마 100%",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "생강·대추·계피를 넣고 푹 달인 쌍화차 맛 음료",
+"rule": false,
+"ai": false
+}
+],
+"test13": [
+{
+"type": "cos",
+"label": "violation",
+"text": "민감성 좁쌀 피부를 위한 케어 솔루션",
+"rule": false,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "2주 좁쌀 진정 프로젝트",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "즉각적인 좁쌀 케어",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "면포 개수 감소 효과",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "3종 좁쌀 데일리 케어",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "손상 피부(민감성 피부)는 다양한 피부 문제에 노출될 확률이 높아지고 이는 내·외벽 손상으로 이어져 좁쌀을 유발할 수 있다",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "잠들기 전 듬뿍 바르고 자면 아침까지 촉촉해요",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "피부 표면을 매끄럽게 정리해 주는 데일리 필링 토너",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "예민한 날에도 편하게 쓰는 무향 수분 크림",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "머리를 감은 뒤 두피에 톡톡 뿌려 주는 시원한 토닉",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "잔머리를 깔끔하게 정리해 주는 헤어 스틱",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "얼굴에 생기를 더해 주는 크림 블러셔",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "촉촉한 광채가 도는 물광 메이크업 베이스",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "입술 각질을 부드럽게 정리하는 립 스크럽",
 "rule": false,
 "ai": false
 }
