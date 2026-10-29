@@ -18,6 +18,14 @@ jobs:
           K = os.environ.get("KEY", "")
           print(f"::notice title=key::{'키 있음' if K else '키 없음'} 길이 {len(K)}")
           # 공공데이터포털이 공개하는 이 데이터의 명세(swagger)에서 실제 주소·기능 이름을 읽는다
+          for u in ["https://www.data.go.kr/catalog/15095680/openapi.json", "https://www.data.go.kr/data/15095680/openapi.do"]:
+              try:
+                  body = urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0"}), timeout=60).read().decode("utf-8", "replace")
+                  import re as _re
+                  hits = sorted(set(_re.findall(r"apis\.data\.go\.kr/[A-Za-z0-9_/]+|1471000/[A-Za-z0-9_/]+|\"/[A-Za-z]+[A-Za-z0-9_]*\"\s*:", body)))
+                  print(f"::notice title=raw {u[-30:]} len={len(body)}::{hits[:40]} || {body[:800].replace(chr(10),' ')}")
+              except Exception as e:
+                  print(f"::notice title=raw error::{e}")
           try:
               spec = json.load(urllib.request.urlopen("https://www.data.go.kr/catalog/15095680/openapi.json", timeout=60))
               host = spec.get("host", ""); bp = spec.get("basePath", ""); servers = [x.get("url") for x in spec.get("servers", [])]
