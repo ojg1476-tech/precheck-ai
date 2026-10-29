@@ -1,0 +1,748 @@
+{
+"test9": [
+{
+"type": "cos",
+"label": "violation",
+"text": "피부과에서도 의사가 추천",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "이거 바르거나 뿌리면 근육통 낫습니다!",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "마그네슘을 피부로 흡수하면 효과적이다",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "타 제품 대비 무려 7배 이상 모낭 재생 성분이 들어있습니다. 감는 즉시 죽은 모낭을 살립니다.",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "4주만 쓰면 빽빽해진다",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "단순히 빠짐을 떠나 실제로 머리가 나는 게 체감된다",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "곰팡이 박테리아 억제",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "혈액순환 증진",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "항염효과 피부염",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "염증성 여드름",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "아토피 피부염의 스테로이드 대체제로 사용",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "숨은 기미 잡티까지 녹이는 기미 앰플",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "바를수록 녹아 없어지는 피부 속 기미 잡티",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "2주 사용 후 속 기미 잡티 감소",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "피부가 하얘지는 지혈제의 부작용에 주목, 리포좀화를 통해 폭발적인 미백 효과를 위해 개발된 특허 기술",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "4주만에 10대 눈가 만들어드려요",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "모공 속 피지 조절",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "미국 FDA에서 의약품으로 등록",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "부상 방지·회복",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "경기력 향상",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "아토피 알러지 탈출",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "세포활성화, 세포성장 활발, 피부층 재생",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "손상된 피부 집중 재생을 위한 수면케어 마스크",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "26분만에 진피층 도달",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "상처치유에 도움",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "금사 리프팅 케어",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "주름이 채워지고 속눈썹이 자라는 역주행 대란템",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "피부 면역력 향상 Immunity Upgrade",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "세균에 감염이 되거나 면역반응을 통해 생긴 염증을 가라앉히는데 도움",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "세균에 의한 질염 예방에 도움",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "얼굴이 후끈거리고 가려웠던 게 없어져서 감탄이",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "피부온도 감소",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "두피의 혈액순환을 원활히 하고",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "혈액 순환을 촉진하고 해열, 항균 작용을 함",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "24시간 지속적이고 효과적인 화이트닝을 원할 때",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "기미 검버섯 원인, 검버섯 없애는 방법",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "독특한 라이트 리플렉팅 콤플렉스가 피부 나이를 되돌려 빛나게 하고",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "식약처 의약외품 정식허가",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "임산부는 물론 우리 아이까지 사용할 수 있는 안전한 성분",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "임산부에게도 안전하다",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "운동 후 땀 흘린 피부를 산뜻하게 정돈해 주는 바디 미스트",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "마사지할 때 부드럽게 미끄러지는 바디 오일이라 건조한 팔다리에 촉촉함을 더해요",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "민감한 피부도 사용할 수 있도록 피부 자극 테스트를 마친 크림",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "모공이 덜 보이도록 피부결을 매끈하게 가꿔 주는 프라이머",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "아기 피부의 건조함을 덜어 주는 순한 보습 로션",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "두피와 모발에 영양을 공급해 윤기 있는 머릿결로 가꿔 줍니다",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "거칠어진 입술을 촉촉하게 보호하는 립 밤",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "메이크업 잔여물과 피지를 말끔하게 씻어내는 클렌징 오일",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "피부에 수분을 채워 하루 종일 촉촉하게 유지해 줘요",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "건조해서 푸석해 보이는 피부에 생기를 더하는 에센스",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "시원한 쿨링감으로 햇볕에 달아오른 피부를 산뜻하게 해 줘요",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "손을 깨끗하게 씻어 주는 거품형 핸드워시",
+"rule": false,
+"ai": false
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "피부의 미백에 도움을 주는 기능성 화장품. 칙칙한 피부 톤을 맑게 가꿔 줘요",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "피부의 주름 개선에 도움을 주는 기능성 크림",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "자외선으로부터 피부를 보호하는 데 도움을 주는 선크림 SPF50+ PA++++",
+"rule": false,
+"ai": false
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "탈모 증상의 완화에 도움을 주는 기능성 샴푸",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "여드름성 피부를 완화하는 데 도움을 주는 기능성 클렌저",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "모발의 색상을 변화시키는 염모제 기능성 화장품",
+"rule": false,
+"ai": false
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "피부장벽의 기능을 회복하여 가려움 등의 개선에 도움을 주는 기능성 로션",
+"rule": false,
+"ai": false
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "튼살로 인한 붉은 선을 엷게 하는 데 도움을 주는 기능성 크림",
+"rule": false,
+"ai": false
+}
+],
+"test10": [
+{
+"type": "cos",
+"label": "violation",
+"text": "기미 싹 빠진다",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "좁쌀 여드름·뾰루지 완화",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "홍조개선",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "화이트닝",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "진피 층 각질정리",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "여드름, 피부염, 무좀 등에 효과",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "항균작용",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "상처, 염증 치료",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "여드름 완화와 피부 진정에 도움이 되는 블루 멜로우가 부리는 마술로 매끈 촉촉 보디 피부가 되어 볼까요?",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "동종 업계 최초",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "뾰루지가 났지만 피부과를 방문하기 힘들 때 어쩔 수 없는 피부트러블도 스팟으로 이젠 안녕",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "저자극 트러블케어 솔루션",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "흔적솔루션",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "피부 자생 강화",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "흔적관리 OK",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "붓기완화, 붓기진정 필수템",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "몸의 신진대사와 혈액순환을 원활하게 해준다",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "신박템 발견! 주름개선에도 좋고 리프팅 효과도 볼 수 있어 관리실 부럽지 않아요!",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "무자극",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "여드름 감소 –26.2%",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "여드름 피부 완화 기능성 화장품",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "천연유래 세정성분, 천연샴푸, 비듬케어",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "근휴식, 심신안정, 멘탈케어, 몸의 염증을 줄이거나 근육통 감소, 몸&마음의 스트레스 예방",
+"rule": true,
+"ai": true
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "근육의 열을 식혀, 30초 쿨링",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "아토피, 침독, 태열케어, 두드러기",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "violation",
+"text": "강화된 의약품제조및품질관리기준, 무스테로이드",
+"rule": true,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "샤워 후 물기가 남아 있을 때 발라 주면 피부가 오래 촉촉해요",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "붉어 보이는 피부를 커버해 주는 그린 컬러 베이스",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "트러블 걱정 없이 쓰기 좋은 가벼운 젤 타입 수분 크림",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "세안 후 피부결을 정돈해 주는 산뜻한 토너 패드",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "건조한 두피에 수분을 더해 주는 두피 에센스",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "땀 냄새를 상쾌한 향으로 감싸 주는 바디 스프레이",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "가볍게 펴 발리고 끈적임 없이 흡수되는 핸드크림",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "피부 표면의 각질을 부드럽게 정리해 주는 필링 젤",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "은은한 펄로 생기 있는 눈매를 연출하는 아이섀도우",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "유기농 인증을 받은 원료를 담은 샴푸 (인증기관: ○○)",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "손상되어 푸석한 모발에 윤기를 더해 주는 헤어 오일",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "물에 잘 씻기는 순한 아기 바디워시",
+"rule": false,
+"ai": false
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "피부의 주름 개선과 미백에 도움을 주는 이중 기능성 앰플",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "자외선 차단 지수 SPF50+ PA++++로 일상 속 자외선으로부터 피부를 보호해요",
+"rule": false,
+"ai": false
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "여드름성 피부 완화에 도움을 주는 기능성 스팟 젤",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "탈모 증상 완화에 도움을 주는 기능성 두피 토닉",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "체모를 제거하는 기능을 가진 제모 크림",
+"rule": false,
+"ai": true
+},
+{
+"type": "fcos",
+"label": "allowed",
+"text": "피부의 미백에 도움을 주는 기능성 패드로 칙칙한 피부에 맑은 느낌을 더해요",
+"rule": false,
+"ai": true
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "바닷가 휴가철에도 땀과 물에 잘 지워지지 않는 워터프루프 마스카라",
+"rule": false,
+"ai": false
+},
+{
+"type": "cos",
+"label": "allowed",
+"text": "냄새를 잡아 주는 상쾌한 데오드란트 향",
+"rule": false,
+"ai": false
+}
+]
+}
