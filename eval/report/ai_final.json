@@ -744,5 +744,385 @@
 "rule": false,
 "ai": false
 }
+],
+"test11": [
+{
+"type": "food",
+"label": "violation",
+"text": "ADHD 예방",
+"rule": false,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "천연 위고비 레시피",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "마운자로",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "항암",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "잇몸질환 예방",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "잇몸ㆍ몸속 염증 제거",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "피부영양제",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "관절통 호르몬제",
+"rule": false,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "갱년기약",
+"rule": false,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "고혈압",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "당뇨병",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "독소 제거",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "소화가 안 돼서 불편하신 분",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "불면증에 좋은 차",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "천식·아토피·비염 치료",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "이소람네틴 성분이 염증에 효과",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "불면증·숙면에 도움",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "벌써 체중이 2㎏ 빠졌어요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "비염한약",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "실제 1주만에 5.3㎏ 감량",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "탄수화물 먹던 몸의 지방이 에너지원으로 바뀌면서 오랜시간 음식을 먹지 않아도 배고픔이 없고 식욕 억제에 도움을 주게 됩니다!",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "고혈압·면역 형성에 도움을 준다",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "GLP-1 촉진",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "마시는 위고비",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "면역력 개선",
+"rule": false,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "7일에 7㎏가 빠집니다.",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "자면서 살이 빠집니다.",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "배고프지 않게 먹으면서 살을 뺍시다.",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "7일에 마이너스 7㎏, 14일에 마이너스 15㎏",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "요요현상 없이 배고프지 않고 뺀다",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "체질개선을 통해 몸의 대사기능 높여준다",
+"rule": false,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "해독기능",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "면역 활성 증강효과",
+"rule": false,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "대장 내 숙변과 독소 제거",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "국내산 도라지와 배를 정성껏 달여 진하고 달콤한 맛을 살렸어요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "따뜻한 물에 타서 마시면 향긋한 생강 향이 퍼져요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "단백질 20g이 들어 있어 아침 한 끼로 든든하게 드실 수 있어요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "설탕을 넣지 않고 과일 본연의 단맛만 담았어요 (당류 0g, 영양성분표 참고)",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "운동 후 시원하게 마시기 좋은 이온 음료 맛 제로 칼로리 탄산수",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "제주산 녹차 잎을 덖어 고소하고 깔끔한 맛이 나요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "꿀 100% 원료, 벌집에서 그대로 채밀한 국내산 아카시아꿀",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "식이섬유가 풍부한 귀리로 만든 바삭한 그래놀라",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "카페인이 없어 저녁에도 부담 없이 마시는 보리차",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "칼슘이 들어 있는 우유로 만든 부드러운 요거트 (영양성분 표시 기준)",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "하루 한 포, 물 200ml에 타서 드세요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "매콤달콤한 양념에 버무린 국내산 닭가슴살 볶음",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "아이 간식으로 좋은 무첨가 쌀과자, 쌀 98%",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "차갑게 마셔도 따뜻하게 마셔도 맛있는 유자차",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "홍삼 농축액 함량 3%, 쌉싸름한 맛이 덜해 마시기 편해요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "다이어트 중에도 맛있게, 1봉 120kcal 저칼로리 곤약 젤리",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "저속 착즙으로 과일 맛을 그대로 살린 사과 주스",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "김장철에 맞춰 갓 담근 배추김치, 국내산 고춧가루 사용",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "선물하기 좋은 고급 견과류 세트, 개별 포장으로 신선하게",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "아침마다 간편하게 챙기는 검은콩 두유",
+"rule": false,
+"ai": false
+}
 ]
 }
