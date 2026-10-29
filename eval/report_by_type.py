@@ -2,11 +2,13 @@
 
 비교하는 세 방식
 - 금칙어 목록: 시중 '금지어 검사기'처럼 단어 목록에 있으면 표시 (eval/baseline/keyword_list.py, 직접 구성한 기준선)
-- 규칙: 지금 사이트의 규칙 40개 (+ 건강기능식품 원료 대조)
+- 규칙: 지금 사이트의 규칙 (+ 건강기능식품 원료 대조)
 - 규칙 + AI: 위에 학습형 AI(뜻 비교)를 더한 것. 시험할 묶음은 학습에서 빼고 잰 결과(eval/report/ai_lobo.json, GitHub Actions)
 
 데이터: 규칙을 만든 뒤에 모은 '처음 보는' 실제 적발 문구 118개(시험 세트 3·4·5·6·7)와 허용 문장 37개,
         평범한 쇼핑 리뷰 23,622개(화장품·식품, 네이버 쇼핑 리뷰 공개 코퍼스)
+        + 최종 시험 세트 9·10 (화장품): 고정한 시점의 규칙(수정 전, eval/report/final_rule_prefix.json)과
+          그 세트를 학습에 안 쓴 AI(eval/report/ai_final.json)로 잰다. 세트 8은 규칙을 만들며 본 문구라 빼고 잰다.
 사용: python eval/report_by_type.py --reviews <naver_shopping.txt>
 """
 import argparse
@@ -45,8 +47,9 @@ def main():
     ck = Checker()
     strong = lambda t, x: any(f.grade in ("red", "amber") for f in ck.check(x, t))
     ai = json.loads((ROOT / "eval/report/ai_lobo.json").read_text(encoding="utf-8"))
-    ai_v = {(p["batch"], p["text"]): p["ai"] for p in ai["phrases"]}
-    ai_a = {(p["batch"], p["text"]): p["ai"] for p in ai["allowed"]}
+    K = "ai_new" if ai["phrases"] and "ai_new" in ai["phrases"][0] else "ai"   # 화장품·식품 기준값을 따로 쓰는 새 방식
+    ai_v = {(p["batch"], p["text"]): p[K] for p in ai["phrases"]}
+    ai_a = {(p["batch"], p["text"]): p[K] for p in ai["allowed"]}
 
     rows = []
     for b, f in HELD.items():
@@ -95,8 +98,26 @@ def main():
             rv[t]["rule"] += strong(t, s)
         for t in rv:   # AI가 '새로' 표시한 비율은 학습에 안 쓴 리뷰 표본에서 잰 값(ai_lobo.json)을 더한다
             ar = ai["reviews"].get(t)
-            rv[t]["both_rate"] = rv[t]["rule"] / rv[t]["n"] + (ar["ai_new"] / ar["n"] if ar else 0)
+            an = ar.get("ai_new_new", ar.get("ai_new", 0)) if ar else 0
+            rv[t]["both_rate"] = rv[t]["rule"] / rv[t]["n"] + (an / ar["n"] if ar else 0)
         out["reviews"] = rv
+
+    # 최종 시험 (세트 9·10): 고정 시점 규칙 / + AI / 지금 규칙(참고: 이미 본 데이터)
+    pre = json.loads((ROOT / "eval/report/final_rule_prefix.json").read_text(encoding="utf-8"))
+    fp_ = ROOT / "eval/report/ai_final.json"
+    fai = json.loads(fp_.read_text(encoding="utf-8")) if fp_.exists() else {}
+    final = {}
+    for n in ("test9", "test10"):
+        ais = {x["text"]: x["ai"] for x in fai.get(n, [])}
+        rs = [r for r in csv.DictReader(open(ROOT / f"data/{n}.csv", encoding="utf-8")) if r["label"] in ("violation", "allowed")]
+        d = {}
+        for lab in ("violation", "allowed"):
+            xs = [r for r in rs if r["label"] == lab]
+            d[lab] = {"n": len(xs), "kw": sum(kw_flag(r["text"]) for r in xs), "rule_prefix": sum(pre[n][r["text"]] for r in xs),
+                      "both_prefix": sum(pre[n][r["text"]] or ais.get(r["text"], False) for r in xs) if ais else None,
+                      "rule_now": sum(strong(r["product_type"], r["text"]) for r in xs)}
+        final[n] = d
+    out["final"] = final
 
     hf = json.loads((ROOT / "eval/hfood/results.json").read_text(encoding="utf-8"))
     hp = json.loads((ROOT / "eval/hfood/results_products.json").read_text(encoding="utf-8"))
@@ -112,6 +133,13 @@ def main():
         cell = lambda s: f"{P(d[s]['recall'])} ({d[s]['hit']}개, {d[s]['ci'][0] * 100:.0f}~{d[s]['ci'][1] * 100:.0f}%)" if d["n_violation"] else "-"
         fp = " / ".join(f"{d[s]['fp']}" for s, _ in systems) + f" (총 {d['n_allowed']}개)" if d["n_allowed"] else "-"
         L.append(f"| {d['name']} | {d['n_violation']} | {cell('kw')} | {cell('rule')} | {cell('both')} | {fp} |")
+    L += ["", "## 최종 시험 (처음 보는 화장품 적발 문구, 세트를 고정한 뒤 한 번만 잰 값)", "",
+          "| 세트 | 위반 문구 | 금칙어 목록 | 규칙 (고정 시점) | 규칙 + AI (고정 시점) | 허용 문장 오탐 | 지금 규칙 (참고·이미 본 데이터) |", "|---|---|---|---|---|---|---|"]
+    for n, d in final.items():
+        v, al = d["violation"], d["allowed"]
+        pc = lambda k: f"{k / v['n'] * 100:.0f}% ({k}개)"
+        L.append(f"| {n} | {v['n']} | {pc(v['kw'])} | {pc(v['rule_prefix'])} | {pc(v['both_prefix']) if v['both_prefix'] is not None else '-'} | "
+                 f"{al['rule_prefix']}/{al['n']} | {pc(v['rule_now'])} |")
     if a.reviews:
         L += ["", "| 평범한 쇼핑 리뷰 | 리뷰 수 | 금칙어 목록 | 규칙 | 규칙 + AI |", "|---|---|---|---|---|"]
         for t, nm in (("cos", "화장품 리뷰"), ("food", "식품 리뷰")):
