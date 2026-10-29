@@ -214,18 +214,20 @@
       </article>
     </div>
 
-    <h3 class="tbl-t">시험 결과</h3>
+    <h3 class="tbl-t">시험 결과 (처음 보는 실제 적발 문구)</h3>
     <div class="tbl-wrap">
       <table class="tbl">
-        <thead><tr><th>시험</th><th>내용</th><th class="num">위반을 찾은 비율</th><th class="num">멀쩡한 문장을 잘못 잡음</th></tr></thead>
+        <thead><tr><th>제품 종류</th><th class="num">위반 문구</th><th class="num">흔한 금칙어 목록</th><th class="num">규칙</th><th class="num">규칙 + AI</th></tr></thead>
         <tbody>
-          <tr><td>시험 세트 3</td><td>2024~2026 새 적발 발표 6건, 규칙 v4 작업 전 고정</td><td class="num">67.9% <small>(19/28)</small></td><td class="num">0% <small>(0/17)</small></td></tr>
-          <tr><td>시험 세트 2</td><td>새로 모은 적발 문구, 규칙 v3 작업 전 고정</td><td class="num">59.3% <small>(16/27)</small></td><td class="num">0% <small>(0/14)</small></td></tr>
-          <tr><td>이미지 읽기</td><td>시험용 상세페이지 3장, 이 브라우저 안에서 읽기</td><td class="num">11/11 <small>(글자 93.1%)</small></td><td class="num">0</td></tr>
+          <tr><td>일반 화장품</td><td class="num">39</td><td class="num">51%</td><td class="num">64%</td><td class="num"><b>82%</b></td></tr>
+          <tr><td>일반 식품</td><td class="num">68</td><td class="num">25%</td><td class="num">44%</td><td class="num"><b>62%</b></td></tr>
+          <tr><td>기능성 화장품</td><td class="num">6</td><td class="num">0%</td><td class="num">0%</td><td class="num">0%</td></tr>
+          <tr><td>건강기능식품</td><td class="num">5</td><td class="num">20%</td><td class="num">0%</td><td class="num">0%</td></tr>
+          <tr><td><b>전체</b></td><td class="num">118</td><td class="num">32%</td><td class="num">47%</td><td class="num"><b>63%</b></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">찾지 못한 문구는 대부분 말 모양이 바뀐 경우(‘모발을 자라게 하는’)나 단어를 붙여 만든 이름이에요. 자세한 기록은 <a href="https://github.com/ojg1476-tech/precheck-ai/blob/main/eval/history.md" target="_blank" rel="noopener">평가 기록</a>에 있어요.</p>
+    <p class="note">규칙을 만든 뒤에 모은 식약처 적발 문구(시험 세트 3~7)로만 쟀어요. AI는 시험할 묶음을 학습에서 빼고 쟀어요. 평범한 상세페이지 문장 38개 중 잘못 잡은 건 규칙 0개, 규칙+AI 1개, 금칙어 목록 2개였어요. 기능성 화장품에서 놓친 6개는 모두 눈썹 염색 광고, 건강기능식품의 5개는 ‘無화학첨가물’ 같은 무첨가 강조라, 다음에 보강할 곳이에요. 건강기능식품은 신고번호를 넣으면 따로 대조해요(아래). 이미지 읽기는 시험용 상세페이지 3장에서 위반 문장 11개를 모두 찾았어요(글자 93.1%). 자세한 기록은 <a href="https://github.com/ojg1476-tech/precheck-ai/blob/main/eval/history.md" target="_blank" rel="noopener">평가 기록</a>에 있어요.</p>
 
     <h3 class="tbl-t">AI 챗봇에 물어보는 것과 다른 점</h3>
     <ul class="diff">
