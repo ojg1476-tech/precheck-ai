@@ -107,7 +107,7 @@ def main():
     fp_ = ROOT / "eval/report/ai_final.json"
     fai = json.loads(fp_.read_text(encoding="utf-8")) if fp_.exists() else {}
     final = {}
-    for n in ("test9", "test10", "test11"):
+    for n in ("test9", "test10", "test11", "test12", "test13"):
         ais = {x["text"]: x["ai"] for x in fai.get(n, [])}
         rs = [r for r in csv.DictReader(open(ROOT / f"data/{n}.csv", encoding="utf-8")) if r["label"] in ("violation", "allowed")]
         d = {}

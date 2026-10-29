@@ -320,15 +320,47 @@
     "n": 34,
     "kw": 14,
     "rule_prefix": 20,
-    "both_prefix": null,
+    "both_prefix": 26,
     "rule_now": 34
    },
    "allowed": {
     "n": 20,
     "kw": 2,
     "rule_prefix": 1,
+    "both_prefix": 1,
+    "rule_now": 1
+   }
+  },
+  "test12": {
+   "violation": {
+    "n": 21,
+    "kw": 7,
+    "rule_prefix": 13,
+    "both_prefix": null,
+    "rule_now": 20
+   },
+   "allowed": {
+    "n": 15,
+    "kw": 2,
+    "rule_prefix": 0,
+    "both_prefix": null,
+    "rule_now": 0
+   }
+  },
+  "test13": {
+   "violation": {
+    "n": 6,
+    "kw": 0,
+    "rule_prefix": 1,
     "both_prefix": null,
     "rule_now": 1
+   },
+   "allowed": {
+    "n": 8,
+    "kw": 0,
+    "rule_prefix": 0,
+    "both_prefix": null,
+    "rule_now": 0
    }
   }
  },
