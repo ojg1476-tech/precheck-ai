@@ -1,0 +1,55 @@
+id,split,product_type,label,category,text,source,source_url
+N001,test11,food,violation,,ADHD 예방,식약처 적발 보도(2026.10),https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003279475
+N002,test11,food,violation,,천연 위고비 레시피,식약처 적발 보도(2026.7),https://www.kfoodtimes.com/news/articleView.html?idxno=30478
+N003,test11,food,violation,,마운자로,식약처 적발 보도(2026.7),https://www.kfoodtimes.com/news/articleView.html?idxno=30478
+N004,test11,food,violation,,항암,식약처 적발 보도(2024.9),https://www.foodnews.co.kr/news/articleView.html?idxno=109782
+N005,test11,food,violation,,잇몸질환 예방,식약처 적발 보도(2024.9),https://www.foodnews.co.kr/news/articleView.html?idxno=109782
+N006,test11,food,violation,,잇몸ㆍ몸속 염증 제거,식약처 적발 보도(2024.9),https://www.foodnews.co.kr/news/articleView.html?idxno=109782
+N007,test11,food,violation,,피부영양제,식약처 적발 보도(2024.9),https://www.foodnews.co.kr/news/articleView.html?idxno=109782
+N008,test11,food,violation,,관절통 호르몬제,식약처 적발 보도(2024.9),https://www.foodnews.co.kr/news/articleView.html?idxno=109782
+N009,test11,food,violation,,갱년기약,식약처 적발 보도(2024.9),https://www.foodnews.co.kr/news/articleView.html?idxno=109782
+N010,test11,food,violation,,고혈압,식약처 적발 보도(2024.9),https://www.sisajournal.com/news/articleView.html?idxno=309546
+N011,test11,food,violation,,당뇨병,식약처 적발 보도(2024.9),https://www.sisajournal.com/news/articleView.html?idxno=309546
+N012,test11,food,violation,,독소 제거,식약처 적발 보도(2024.9),https://www.sisajournal.com/news/articleView.html?idxno=309546
+N013,test11,food,violation,,소화가 안 돼서 불편하신 분,식약처 적발 보도(2024.9),https://www.sisajournal.com/news/articleView.html?idxno=309546
+N014,test11,food,violation,,불면증에 좋은 차,식약처 적발 보도(2021.10),https://www.civicnews.com/news/articleView.html?idxno=32652
+N015,test11,food,violation,,천식·아토피·비염 치료,식약처 적발 보도(2021.10),https://www.civicnews.com/news/articleView.html?idxno=32652
+N016,test11,food,violation,,이소람네틴 성분이 염증에 효과,식약처 적발 보도(2021.10),https://www.civicnews.com/news/articleView.html?idxno=32652
+N017,test11,food,violation,,불면증·숙면에 도움,식약처 적발 보도(2021.10),https://www.civicnews.com/news/articleView.html?idxno=32652
+N018,test11,food,violation,,벌써 체중이 2㎏ 빠졌어요,식약처 적발 보도(2023.4),https://www.thepublic.kr/news/articleView.html?idxno=101881
+N019,test11,food,violation,,비염한약,식약처 적발 보도(2025.6),https://www.foodtoday.or.kr/news/article.html?no=194704
+N020,test11,food,violation,,실제 1주만에 5.3㎏ 감량,식약처 적발 보도(2019.8),https://www.khan.co.kr/article/201908130957001
+N021,test11,food,violation,,탄수화물 먹던 몸의 지방이 에너지원으로 바뀌면서 오랜시간 음식을 먹지 않아도 배고픔이 없고 식욕 억제에 도움을 주게 됩니다!,식약처 적발 보도(2019.8),https://www.khan.co.kr/article/201908130957001
+N022,test11,food,violation,,고혈압·면역 형성에 도움을 준다,소비자 피해 사례 보도(2025.10),https://foodtoday.or.kr/mobile/article.html?no=199279
+N023,test11,food,violation,,GLP-1 촉진,식약처 점검 보도(2026.2),https://www.ytn.co.kr/_ln/0102_202602241200189616
+N024,test11,food,violation,,마시는 위고비,식약처 점검 보도(2026.2),https://www.ytn.co.kr/_ln/0102_202602241200189616
+N025,test11,food,violation,,면역력 개선,식약처 적발 보도(2026.6),https://www.foodtoday.or.kr/news/article.html?no=205302
+N026,test11,food,violation,,7일에 7㎏가 빠집니다.,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N027,test11,food,violation,,자면서 살이 빠집니다.,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N028,test11,food,violation,,배고프지 않게 먹으면서 살을 뺍시다.,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N029,test11,food,violation,,"7일에 마이너스 7㎏, 14일에 마이너스 15㎏",한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N030,test11,food,violation,,요요현상 없이 배고프지 않고 뺀다,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N031,test11,food,violation,,체질개선을 통해 몸의 대사기능 높여준다,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N032,test11,food,violation,,해독기능,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N033,test11,food,violation,,면역 활성 증강효과,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N034,test11,food,violation,,대장 내 숙변과 독소 제거,한국소비자원 조사 보도(2016.2),https://www.khan.co.kr/article/201602291142101
+N035,test11,food,allowed,,국내산 도라지와 배를 정성껏 달여 진하고 달콤한 맛을 살렸어요,직접 작성(측정 전 고정),
+N036,test11,food,allowed,,따뜻한 물에 타서 마시면 향긋한 생강 향이 퍼져요,직접 작성(측정 전 고정),
+N037,test11,food,allowed,,단백질 20g이 들어 있어 아침 한 끼로 든든하게 드실 수 있어요,직접 작성(측정 전 고정),
+N038,test11,food,allowed,,"설탕을 넣지 않고 과일 본연의 단맛만 담았어요 (당류 0g, 영양성분표 참고)",직접 작성(측정 전 고정),
+N039,test11,food,allowed,,운동 후 시원하게 마시기 좋은 이온 음료 맛 제로 칼로리 탄산수,직접 작성(측정 전 고정),
+N040,test11,food,allowed,,제주산 녹차 잎을 덖어 고소하고 깔끔한 맛이 나요,직접 작성(측정 전 고정),
+N041,test11,food,allowed,,"꿀 100% 원료, 벌집에서 그대로 채밀한 국내산 아카시아꿀",직접 작성(측정 전 고정),
+N042,test11,food,allowed,,식이섬유가 풍부한 귀리로 만든 바삭한 그래놀라,직접 작성(측정 전 고정),
+N043,test11,food,allowed,,카페인이 없어 저녁에도 부담 없이 마시는 보리차,직접 작성(측정 전 고정),
+N044,test11,food,allowed,,칼슘이 들어 있는 우유로 만든 부드러운 요거트 (영양성분 표시 기준),직접 작성(측정 전 고정),
+N045,test11,food,allowed,,"하루 한 포, 물 200ml에 타서 드세요",직접 작성(측정 전 고정),
+N046,test11,food,allowed,,매콤달콤한 양념에 버무린 국내산 닭가슴살 볶음,직접 작성(측정 전 고정),
+N047,test11,food,allowed,,"아이 간식으로 좋은 무첨가 쌀과자, 쌀 98%",직접 작성(측정 전 고정),
+N048,test11,food,allowed,,차갑게 마셔도 따뜻하게 마셔도 맛있는 유자차,직접 작성(측정 전 고정),
+N049,test11,food,allowed,,"홍삼 농축액 함량 3%, 쌉싸름한 맛이 덜해 마시기 편해요",직접 작성(측정 전 고정),
+N050,test11,food,allowed,,"다이어트 중에도 맛있게, 1봉 120kcal 저칼로리 곤약 젤리",직접 작성(측정 전 고정),
+N051,test11,food,allowed,,저속 착즙으로 과일 맛을 그대로 살린 사과 주스,직접 작성(측정 전 고정),
+N052,test11,food,allowed,,"김장철에 맞춰 갓 담근 배추김치, 국내산 고춧가루 사용",직접 작성(측정 전 고정),
+N053,test11,food,allowed,,"선물하기 좋은 고급 견과류 세트, 개별 포장으로 신선하게",직접 작성(측정 전 고정),
+N054,test11,food,allowed,,아침마다 간편하게 챙기는 검은콩 두유,직접 작성(측정 전 고정),
