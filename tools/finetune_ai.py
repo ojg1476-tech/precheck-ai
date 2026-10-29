@@ -94,7 +94,7 @@ def finetune(Vtr, Atr, sp, out_dir, epochs=2, seed=0):
     return out_dir
 
 
-def evaluate(name, onnx, tok, Vtr, Atr, evalrows, sp, prefix):
+def evaluate(name, onnx, tok, Vtr, Atr, evalrows, sp, prefix, fps=(B.TARGET_FP,)):
     """판별기(로지스틱 회귀)+화장품·식품 기준값을 train_ai.py 와 같은 방식으로 학습하고, 시험 세트·리뷰로 잰다"""
     from sklearn.linear_model import LogisticRegression
     emb = B.Embedder(onnx, tok)
@@ -115,10 +115,17 @@ def evaluate(name, onnx, tok, Vtr, Atr, evalrows, sp, prefix):
     def tmax(t):
         ws = B.windows(t)
         return max(f(np.vstack([cache[w] for w in ws]))) if ws else -9
-    def q(xs, typ):
+    def q(xs, typ, fp):
         free = [tmax(x) for x in xs if not rule(typ, x)]
-        return float(np.quantile(free, 1 - B.TARGET_FP)) + 1e-6
-    th = {"cos": q(sp["cosCal"], "cos"), "food": q(sp["foodCal"], "food")}
+        return float(np.quantile(free, 1 - fp)) + 1e-6
+    allres = {}
+    for fp in fps:
+        th = {"cos": q(sp["cosCal"], "cos", fp), "food": q(sp["foodCal"], "food", fp)}
+        allres[fp] = score(name + (f" · 기준 {fp:.0%}" if len(fps) > 1 else ""), th, evalrows, prefix, tmax, rule, sp)
+    return allres if len(fps) > 1 else allres[fps[0]]
+
+
+def score(name, th, evalrows, prefix, tmax, rule, sp):
     res = {"name": name, "threshold": th, "sets": {}, "reviews": {}}
     for n in AB_EVAL:
         rs = [r for r in evalrows if r[0] == n]
@@ -152,7 +159,7 @@ def main():
     ap.add_argument("--save", default="/tmp/ft_model")
     ap.add_argument("--new-onnx"); ap.add_argument("--new-tok")
     ap.add_argument("--epochs", type=int, default=2)
-    ap.add_argument("--stage", choices=["train", "eval"], default="train")
+    ap.add_argument("--stage", choices=["train", "eval", "tradeoff"], default="train")
     a = ap.parse_args()
     sp = splits(a.reviews)
     V, A = B.load()
@@ -161,6 +168,12 @@ def main():
     Vtr = [v for v in V if v[0] not in hold]; Atr = [x for x in A if x[0] not in hold]
     if a.stage == "train":
         finetune(Vtr + aV, Atr + aA, sp, Path(a.save), epochs=a.epochs)
+        return
+    if a.stage == "tradeoff":   # 지금 모델로 기준값(리뷰 오탐 목표)을 바꿔 가며 잡는 양·오탐 비교
+        evalrows = load_sets(AB_EVAL)
+        prefix = json.loads((ROOT / "eval/report/final_rule_prefix.json").read_text(encoding="utf-8"))
+        r = evaluate("지금 방식", a.old_onnx, a.old_tok, Vtr, Atr, evalrows, sp, prefix, fps=(0.01, 0.02, 0.03, 0.05))
+        (ROOT / "eval/report/ai_threshold_tradeoff.json").write_text(json.dumps({str(k): v for k, v in r.items()}, ensure_ascii=False, indent=1), encoding="utf-8")
         return
     # eval (ab): 두 방식을 같은 학습 데이터(진짜 문구만)로 판별기 학습 → 비교
     evalrows = load_sets(AB_EVAL)

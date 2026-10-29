@@ -35,8 +35,11 @@ jobs:
           cat $M/onnx/model_quantized.onnx.part* > /tmp/model.onnx
           git clone -q --depth 1 --filter=blob:none --sparse https://github.com/bab2min/corpus /tmp/corpus
           cd /tmp/corpus && git sparse-checkout set sentiment
+      - name: 기준값 바꿔 보기 (지금 모델, 미세조정 없음)
+        if: ${{ inputs.mode == 'tradeoff' }}
+        run: python tools/finetune_ai.py --mode ab --stage tradeoff --old-onnx /tmp/model.onnx --old-tok web/ai/model/ko-sroberta-multitask --reviews /tmp/corpus/sentiment/naver_shopping.txt
       - name: 이전 실행의 학습 모델 받기
-        if: ${{ inputs.reuse_run != '' }}
+        if: ${{ inputs.mode != 'tradeoff' && inputs.reuse_run != '' }}
         uses: actions/download-artifact@v4
         with:
           name: ft-model-${{ inputs.mode }}
@@ -44,15 +47,17 @@ jobs:
           run-id: ${{ inputs.reuse_run }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: 미세조정
-        if: ${{ inputs.reuse_run == '' }}
+        if: ${{ inputs.mode != 'tradeoff' && inputs.reuse_run == '' }}
         run: python tools/finetune_ai.py --mode ${{ inputs.mode }} --stage train --save /tmp/ft --epochs ${{ inputs.epochs }} --reviews /tmp/corpus/sentiment/naver_shopping.txt
       - name: 학습한 모델 보관 (변환이 실패해도 다시 쓰도록)
+        if: ${{ inputs.mode != 'tradeoff' }}
         uses: actions/upload-artifact@v4
         with:
           name: ft-model-${{ inputs.mode }}
           path: /tmp/ft
           retention-days: 7
       - name: ONNX로 바꾸고 8비트로 줄이기 (지금 모델과 같은 방식)
+        if: ${{ inputs.mode != 'tradeoff' }}
         run: python tools/export_onnx.py /tmp/ft /tmp/ft_onnx && ls -la /tmp/ft_onnx
       - name: 비교 (세트 9~12를 둘 다 학습에서 뺌)
         if: ${{ inputs.mode == 'ab' }}
@@ -69,4 +74,4 @@ jobs:
       - name: 커밋
         run: |
           git config user.name github-actions; git config user.email actions@github.com
-          git add eval/report/ai_finetune_ab.json eval/report/ai_lobo.json eval/report/ai_final.json web/ai 2>/dev/null; git commit -m "AI 미세조정 (${{ inputs.mode }}, finetune-ai 자동 생성)" && git pull --rebase && git push || echo "변경 없음"
+          git add eval/report/ai_finetune_ab.json eval/report/ai_threshold_tradeoff.json eval/report/ai_lobo.json eval/report/ai_final.json web/ai 2>/dev/null; git commit -m "AI 미세조정 (${{ inputs.mode }}, finetune-ai 자동 생성)" && git pull --rebase && git push || echo "변경 없음"
