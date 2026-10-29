@@ -89,7 +89,7 @@
 "type": "cos",
 "text": "필러크림",
 "rule": true,
-"ai": true
+"ai": false
 },
 {
 "batch": "test3",
@@ -264,7 +264,7 @@
 "type": "food",
 "text": "기억력 향상",
 "rule": false,
-"ai": false
+"ai": true
 },
 {
 "batch": "test4",
@@ -782,7 +782,7 @@
 "type": "cos",
 "text": "피부 내 근막 성분 전달",
 "rule": false,
-"ai": false
+"ai": true
 },
 {
 "batch": "test7",
@@ -1097,14 +1097,14 @@
 ],
 "reviews": {
 "cos": {
-"n": 66,
-"rule": 3,
-"ai_new": 6
+"n": 1448,
+"rule": 65,
+"ai_new": 53
 },
 "food": {
-"n": 934,
-"rule": 50,
-"ai_new": 4
+"n": 3000,
+"rule": 138,
+"ai_new": 33
 }
 }
 }
