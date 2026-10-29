@@ -1,0 +1,47 @@
+[
+{
+"WT_UNIT": "mg/일",
+"PRIMARY_FNCLTY": "(국문) 갱년기 남성의 건강에 도움을 줄 수 있음\n(영문) May help to maintain male health in menopause",
+"IFTKN_ATNT_MATR_CN": "(1) 성인 남성만 섭취할 것\n(2) 특정질환(알레르기 체질 등)이 있는 분은 섭취에 주의할 것\n(3) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"HF_FNCLTY_MTRAL_RCOGN_NO": "2023-40",
+"DAY_INTK_LOWLIMIT": "500 (mg/일)",
+"DAY_INTK_HIGHLIMIT": "500 (mg/일)",
+"RAWMTRL_NM": "두충우슬추출복합물(KGC08EA)(제2023-40호)"
+},
+{
+"WT_UNIT": "mg",
+"PRIMARY_FNCLTY": "(국문) 관절 건강에 도움을 줄 수 있음(기타기능II) (영문) May help to maintain joint health.",
+"IFTKN_ATNT_MATR_CN": "",
+"HF_FNCLTY_MTRAL_RCOGN_NO": "New제2007-13호",
+"DAY_INTK_LOWLIMIT": "2,400 (mg)",
+"DAY_INTK_HIGHLIMIT": "2,400 (mg)",
+"RAWMTRL_NM": "차조기등복합추출물(기능성원료인정New제2007-13호)"
+},
+{
+"WT_UNIT": "g",
+"PRIMARY_FNCLTY": "(국문) 면역기능증진에 도움을 줄 수 있음 (영문) May help to improve immune function",
+"IFTKN_ATNT_MATR_CN": "(1) 임산부, 수유여성 및 12세 이하 어린이는 섭취에 주의 (2) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"HF_FNCLTY_MTRAL_RCOGN_NO": "New제2007-15호",
+"DAY_INTK_LOWLIMIT": "1 (g)",
+"DAY_INTK_HIGHLIMIT": "1 (g)",
+"RAWMTRL_NM": "바이오게르마늄 효모(기능성원료인정New제2007-15호)"
+},
+{
+"WT_UNIT": "g",
+"PRIMARY_FNCLTY": "(국문) PMO 참밀알부민은 급격한 식후 혈당상승을 억제하는데 도움을 줄 수 있습니다 (기타기능II)",
+"IFTKN_ATNT_MATR_CN": "(1) 소맥알레르기 체질인 사람은 섭취에 주의하여야 합니다.",
+"HF_FNCLTY_MTRAL_RCOGN_NO": "New제2007-23호",
+"DAY_INTK_LOWLIMIT": "1 (g)",
+"DAY_INTK_HIGHLIMIT": "2 (g)",
+"RAWMTRL_NM": "PMO 참밀알부민(기능성원료인정New제2007-23호)"
+},
+{
+"WT_UNIT": "μg",
+"PRIMARY_FNCLTY": "(국문) 혈압을 조절하는데 도움을 줄 수 있음 (영문) May help to maintain healthy blood pressure",
+"IFTKN_ATNT_MATR_CN": "(1) 고혈압치료제 등 복용 시 전문가와 상담할 것 (2) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"HF_FNCLTY_MTRAL_RCOGN_NO": "제2004-1호",
+"DAY_INTK_LOWLIMIT": "250 (μg)",
+"DAY_INTK_HIGHLIMIT": "400 (μg)",
+"RAWMTRL_NM": "정어리펩타이드 SP100N(기능성원료인정제2004-1호)"
+}
+]

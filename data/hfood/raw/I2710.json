@@ -1,0 +1,62 @@
+[
+{
+"PRIMARY_FNCLTY": "배변활동 원활에 도움을 줄 수 있음",
+"SKLL_IX_IRDNT_RAWMTRL": "아라비아검(아카시아검)식이섬유",
+"LAST_UPDT_DTM": "20200820",
+"CRET_DTM": "20080922",
+"PRDCT_NM": "아라비아검(아카시아검)",
+"IFTKN_ATNT_MATR_CN": "반드시 충분한 물과 함께 섭취할 것 (액상제외)",
+"INTK_MEMO": "",
+"DAY_INTK_LOWLIMIT": "19.99",
+"DAY_INTK_HIGHLIMIT": "20.01",
+"INTK_UNIT": "g"
+},
+{
+"PRIMARY_FNCLTY": "(1) 어두운 곳에서 시각 적응을 위해 필요\n(2) 피부와 점막을 형성하고 기능을 유지하는데 필요\n(3) 상피세포의 성장과 발달에 필요",
+"SKLL_IX_IRDNT_RAWMTRL": "",
+"LAST_UPDT_DTM": "20210924",
+"CRET_DTM": "20080626",
+"PRDCT_NM": "베타카로틴",
+"IFTKN_ATNT_MATR_CN": "(1) 흡연자는 섭취 시 전문가와 상담할 것\n(2) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"INTK_MEMO": "식품원료를 사용하여 제조가공한 경우는 1.26mg 이상(상한섭취량 없음)",
+"DAY_INTK_LOWLIMIT": "0.42",
+"DAY_INTK_HIGHLIMIT": "7",
+"INTK_UNIT": "mg"
+},
+{
+"PRIMARY_FNCLTY": "(1) 지방, 탄수화물, 단백질 대사와 에너지 생성에 필요",
+"SKLL_IX_IRDNT_RAWMTRL": "",
+"LAST_UPDT_DTM": "20210924",
+"CRET_DTM": "20080626",
+"PRDCT_NM": "비오틴",
+"IFTKN_ATNT_MATR_CN": "(1) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"INTK_MEMO": "",
+"DAY_INTK_LOWLIMIT": "0.009",
+"DAY_INTK_HIGHLIMIT": "0.9",
+"INTK_UNIT": "mg"
+},
+{
+"PRIMARY_FNCLTY": "(1) 과체중인 성인의 체지방 감소에 도움을 줄 수 있음",
+"SKLL_IX_IRDNT_RAWMTRL": "공액리놀레산",
+"LAST_UPDT_DTM": "20241223",
+"CRET_DTM": "20100112",
+"PRDCT_NM": "공액리놀레산",
+"IFTKN_ATNT_MATR_CN": "(가) 영･유아, 임산부 및 수유부는 섭취를 피할 것\n(나) 간 질환이 있는 사람은 섭취 전 전문가와 상담할 것\n(다) 위장장애가 발생할 수 있음\n(라) 식사조절, 운동을 병행하는 것이 체지방 감소에 효과적임\n(마) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"INTK_MEMO": "(24.12.23.) 섭취시주의사항, 주된기능성 현행화 / '24 신뢰성 확보",
+"DAY_INTK_LOWLIMIT": "1.4",
+"DAY_INTK_HIGHLIMIT": "4.2",
+"INTK_UNIT": "g"
+},
+{
+"PRIMARY_FNCLTY": "(1) 탄수화물이 지방으로 합성되는 것을 억제하여 체지방 감소에 도움을 줄 수 있음",
+"SKLL_IX_IRDNT_RAWMTRL": "총(-)-Hydroxycitric acid",
+"LAST_UPDT_DTM": "20241223",
+"CRET_DTM": "20100224",
+"PRDCT_NM": "가르시니아캄보지아 추출물",
+"IFTKN_ATNT_MATR_CN": "(가) 어린이, 임산부 및 수유부는 섭취를 피할 것\n(나) 간･신장･심장질환, 알레르기 및 천식이 있거나 의약품 복용 시 전문가와 상담할 것\n(다) 남성의 경우 과다 섭취를 피할 것\n(라) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"INTK_MEMO": "(24.12.23.) 섭취시주의사항, 일일섭취량 현행화 / '24 신뢰성 확보",
+"DAY_INTK_LOWLIMIT": "750",
+"DAY_INTK_HIGHLIMIT": "1500",
+"INTK_UNIT": "mg"
+}
+]
