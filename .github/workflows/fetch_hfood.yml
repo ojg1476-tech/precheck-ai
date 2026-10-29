@@ -42,6 +42,12 @@ jobs:
               rows += [{k: r.get(k, "") for k in ("PRDLST_REPORT_NO", "PRDLST_NM", "PRMS_DT", "RAWMTRL_NM", "PRIMARY_FNCLTY")} for r in got]
               start += 1000; time.sleep(0.5)
           print(f"::notice title=C003::total={total} got={len(rows)}")
+          # 신고번호 대조용: 전체 제품의 번호·이름·신고일·기능성 (원재료는 빼고 압축)
+          import gzip
+          slim = [[r["PRDLST_REPORT_NO"], r["PRDLST_NM"], r["PRMS_DT"], r["PRIMARY_FNCLTY"]] for r in rows if r["PRIMARY_FNCLTY"].strip()]
+          if slim:
+              with gzip.open("data/hfood/raw/C003_func.json.gz", "wt", encoding="utf-8", compresslevel=9) as f:
+                  json.dump(slim, f, ensure_ascii=False, separators=(",", ":"))
           recent = [r for r in rows if r["PRMS_DT"] >= "20200101" and r["PRIMARY_FNCLTY"].strip()]
           random.Random(7).shuffle(recent)
           if recent: json.dump(recent[:3000], open("data/hfood/raw/C003_sample.json", "w"), ensure_ascii=False, indent=0)
