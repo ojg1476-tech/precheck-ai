@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import build_ai as B  # noqa: E402
 
 HELD = ["test3", "test4", "test5", "test6", "test7", "test8"]
-FINAL = ["test9"]   # 학습·기준값에 전혀 안 쓰는 최종 시험 세트 (build_ai.load 에 넣지 않는다)
+FINAL = ["test9", "test10"]   # 학습·기준값에 전혀 안 쓰는 최종 시험 세트 (build_ai.load 에 넣지 않는다)
 DOM = {"cos": "cos", "fcos": "cos", "food": "food", "hfood": "food"}
 
 
