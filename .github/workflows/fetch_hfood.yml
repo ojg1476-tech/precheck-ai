@@ -17,16 +17,21 @@ jobs:
           python3 - "$K" <<'PY'
           import json, sys, time, urllib.request
           K = sys.argv[1]; STEP = 5 if K == "sample" else 1000
+          print(f"::notice title=key::{'저장소 키 사용' if K != 'sample' else '샘플 키(5건 제한)'}")
+          def get(u):
+              for t in range(4):
+                  try: return json.load(urllib.request.urlopen(u, timeout=120))
+                  except Exception as e: err = e; time.sleep(5 * (t + 1))
+              raise err
           for svc in ["I2710", "I-0050", "I-0040"]:
               rows, start, total = [], 1, None
               while total is None or start <= total:
-                  u = f"http://openapi.foodsafetykorea.go.kr/api/{K}/{svc}/json/{start}/{start+STEP-1}"
-                  d = json.load(urllib.request.urlopen(u, timeout=120))[svc]
-                  total = int(d.get("total_count", 0)); got = d.get("row", [])
-                  (start == 1 or not got or start % 200 == 1) and print(f"::notice title={svc}::{start} total={total} got={len(got)} {d.get('RESULT')}")
+                  d = get(f"http://openapi.foodsafetykorea.go.kr/api/{K}/{svc}/json/{start}/{start+STEP-1}").get(svc, {})
+                  total = int(d.get("total_count", 0) or 0); got = d.get("row", [])
+                  print(f"::notice title={svc}::{start} total={total} got={len(got)} {d.get('RESULT')}")
                   if not got: break
-                  rows += got; start += STEP; time.sleep(0.3)
-              json.dump(rows, open(f"data/hfood/raw/{svc}.json", "w"), ensure_ascii=False, indent=0)
+                  rows += got; start += STEP; time.sleep(0.5)
+              if rows: json.dump(rows, open(f"data/hfood/raw/{svc}.json", "w"), ensure_ascii=False, indent=0)
           PY
       - name: 커밋
         run: |
