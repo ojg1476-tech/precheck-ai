@@ -1,0 +1,274 @@
+{
+ "0.01": {
+  "name": "지금 방식 · 기준 1%",
+  "threshold": {
+   "cos": 5.035956429077149,
+   "food": 4.398350285125733
+  },
+  "sets": {
+   "test9": {
+    "n": 40,
+    "ai_only": 19,
+    "rule_prefix_plus_ai": 24,
+    "rule_prefix": 17,
+    "missed_by_rule_caught_by_ai": 7,
+    "missed_by_rule": 23,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test10": {
+    "n": 26,
+    "ai_only": 11,
+    "rule_prefix_plus_ai": 18,
+    "rule_prefix": 12,
+    "missed_by_rule_caught_by_ai": 6,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test11": {
+    "n": 34,
+    "ai_only": 20,
+    "rule_prefix_plus_ai": 26,
+    "rule_prefix": 20,
+    "missed_by_rule_caught_by_ai": 6,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test12": {
+    "n": 21,
+    "ai_only": 8,
+    "rule_prefix_plus_ai": 15,
+    "rule_prefix": 13,
+    "missed_by_rule_caught_by_ai": 2,
+    "missed_by_rule": 8,
+    "n_allowed": 15,
+    "allowed_ai_fp": 0
+   }
+  },
+  "reviews": {
+   "cos": {
+    "n": 462,
+    "ai_new": 6
+   },
+   "food": {
+    "n": 3000,
+    "ai_new": 37
+   }
+  },
+  "total": {
+   "n": 121,
+   "rule_prefix": 62,
+   "rule_prefix_plus_ai": 83,
+   "missed_by_rule": 59,
+   "missed_by_rule_caught_by_ai": 21,
+   "n_allowed": 75,
+   "allowed_ai_fp": 0
+  }
+ },
+ "0.02": {
+  "name": "지금 방식 · 기준 2%",
+  "threshold": {
+   "cos": 4.386010693145752,
+   "food": 3.2888203130493165
+  },
+  "sets": {
+   "test9": {
+    "n": 40,
+    "ai_only": 24,
+    "rule_prefix_plus_ai": 27,
+    "rule_prefix": 17,
+    "missed_by_rule_caught_by_ai": 10,
+    "missed_by_rule": 23,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test10": {
+    "n": 26,
+    "ai_only": 11,
+    "rule_prefix_plus_ai": 18,
+    "rule_prefix": 12,
+    "missed_by_rule_caught_by_ai": 6,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 0
+   },
+   "test11": {
+    "n": 34,
+    "ai_only": 22,
+    "rule_prefix_plus_ai": 26,
+    "rule_prefix": 20,
+    "missed_by_rule_caught_by_ai": 6,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 5
+   },
+   "test12": {
+    "n": 21,
+    "ai_only": 10,
+    "rule_prefix_plus_ai": 15,
+    "rule_prefix": 13,
+    "missed_by_rule_caught_by_ai": 2,
+    "missed_by_rule": 8,
+    "n_allowed": 15,
+    "allowed_ai_fp": 1
+   }
+  },
+  "reviews": {
+   "cos": {
+    "n": 462,
+    "ai_new": 11
+   },
+   "food": {
+    "n": 3000,
+    "ai_new": 65
+   }
+  },
+  "total": {
+   "n": 121,
+   "rule_prefix": 62,
+   "rule_prefix_plus_ai": 86,
+   "missed_by_rule": 59,
+   "missed_by_rule_caught_by_ai": 24,
+   "n_allowed": 75,
+   "allowed_ai_fp": 6
+  }
+ },
+ "0.03": {
+  "name": "지금 방식 · 기준 3%",
+  "threshold": {
+   "cos": 3.6204753385314943,
+   "food": 2.551556871963501
+  },
+  "sets": {
+   "test9": {
+    "n": 40,
+    "ai_only": 30,
+    "rule_prefix_plus_ai": 31,
+    "rule_prefix": 17,
+    "missed_by_rule_caught_by_ai": 14,
+    "missed_by_rule": 23,
+    "n_allowed": 20,
+    "allowed_ai_fp": 2
+   },
+   "test10": {
+    "n": 26,
+    "ai_only": 14,
+    "rule_prefix_plus_ai": 19,
+    "rule_prefix": 12,
+    "missed_by_rule_caught_by_ai": 7,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 1
+   },
+   "test11": {
+    "n": 34,
+    "ai_only": 25,
+    "rule_prefix_plus_ai": 28,
+    "rule_prefix": 20,
+    "missed_by_rule_caught_by_ai": 8,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 6
+   },
+   "test12": {
+    "n": 21,
+    "ai_only": 10,
+    "rule_prefix_plus_ai": 15,
+    "rule_prefix": 13,
+    "missed_by_rule_caught_by_ai": 2,
+    "missed_by_rule": 8,
+    "n_allowed": 15,
+    "allowed_ai_fp": 1
+   }
+  },
+  "reviews": {
+   "cos": {
+    "n": 462,
+    "ai_new": 16
+   },
+   "food": {
+    "n": 3000,
+    "ai_new": 91
+   }
+  },
+  "total": {
+   "n": 121,
+   "rule_prefix": 62,
+   "rule_prefix_plus_ai": 93,
+   "missed_by_rule": 59,
+   "missed_by_rule_caught_by_ai": 31,
+   "n_allowed": 75,
+   "allowed_ai_fp": 10
+  }
+ },
+ "0.05": {
+  "name": "지금 방식 · 기준 5%",
+  "threshold": {
+   "cos": 2.8679457174072267,
+   "food": 1.5791810022125243
+  },
+  "sets": {
+   "test9": {
+    "n": 40,
+    "ai_only": 33,
+    "rule_prefix_plus_ai": 34,
+    "rule_prefix": 17,
+    "missed_by_rule_caught_by_ai": 17,
+    "missed_by_rule": 23,
+    "n_allowed": 20,
+    "allowed_ai_fp": 3
+   },
+   "test10": {
+    "n": 26,
+    "ai_only": 16,
+    "rule_prefix_plus_ai": 21,
+    "rule_prefix": 12,
+    "missed_by_rule_caught_by_ai": 9,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 1
+   },
+   "test11": {
+    "n": 34,
+    "ai_only": 27,
+    "rule_prefix_plus_ai": 28,
+    "rule_prefix": 20,
+    "missed_by_rule_caught_by_ai": 8,
+    "missed_by_rule": 14,
+    "n_allowed": 20,
+    "allowed_ai_fp": 7
+   },
+   "test12": {
+    "n": 21,
+    "ai_only": 12,
+    "rule_prefix_plus_ai": 15,
+    "rule_prefix": 13,
+    "missed_by_rule_caught_by_ai": 2,
+    "missed_by_rule": 8,
+    "n_allowed": 15,
+    "allowed_ai_fp": 2
+   }
+  },
+  "reviews": {
+   "cos": {
+    "n": 462,
+    "ai_new": 25
+   },
+   "food": {
+    "n": 3000,
+    "ai_new": 144
+   }
+  },
+  "total": {
+   "n": 121,
+   "rule_prefix": 62,
+   "rule_prefix_plus_ai": 98,
+   "missed_by_rule": 59,
+   "missed_by_rule_caught_by_ai": 36,
+   "n_allowed": 75,
+   "allowed_ai_fp": 13
+  }
+ }
+}
