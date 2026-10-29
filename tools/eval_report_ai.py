@@ -53,9 +53,14 @@ def main():
         for b, t, x in A:
             if b == hb:   # 빼 둔 묶음의 허용 문장 (학습에 안 씀)
                 out["allowed"].append({"batch": hb, "type": t, "text": x, "rule": bool(rule(t, x)), "ai": bool(text_max(x, f) > th)})
-        if hb == "test3":   # 평범한 리뷰(학습에 안 쓴 뒤쪽 절반) — 종류별로 규칙·AI가 새로 표시한 비율
+        if hb == "test3":   # 평범한 리뷰(학습에 안 쓴 것) — 종류별로 규칙·AI가 새로 표시한 비율. 화장품은 전부, 식품은 3,000개
+            seenA = {x for _, x in RA}
+            allr = B.reviews(a.reviews, n=10 ** 9)
+            pools = {"cos": [x for t, x in allr if t == "cos" and x not in seenA],
+                     "food": [x for t, x in allr if t == "food" and x not in seenA][:3000]}
+            wemb(pools["cos"] + pools["food"])
             for typ in ("cos", "food"):
-                rs = [x for t, x in RB if t == typ]
+                rs = pools[typ]
                 out["reviews"][typ] = {"n": len(rs), "rule": int(sum(bool(rule(typ, x)) for x in rs)),
                                        "ai_new": int(sum(bool((not rule(typ, x)) and text_max(x, f) > th) for x in rs))}
         B.log(f"{hb}: 처음 보는 위반 {len(ti)}개 처리")
