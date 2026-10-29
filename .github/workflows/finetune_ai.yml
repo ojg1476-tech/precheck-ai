@@ -26,8 +26,9 @@ jobs:
           python-version: "3.11"
       - name: 패키지
         run: |
-          pip install -q torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -q sentence-transformers "optimum[onnxruntime]" onnxruntime tokenizers scikit-learn numpy
+          # 서로 맞는 버전으로 고정 (transformers 5.x 는 optimum·torch.onnx 변환과 맞지 않았음)
+          pip install -q "torch==2.5.1" --index-url https://download.pytorch.org/whl/cpu
+          pip install -q "transformers==4.46.3" "sentence-transformers==3.3.1" "optimum[onnxruntime]==1.23.3" "onnxruntime==1.20.1" "onnx==1.17.0" tokenizers scikit-learn "numpy<2.1"
       - name: 지금 모델·리뷰 코퍼스
         run: |
           M=web/ai/model/ko-sroberta-multitask
