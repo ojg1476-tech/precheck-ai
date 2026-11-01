@@ -4042,6 +4042,15 @@
 },
 {
 "WT_UNIT": "mg/일",
+"PRIMARY_FNCLTY": "(국문) 체지방 감소에 도움을 줄 수 있음\n(영문) May help to reduce body fat",
+"IFTKN_ATNT_MATR_CN": "(1) 영･유아, 어린이, 임산부 및 수유부는 섭취를 피할 것\n(2) 특정질환(알레르기 체질 등)이 있는 분은 섭취에 주의할 것\n(3) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"HF_FNCLTY_MTRAL_RCOGN_NO": "제2026-30호",
+"DAY_INTK_LOWLIMIT": "500 (mg/일)",
+"DAY_INTK_HIGHLIMIT": "500 (mg/일)",
+"RAWMTRL_NM": "무청추출분말(RGE)(제2026-30호)"
+},
+{
+"WT_UNIT": "mg/일",
 "PRIMARY_FNCLTY": "(국문) 기억력 개선에 도움을 줄 수 있음\n(영문) May help to improve memory",
 "IFTKN_ATNT_MATR_CN": "(1) 영‧유아, 어린이, 임산부 및 수유부는 섭취를 피할 것\n(2) 특정질환(알레르기 체질 등)이 있는 분은 섭취에 주의할 것\n(3) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
 "HF_FNCLTY_MTRAL_RCOGN_NO": "제2026-3호",

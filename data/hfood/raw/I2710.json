@@ -6480,6 +6480,18 @@
 "INTK_UNIT": "mg/일"
 },
 {
+"PRIMARY_FNCLTY": "(국문) 체지방 감소에 도움을 줄 수 있음\n(영문) May help to reduce body fat",
+"SKLL_IX_IRDNT_RAWMTRL": "카페오일말릭산(Caffeoylmalic acid)",
+"LAST_UPDT_DTM": "20261030",
+"CRET_DTM": "20261030",
+"PRDCT_NM": "무청추출분말(RGE)(제2026-30호)",
+"IFTKN_ATNT_MATR_CN": "(1) 영･유아, 어린이, 임산부 및 수유부는 섭취를 피할 것\n(2) 특정질환(알레르기 체질 등)이 있는 분은 섭취에 주의할 것\n(3) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
+"INTK_MEMO": "제2026-30호",
+"DAY_INTK_LOWLIMIT": "500",
+"DAY_INTK_HIGHLIMIT": "500",
+"INTK_UNIT": "mg/일"
+},
+{
 "PRIMARY_FNCLTY": "(국문) 면역기능 증진에 도움을 줄 수 있음\n(영문) May help to improve immune function",
 "SKLL_IX_IRDNT_RAWMTRL": "프로바이오틱스 수",
 "LAST_UPDT_DTM": "20251230",
@@ -6554,7 +6566,7 @@
 {
 "PRIMARY_FNCLTY": "(국문) 잇몸 건강에 도움을 줄 수 있음\n(영문) May help to improve gum health",
 "SKLL_IX_IRDNT_RAWMTRL": "마그놀린(Magnolin)",
-"LAST_UPDT_DTM": "20261012",
+"LAST_UPDT_DTM": "20261030",
 "CRET_DTM": "20261012",
 "PRDCT_NM": "목련꽃봉오리추출물(제2026-29호)",
 "IFTKN_ATNT_MATR_CN": "(1) 영･유아, 어린이, 임산부 및 수유부는 섭취를 피할 것\n(2) 특정질환(알레르기 체질 등)이 있는 분은 섭취에 주의할 것\n(3) 이상사례 발생 시 섭취를 중단하고 전문가와 상담할 것",
