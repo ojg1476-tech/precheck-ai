@@ -1,7 +1,20 @@
 {
- "updated": "2026-10-29",
+ "updated": "2026-11-03",
  "note": "식약처 단속·제도 소식. 직접 고른 항목(manual)과 보도자료에서 자동으로 모은 항목(auto)이 섞여 있다.",
  "items": [
+  {
+   "id": "A26110200",
+   "date": "2026-11-02",
+   "cats": [
+    "cos"
+   ],
+   "kind": "제도",
+   "origin": "auto",
+   "title": "식약처장 화장품 점자QR코드 자율표시 지원 행보",
+   "summary": "",
+   "url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50465",
+   "source": "식약처 보도자료"
+  },
   {
    "id": "N261028",
    "date": "2026-10-28",
