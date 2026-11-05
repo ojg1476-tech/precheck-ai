@@ -1,0 +1,18 @@
+id,split,product_type,label,category,text,source,source_url
+R001,test15,food,violation,,비염유산균,추석 성수식품 점검 보도 — 온라인 허위·과대광고(2026.9),https://www.etoday.co.kr/news/view/2628959
+R002,test15,food,violation,,당뇨에 좋은,추석 성수식품 점검 보도 — 온라인 허위·과대광고(2026.9),https://www.etoday.co.kr/news/view/2628959
+R003,test15,food,violation,,간건강영양제,추석 성수식품 점검 보도 — 온라인 허위·과대광고(2026.9),https://www.etoday.co.kr/news/view/2628959
+R004,test15,food,violation,,장 청소 되었어요,추석 성수식품 점검 보도 — 온라인 허위·과대광고(2026.9),https://www.etoday.co.kr/news/view/2628959
+R005,test15,food,violation,,간 건강·갱년기 영양제,알부민 식품 부당광고 3차 점검 보도(2026.9),https://www.kbcs.kr/news/article.html?no=399540
+R006,test15,food,violation,,몸이 붓고,알부민 식품 부당광고 3차 점검 보도(2026.9),https://www.kbcs.kr/news/article.html?no=399540
+R007,test15,food,violation,,얼굴이 자주 붓거나,알부민 식품 부당광고 3차 점검 보도(2026.9),https://www.kbcs.kr/news/article.html?no=399540
+R008,test15,food,violation,,먹는 순간 뼈말라,식약처·협회 합동점검 보도(2026.7),https://www.etoday.co.kr/news/view/2606966
+R009,test15,food,violation,,올레샷·먹는 위고비,식약처·협회 합동점검 보도(2026.7),https://www.etoday.co.kr/news/view/2606966
+R010,test15,food,allowed,,추석 선물로 좋은 국내산 배즙 선물세트,직접 작성(측정 전 고정),
+R011,test15,food,allowed,,아침 대용으로 든든한 귀리 쉐이크,직접 작성(측정 전 고정),
+R012,test15,food,allowed,,따뜻하게 마시면 더 맛있는 생강차,직접 작성(측정 전 고정),
+R013,test15,food,allowed,,부모님께 드리는 정성 가득 한과 세트,직접 작성(측정 전 고정),
+R014,test15,food,allowed,,국산 콩으로 만든 고소한 두유,직접 작성(측정 전 고정),
+R015,test15,food,allowed,,식이섬유가 들어 있는 현미 누룽지,직접 작성(측정 전 고정),
+R016,test15,food,allowed,,얼굴만 한 크기의 왕만두,직접 작성(측정 전 고정),
+R017,test15,food,allowed,,간편하게 챙기는 하루 견과 한 봉,직접 작성(측정 전 고정),
