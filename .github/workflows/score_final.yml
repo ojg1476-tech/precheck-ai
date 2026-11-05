@@ -1,0 +1,29 @@
+name: score-final
+# 고정한 최종 시험 세트를 배포된 규칙·AI 그대로 한 번 채점한다 (다시 학습하지 않음)
+on:
+  workflow_dispatch:
+    inputs:
+      sets:
+        description: "채점할 세트 (띄어쓰기로 여러 개, 예: test15)"
+        required: true
+permissions:
+  contents: write
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q onnxruntime tokenizers scikit-learn numpy
+      - name: 모델 합치기
+        run: |
+          M=web/ai/model/ko-sroberta-multitask
+          cat $M/onnx/model_quantized.onnx.part* > /tmp/model.onnx
+      - name: 채점
+        run: python tools/score_final.py --onnx /tmp/model.onnx --tokenizer web/ai/model/ko-sroberta-multitask ${{ inputs.sets }}
+      - name: 커밋
+        run: |
+          git config user.name github-actions; git config user.email actions@github.com
+          git add eval/report/ai_final.json && git commit -m "최종 시험 채점: ${{ inputs.sets }} (score-final)" && git pull --rebase && git push || echo "변경 없음"
