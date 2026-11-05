@@ -1,0 +1,11 @@
+id,split,product_type,label,category,text,source,source_url
+Q001,test14,hfood,violation,,면역을 강화한다,식약처 건강기능식품 온라인 광고 점검 보도(2026.4),https://www.safetimes.co.kr/news/articleView.html?idxno=242433
+Q002,test14,hfood,violation,,골다공증을 예방한다,식약처 건강기능식품 온라인 광고 점검 보도(2026.4),https://www.safetimes.co.kr/news/articleView.html?idxno=242433
+Q003,test14,hfood,violation,,관절을 재건한다,식약처 건강기능식품 온라인 광고 점검 보도(2026.4),https://www.safetimes.co.kr/news/articleView.html?idxno=242433
+Q004,test14,hfood,violation,,염증제거,식약처 가정의 달 건강기능식품 점검 보도(2024.5),https://www.koreahealthlog.com/news/articleView.html?idxno=46196
+Q005,test14,hfood,violation,,감기예방,식약처 가정의 달 건강기능식품 점검 보도(2024.5),https://www.koreahealthlog.com/news/articleView.html?idxno=46196
+Q006,test14,hfood,violation,,"위드코로나 시대, 건강을 챙기는 필수 영양제",식약처 온라인 게시물 점검 보도 — 자율심의와 다른 건강기능식품 광고(2022.5),https://medicalworldnews.co.kr/m/view.php?idx=1510949785
+Q007,test14,hfood,allowed,,아연은 정상적인 면역기능에 필요해요,식약처 고시형 원료 인정 문구(아연),https://www.foodsafetykorea.go.kr
+Q008,test14,hfood,allowed,,칼슘은 뼈와 치아 형성에 필요해요,식약처 고시형 원료 인정 문구(칼슘),https://www.foodsafetykorea.go.kr
+Q009,test14,hfood,allowed,,루테인은 노화로 인해 감소될 수 있는 황반색소밀도를 유지하여 눈 건강에 도움을 줄 수 있음,식약처 고시형 원료 인정 문구(루테인),https://www.foodsafetykorea.go.kr
+Q010,test14,hfood,allowed,,홍삼은 면역력 증진과 피로개선에 도움을 줄 수 있음,식약처 고시형 원료 인정 문구(홍삼),https://www.foodsafetykorea.go.kr
