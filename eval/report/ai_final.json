@@ -1478,5 +1478,126 @@
 "rule": false,
 "ai": false
 }
+],
+"test15": [
+{
+"type": "food",
+"label": "violation",
+"text": "비염유산균",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "당뇨에 좋은",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "간건강영양제",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "장 청소 되었어요",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "간 건강·갱년기 영양제",
+"rule": true,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "몸이 붓고",
+"rule": false,
+"ai": true
+},
+{
+"type": "food",
+"label": "violation",
+"text": "얼굴이 자주 붓거나",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "먹는 순간 뼈말라",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "violation",
+"text": "올레샷·먹는 위고비",
+"rule": true,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "추석 선물로 좋은 국내산 배즙 선물세트",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "아침 대용으로 든든한 귀리 쉐이크",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "따뜻하게 마시면 더 맛있는 생강차",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "부모님께 드리는 정성 가득 한과 세트",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "국산 콩으로 만든 고소한 두유",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "식이섬유가 들어 있는 현미 누룽지",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "얼굴만 한 크기의 왕만두",
+"rule": false,
+"ai": false
+},
+{
+"type": "food",
+"label": "allowed",
+"text": "간편하게 챙기는 하루 견과 한 봉",
+"rule": false,
+"ai": false
+}
 ]
 }
