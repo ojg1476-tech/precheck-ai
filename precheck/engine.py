@@ -11,6 +11,7 @@ from dataclasses import dataclass, asdict, field
 from pathlib import Path
 
 from .cosprod import CosProducts, check_cosprod
+from .deobf import NOTE as DEOBF_NOTE, deobf
 from .hfood import OVERRIDE, Products, check_hfood
 
 RULES_PATH = Path(__file__).resolve().parent.parent / "rules" / "rules.json"
@@ -77,11 +78,7 @@ class Checker:
             self._cos = CosProducts(json.loads(self._cos_path.read_text(encoding="utf-8")))
         return self._cos
 
-    def check(self, text: str, product_type: str = "cos", name: str = "", report_no: str = "") -> list[Finding]:
-        """name: 상품명 — 건강기능식품은 신고 제품, 화장품은 기능성화장품 보고 품목과 대조. report_no: 건강기능식품 품목제조신고번호"""
-        if product_type not in self.product_types:
-            raise ValueError(f"product_type은 {list(self.product_types)} 중 하나여야 해요")
-        is_cos = product_type in COS_TYPES
+    def _run(self, text: str, product_type: str, is_cos: bool) -> list[Finding]:
         found: list[Finding] = []
         for r in self.rules:
             if product_type not in r["applies_to"]:
@@ -103,6 +100,26 @@ class Checker:
                     checks=list(self.categories.get(cat, {}).get("checks", [])),
                     penalty_key=pen_key or "",
                 ))
+        return found
+
+    def check(self, text: str, product_type: str = "cos", name: str = "", report_no: str = "") -> list[Finding]:
+        """name: 상품명 — 건강기능식품은 신고 제품, 화장품은 기능성화장품 보고 품목과 대조. report_no: 건강기능식품 품목제조신고번호"""
+        if product_type not in self.product_types:
+            raise ValueError(f"product_type은 {list(self.product_types)} 중 하나여야 해요")
+        is_cos = product_type in COS_TYPES
+        found = self._run(text, product_type, is_cos)
+        # 우회 표기: 글자 사이 기호·띄어쓰기, 풀어 쓴 자음·모음을 정리한 글로 한 번 더 보고, 원래 글에서 못 찾은 것만 더한다
+        t2, s2, e2 = deobf(text)
+        if t2 != text:
+            base = list(found)
+            for f in self._run(t2, product_type, is_cos):
+                st, en = s2[f.start], e2[f.end - 1]
+                if any(g.start < en and st < g.end for g in base):
+                    continue
+                ph = text[st:en]
+                f.easy = f.easy.replace(f.phrase, ph)
+                f.start, f.end, f.phrase, f.why = st, en, ph, f.why + DEOBF_NOTE
+                found.append(f)
         self.last_ingredients, self.last_product, self.last_cos = [], None, None
         if is_cos and name and self.cosprod:
             extra, self.last_cos = check_cosprod(text, product_type, self.cosprod, self.penalties, self.categories, self.cos_products, name)

@@ -10,7 +10,7 @@ const rules=R.map(([re,g,t,why,alt,term,lawC,lawF,penC,penF,f,src],i)=>({
   id:"R"+String(i+1).padStart(2,"0"),pattern:re.source,ignore_case:re.flags.includes("i"),
   grade:g,label:pro(t),easy:t,explain:explain(t),why,alt,term,law_cos:lawC||null,law_food:lawF||null,
   penalty_cos:penKey(penC),penalty_food:penKey(penF),category_cos:RCAT[i][0]||null,category_food:RCAT[i][1]||null,applies_to:f,source:src}));
-const out={version:"2026-10-29",note:"모든 처분·근거는 법령 원문과 KCIA 해설서(2025)에서 확인한 것만 씀. 기준표: https://claude.ai/artifact/8HRdhmVBaGQhDZA8AW4Psm",
+const out={version:"2026-11-05",note:"모든 처분·근거는 법령 원문과 KCIA 해설서(2025)에서 확인한 것만 씀. 기준표: https://claude.ai/artifact/8HRdhmVBaGQhDZA8AW4Psm",
   product_types:{cos:"일반 화장품",fcos:"기능성 화장품",food:"일반 식품",hfood:"건강기능식품"},
   grades:{red:"꼭 고치기",amber:"확인 필요",blue:"자료 챙기기"},penalties:PEN,sources:S,categories:CATX,rules,
   cosprod:{bits:COSPROD.bits,claims:COSPROD.claims.map(([b,re])=>({bit:b,pattern:re.source})),k1:COSPROD.k1,k2:COSPROD.k2}};

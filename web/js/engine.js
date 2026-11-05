@@ -16,7 +16,7 @@
   };
   const PEN_MAX = {
     cA: [1, 1e7], cB: [1, 1e7], cAB: [1, 1e7], cP: [1, 1e7], cX: [1, 1e7],
-    f1: [10, 1e8], f2: [10, 1e8], f3: [10, 1e8], f34: [10, 1e8], f4: [5, 5e7], f5: [5, 5e7], f6: [5, 5e7], fP: [5, 5e7],
+    f1: [10, 1e8], f2: [10, 1e8], f3: [10, 1e8], f34: [10, 1e8], f4: [5, 5e7], f5: [5, 5e7], f6: [5, 5e7], fP: [5, 5e7], tA: [2, 1.5e8],
   };
   const WEIGHT = { red: 10, amber: 4, blue: 1 };
   const TIER_ORDER = { "높음": 0, "중간": 1, "확인": 2, "양호": 3, "오류": 4 };
@@ -39,10 +39,8 @@
     setCosProducts(data) { this.cosProducts = data ? new CosProducts(data) : null; }
     /* 신고 제품 표(hfood_products.json): 건강기능식품을 검사할 때만 받아서 넣는다 */
     setProducts(data) { this.products = data && this.hfood ? new HfProducts(data, this.hfood) : null; }
-    /* ctx: { name: 상품명, no: 품목제조신고번호 } — 건강기능식품일 때 그 제품이 신고한 기능성으로 대조 */
-    check(text, type = "cos", ctx = {}) {
-      if (!(type in this.productTypes)) throw new Error("알 수 없는 제품 종류: " + type);
-      const isCos = COS.has(type); let found = [];
+    _run(text, type, isCos) {
+      const found = [];
       for (const r of this.rules) {
         if (!r.applies_to.includes(type)) continue;
         r.re.lastIndex = 0;
@@ -59,6 +57,24 @@
             law: (isCos ? r.law_cos : r.law_food) || "-", penalty: pen ? (this.penalties[pen] || "") : "",
             source: r.source, category: cat, checks: [...((this.categories[cat] || {}).checks || [])], penaltyKey: pen || "",
           });
+        }
+      }
+      return found;
+    }
+    /* ctx: { name: 상품명, no: 품목제조신고번호 } — 건강기능식품일 때 그 제품이 신고한 기능성으로 대조 */
+    check(text, type = "cos", ctx = {}) {
+      if (!(type in this.productTypes)) throw new Error("알 수 없는 제품 종류: " + type);
+      const isCos = COS.has(type);
+      let found = this._run(text, type, isCos);
+      /* 우회 표기: 글자 사이 기호·띄어쓰기, 풀어 쓴 자음·모음을 정리한 글로 한 번 더 보고, 원래 글에서 못 찾은 것만 더한다 */
+      const d = deobf(text);
+      if (d.t !== text) {
+        const base = found.slice();
+        for (const f of this._run(d.t, type, isCos)) {
+          const st = d.s[f.start], en = d.e[f.end - 1];
+          if (base.some(g => g.start < en && st < g.end)) continue;
+          const ph = text.slice(st, en);
+          found.push({ ...f, start: st, end: en, phrase: ph, easy: f.easy.split(f.phrase).join(ph), why: f.why + DEOBF_NOTE });
         }
       }
       this.lastIngredients = []; this.lastProduct = null; this.lastCos = null;
@@ -85,6 +101,39 @@
     }
   }
 
+
+  /* ── 우회 표기 정리 (precheck/deobf.py 와 같음): 결과 글자마다 원래 글의 [시작, 끝) 위치를 같이 들고 다닌다 ── */
+  const DEOBF_NOTE = " 글자 사이에 기호나 띄어쓰기를 넣거나 자음·모음을 풀어 써도 같은 표현으로 봐요.";
+  const J_CHO = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ", J_JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ", J_JONG = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
+  const DEOBF_ZW = /[\u200B-\u200D\u2060\uFEFF]/;
+  const DEOBF_SYM = /(?<=[가-힣])[*_~♡♥★☆^♪✿❤]+(?=[가-힣])/g;
+  const DEOBF_RUN = /(?<![가-힣])[가-힣](?:[ \t.·ㆍ\-\/|,]{1,2}[가-힣](?![가-힣])){2,}/g;
+  const DEOBF_RUN2 = /(?<![가-힣])[가-힣][.\-\/|][가-힣](?![가-힣])/g;
+  const DEOBF_SEP = /[ \t.·ㆍ\-\/|,]/;
+  function deobf(text) {
+    let t = [], s = [], e = [];
+    for (let i = 0; i < text.length; i++) if (!DEOBF_ZW.test(text[i])) { t.push(text[i]); s.push(i); e.push(i + 1); }
+    { const t2 = [], s2 = [], e2 = [];   // 풀어 쓴 자음·모음 합치기: ㄷㅣ → 디, ㄷㅣㅌ(+자음) → 딭
+      for (let i = 0; i < t.length; i++) {
+        const c = J_CHO.indexOf(t[i]), v = i + 1 < t.length ? J_JUNG.indexOf(t[i + 1]) : -1;
+        if (c >= 0 && v >= 0) {
+          let k = 0;
+          if (i + 2 < t.length) { const jj = J_JONG.indexOf(t[i + 2]); if (jj > 0 && !(i + 3 < t.length && J_JUNG.includes(t[i + 3]))) k = jj; }
+          t2.push(String.fromCharCode(0xAC00 + (c * 21 + v) * 28 + k)); s2.push(s[i]); e2.push(e[i + (k ? 2 : 1)]); i += k ? 2 : 1;
+        } else { t2.push(t[i]); s2.push(s[i]); e2.push(e[i]); }
+      }
+      t = t2; s = s2; e = e2; }
+    const drop = (re, inRun) => {   // re에 걸린 부분에서 (inRun이면 구분 기호만) 지우기
+      const str = t.join(""), keep = new Array(t.length).fill(true);
+      re.lastIndex = 0; let m;
+      while ((m = re.exec(str))) for (let i = m.index; i < m.index + m[0].length; i++) if (!inRun || DEOBF_SEP.test(str[i])) keep[i] = false;
+      t = t.filter((_, i) => keep[i]); s = s.filter((_, i) => keep[i]); e = e.filter((_, i) => keep[i]);
+    };
+    drop(DEOBF_SYM, false);   // 면♡역력 → 면역력
+    drop(DEOBF_RUN, true);    // 다.이.어.트, 면 역 력 → 다이어트, 면역력 (한 글자씩 떨어진 글자가 셋 이상일 때만)
+    drop(DEOBF_RUN2, true);   // 염.증, 의-사 → 염증, 의사 (두 글자는 점·줄표·빗금으로 끊었을 때만)
+    return { t: t.join(""), s, e };
+  }
   /* ── 건강기능식품: 원고 속 원료가 그 기능성을 인정받았는지 (precheck/hfood.py 와 같은 판정) ── */
   const HF_SKIP = /[\s·․ㆍ・\-_,./®ⓡⓇ™()\[\]{}'"“”‘’:;]/;
   const HF_CLAIM = /도움|도와|돕|끝|걱정\s?없|해방|싹|쏙|개선|강화|감소|증진|향상|완화|해소|해결|예방|치료|효과|효능|낮춰|낮추|낮아|빠지|빠져|빠졌|줄었|나아|빼|좋아|좋은|튼튼|지켜|책임|확실|보장|회복|잡아|불태|태워|쑥쑥/;
@@ -422,10 +471,11 @@
 
   function penaltyText(p) {
     if (!p) return "-";
-    const money = p[1] >= 1e8 ? `${p[1] / 1e8}억 원` : `${(p[1] / 1e4).toLocaleString("ko-KR")}만 원`;
+    const eok = Math.floor(p[1] / 1e8), man = p[1] % 1e8;
+    const money = eok ? (man ? `${eok}억 ${(man / 1e4).toLocaleString("ko-KR")}만 원` : `${eok}억 원`) : `${(p[1] / 1e4).toLocaleString("ko-KR")}만 원`;
     return `징역 ${p[0]}년 이하 또는 벌금 ${money} 이하`;
   }
 
-  const api = { Checker, checkHfood, HfProducts, CosProducts, checkCosProd, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
+  const api = { Checker, deobf, checkHfood, HfProducts, CosProducts, checkCosProd, dedupe, summarize, normalizeType, parseCSV, readRows, ProductResult, checkProducts, overview, penaltyText, PEN_MAX };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.Moongu = api;
 })(typeof window !== "undefined" ? window : globalThis);

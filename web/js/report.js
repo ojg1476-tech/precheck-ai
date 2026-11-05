@@ -44,7 +44,7 @@
     const per = ctx && RV ? personalRows(results, ctx, new Date(today + "T09:00:00")) : null;
     const sum = [[{ v: "상세페이지 광고 일괄 점검 리포트", s: "title" }], [{ v: `점검일 ${today} · 기준 버전 ${checker.version} · 규칙 ${checker.rules.length}개`, s: "muted" }], []];
     sum.push([{ v: "점검한 상품", s: "bold" }, ov.total]);
-    for (const [k, v] of Object.entries(ov.tiers)) sum.push([{ v: "위험도 " + k, s: k }, v]);
+    for (const [k, v] of Object.entries(ov.tiers)) if (!(k === "오류" && !v)) sum.push([{ v: "위험도 " + k, s: k }, v]);   // 오류가 없으면 줄을 숨김
     sum.push([], [{ v: "여러 상품에서 반복된 문제", s: "bold" }]);
     for (const [name, n] of ov.common) sum.push([name, `${n}개 상품`]);
     if (!ov.common.length) sum.push(["-"]);
@@ -56,7 +56,7 @@
     sum.push([], [{ v: "위험도 뜻", s: "bold" }]);
     for (const t of ["높음: 꼭 고쳐야 할 표현이 하나 이상 있어요.", "중간: 문제가 될 수 있어 확인이 필요한 표현이 있어요.",
       "확인: 쓸 수는 있지만 증명 자료나 인정 여부를 확인해야 하는 표현만 있어요.", "양호: 기본 검사에서 걸린 표현이 없어요.",
-      "같은 위험도 안에서는 형사처벌이 무거운 상품이 먼저 와요."]) sum.push([t]);
+      "순서는 위험도가 높은 상품이 먼저, 같은 위험도에서는 형사처벌이 무거운 상품, 그다음 걸린 표현이 많은 상품 순이에요."]) sum.push([t]);
     sum.push([], [NOTICE]);
     const noticeRow = sum.length;
 
@@ -64,7 +64,7 @@
       const c = p.counts;
       const st = L ? L.worstStop(p.findings, p.productType) : null;
       return [i + 1, p.name, TYPE_NAME[p.productType] ?? p.productType, { v: p.tier, s: p.tier }, M.penaltyText(p.maxPenalty),
-        st ? st.label + (st.scope === "store" ? " (가게 전체)" : "") : "-", c.red, c.amber, c.blue, p.score, p.error || ""];
+        st ? st.label + (st.scope === "store" ? " (가게 전체)" : "") : "-", c.red, c.amber, c.blue, p.error || ""];
     });
     const detail = [], E = ctx && ctx.enforced;
     // 같은 규칙에 걸리는 실제 적발 문구 (같은 분야 먼저, 최대 3개)
@@ -90,8 +90,8 @@
     ];
     return X.writeWorkbook([
       { name: "요약", rows: sum, widths: [48, 14, 10, 10], merges: [`A${noticeRow}:D${noticeRow}`], heights: { [noticeRow]: 48 } },
-      { name: "위험 순위", rows: table(["순위", "상품명", "제품 종류", "위험도", "가장 무거운 형사처벌(최대)", "1차 위반 행정처분", "꼭 고치기", "확인 필요", "자료 챙기기", "점수", "메모"], rank),
-        widths: [6, 26, 14, 9, 30, 26, 9, 9, 10, 7, 28], freeze: 1 },
+      { name: "위험 순위", rows: table(["순위", "상품명", "제품 종류", "위험도", "가장 무거운 형사처벌(최대)", "1차 위반 행정처분", "꼭 고치기", "확인 필요", "자료 챙기기", "메모"], rank),
+        widths: [6, 26, 14, 9, 30, 26, 9, 9, 10, 28], freeze: 1 },
       { name: "상세", rows: table(["상품명", "등급", "찾은 표현", "쉬운 이름", "왜 문제인가", "대신 이렇게", "쓰기 전에 확인할 것", "이대로 두면",
           ...(E ? ["같은 유형 실제 적발 문구"] : []), "관련 기준", "출처"], detail),
         widths: [20, 10, 18, 20, 36, 26, 44, 44, ...(E ? [34] : []), 30, 28], freeze: 1 },

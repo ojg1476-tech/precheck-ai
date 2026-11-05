@@ -51,7 +51,7 @@ def build_report(results: list[ProductResult], checker: Checker | None = None, s
     ws["A1"].font = Font(bold=True, size=15)
     ws["A2"] = f"점검일 {date.today().isoformat()} · 기준 버전 {ck.version} · 규칙 {len(ck.rules)}개"
     ws["A2"].font = Font(color="5D6B66")
-    lines = [("점검한 상품", ov["total"])] + [(f"위험도 {k}", v) for k, v in ov["tiers"].items()]
+    lines = [("점검한 상품", ov["total"])] + [(f"위험도 {k}", v) for k, v in ov["tiers"].items() if not (k == "오류" and not v)]   # 오류가 없으면 줄을 숨김
     for i, (k, v) in enumerate(lines, 4):
         ws.cell(row=i, column=1, value=k).font = Font(bold=True)
         ws.cell(row=i, column=2, value=v)
@@ -66,7 +66,7 @@ def build_report(results: list[ProductResult], checker: Checker | None = None, s
     ws.cell(row=r, column=1, value="위험도 뜻").font = Font(bold=True)
     for i, t in enumerate(["높음: 꼭 고쳐야 할 표현이 하나 이상 있어요.", "중간: 문제가 될 수 있어 확인이 필요한 표현이 있어요.",
                            "확인: 쓸 수는 있지만 증명 자료나 인정 여부를 확인해야 하는 표현만 있어요.",
-                           "양호: 기본 검사에서 걸린 표현이 없어요.", "같은 위험도 안에서는 형사처벌이 무거운 상품이 먼저 와요."], r + 1):
+                           "양호: 기본 검사에서 걸린 표현이 없어요.", "순서는 위험도가 높은 상품이 먼저, 같은 위험도에서는 형사처벌이 무거운 상품, 그다음 걸린 표현이 많은 상품 순이에요."], r + 1):
         ws.cell(row=i, column=1, value=t)
     ws.cell(row=r + 7, column=1, value=NOTICE).alignment = WRAP
     ws.merge_cells(start_row=r + 7, start_column=1, end_row=r + 7, end_column=4)
@@ -80,9 +80,9 @@ def build_report(results: list[ProductResult], checker: Checker | None = None, s
     for i, p in enumerate(results, 1):
         c = p.counts
         rows.append([i, p.name, TYPE_NAME.get(p.product_type, p.product_type), p.tier, penalty_text(p.max_penalty),
-                     c["red"], c["amber"], c["blue"], p.score, p.error or ""])
-    _table(ws, ["순위", "상품명", "제품 종류", "위험도", "가장 무거운 형사처벌(최대)", "꼭 고치기", "확인 필요", "자료 챙기기", "점수", "메모"],
-           rows, [6, 26, 14, 9, 30, 9, 9, 10, 7, 28])
+                     c["red"], c["amber"], c["blue"], p.error or ""])
+    _table(ws, ["순위", "상품명", "제품 종류", "위험도", "가장 무거운 형사처벌(최대)", "꼭 고치기", "확인 필요", "자료 챙기기", "메모"],
+           rows, [6, 26, 14, 9, 30, 9, 9, 10, 28])
     for i, p in enumerate(results, 2):
         ws.cell(row=i, column=4).fill = PatternFill("solid", fgColor=TIER_FILL[p.tier])
 

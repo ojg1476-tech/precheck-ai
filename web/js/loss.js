@@ -14,7 +14,7 @@
     f6: [7, 15, "store", "영업정지 7~15일(2026.11.27부터)"],
   };
   // 기간이 정해져 있지 않거나 1차가 시정명령인 것: 돈으로 바꾸지 않는다
-  const NO_DAYS = ["cP", "cX", "f34", "f4", "fP"];
+  const NO_DAYS = ["cP", "cX", "f34", "f4", "fP", "tA"];
 
   function stopFor(key, type) {
     const s = STOP[key];

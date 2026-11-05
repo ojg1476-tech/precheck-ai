@@ -16,6 +16,9 @@ SAMPLES = [
     ("food", "면역력 강화에 좋은 영양제 같은 차. 혈당 조절, 피로 회복, 변비 해결. 체험기 다수, 한방 특수제법."),
     ("hfood", "면역력 증진, 혈당 조절, 피로 회복에 도움을 줄 수 있음. 약 대신 드세요. 후기 폭발."),
 ]
+if (ROOT / "data" / "deobf_test.csv").exists():   # 우회 표기·협찬 표시 (2026-11-05)
+    with open(ROOT / "data" / "deobf_test.csv", encoding="utf-8") as f:
+        SAMPLES += [(r["product_type"], r["text"]) for r in csv.DictReader(f)]
 if (ROOT / "data" / "eval_set.csv").exists():
     with open(ROOT / "data" / "eval_set.csv", encoding="utf-8") as f:
         SAMPLES += [(r["product_type"], r["text"]) for r in csv.DictReader(f)]

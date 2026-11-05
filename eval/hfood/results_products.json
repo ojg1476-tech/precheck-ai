@@ -1,14 +1,14 @@
 {
- "products": 2979,
- "own_claims": 7417,
+ "products": 2968,
+ "own_claims": 7402,
  "own_fp": 0,
  "own_fp_rate": 0.0,
- "own_strong_rate": 0.0039099366320614806,
- "other_claims": 2979,
- "other_red": 2979,
- "other_red_rate": 1.0,
+ "own_strong_rate": 0.0022966765738989463,
+ "other_claims": 2968,
+ "other_red": 2967,
+ "other_red_rate": 0.9996630727762803,
  "other_any_rate": 1.0,
- "name_ok_rate": 0.9660960053709299,
- "name_wrong_rate": 0.0003356831151393085,
- "name_none_rate": 0.03356831151393085
+ "name_ok_rate": 0.9649595687331537,
+ "name_wrong_rate": 0.00033692722371967657,
+ "name_none_rate": 0.034703504043126686
 }
