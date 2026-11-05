@@ -27,6 +27,8 @@ FIELDS = ["date", "cats", "phrase", "status", "title", "url"]
 ENFORCE = re.compile(r"적발|부당|위반|단속|점검|과대|허위")
 QUOTE = re.compile(r"[‘'\"“「]([^‘’'\"“”「」\n]{2,40})[’'\"”」]")
 HANGUL = re.compile(r"[가-힣]")
+# 인용이 광고 문구라는 맥락: 같은 문장에 이런 말이 있을 때만 (신문사 옆 기사 제목 같은 인용을 거름)
+CONTEXT = re.compile(r"표현|문구|광고|홍보|내세|표방|강조|게시|오인|소개|라며|라고|이라는|등으로|등의|처럼")
 # 광고 문구가 아닌 인용: 기관·제도·법령 이름, 기사 형식 말
 NOT_AD = re.compile(r"식약처|식품의약품안전처|처장|보도|붙임|공정위|위원회|협회|법률|법\b|시행령|시행규칙|고시|가이드|지침|"
                     r"캠페인|사업|센터|시스템|누리집|홈페이지|담당|문의|과장|팀장|\d{2,4}[-.]\d{3,4}")
@@ -39,9 +41,12 @@ def log(msg):
 
 
 def fetch(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (moonguradar news bot)"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (moonguradar news bot)", "Accept-Encoding": "identity"})
     with urllib.request.urlopen(req, timeout=30) as r:
         raw = r.read()
+        if r.headers.get("Content-Encoding", "").lower() == "gzip" or raw[:2] == b"\x1f\x8b":
+            import gzip
+            raw = gzip.decompress(raw)
     for enc in ("utf-8", "euc-kr", "cp949"):
         try:
             return raw.decode(enc)
@@ -59,14 +64,18 @@ def page_text(raw_html):
 
 
 def quotes(text):
-    """따옴표 안의 짧은 한글 문구. 광고 문구가 아닌 것(기관·법령 이름 등)은 뺀다."""
+    """따옴표 안의 짧은 한글 문구. 광고 맥락이 있는 문장 안의 것만, 기관·법령 이름이나 기사 제목 같은 것은 뺀다."""
     out = []
-    for m in QUOTE.finditer(text):
-        q = m.group(1).strip(" ,.·")
-        if len(q) < 2 or not HANGUL.search(q) or NOT_AD.search(q):
+    for sent in re.split(r"(?<=[.!?。])\s+|\n+", text):
+        if len(sent) > 400 or not CONTEXT.search(sent):
             continue
-        if q not in out:
-            out.append(q)
+        for m in QUOTE.finditer(sent):
+            q = m.group(1).strip(" ,.·")
+            hangul = len(HANGUL.findall(q))
+            if len(q) < 2 or hangul < 2 or hangul < len(q) * 0.4 or "\ufffd" in q or NOT_AD.search(q) or q.endswith("?"):
+                continue
+            if q not in out:
+                out.append(q)
     return out
 
 
