@@ -151,7 +151,7 @@
 ## 어떻게 동작하나
 
 ```mermaid
-flowchart LR
+flowchart TD
     A["상품 목록<br/>CSV·엑셀"] --> C
     B["상세페이지 이미지"] --> OCR["글자 읽기<br/>Tesseract"] --> C
     C["깨뜨린 글자 복원"] --> R["규칙 52개"]
